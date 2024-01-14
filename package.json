@@ -12,10 +12,14 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@mdi/js": "^7.4.47",
+    "@tanstack/vue-query": "^5.8.7",
     "@vee-validate/zod": "^4.12.0",
     "vee-validate": "^4.12.0",
+    "vite-plugin-vuetify": "^2.0.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",
+    "vuetify": "^3.4.9",
     "wretch": "^2.7.1",
     "zod": "^3.22.4"
   },

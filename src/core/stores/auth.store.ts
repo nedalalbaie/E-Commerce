@@ -1,8 +1,8 @@
-import type { AuthResponse } from '@/views/auth/models/auth-response'
+import type { AuthResponse } from '@/auth/models/auth-response'
 import { reactive } from 'vue'
 
 const authStore = reactive<{
-  auth: AuthResponse | null
+  auth: string | null
   init: () => void
   setAuth: (authResponse: AuthResponse) => void
   clearAuth: () => void
@@ -15,8 +15,8 @@ const authStore = reactive<{
     }
   },
   setAuth(authResponse: AuthResponse) {
-    localStorage.setItem('auth', JSON.stringify(authResponse))
-    this.auth = authResponse
+    localStorage.setItem('auth', JSON.stringify(authResponse.data.token))
+    this.auth = authResponse.data.token
   },
   clearAuth() {
     localStorage.removeItem('auth')

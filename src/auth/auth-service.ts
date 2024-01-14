@@ -4,7 +4,7 @@ import type { AuthResponse } from './models/auth-response'
 import authStore from '@/core/stores/auth.store'
 import router from '@/router'
 
-export const login = (payLoad: LoginPayload): Promise<AuthResponse> => {
+const login = (payLoad: LoginPayload): Promise<AuthResponse> => {
   return apiClient
     .url('/auth/login')
     .post(payLoad)
@@ -15,7 +15,18 @@ export const login = (payLoad: LoginPayload): Promise<AuthResponse> => {
     })
 }
 
-export const logout = (): void => {
-  authStore.clearAuth()
-  router.replace('/login')
+const logout = (): Promise<void> => {
+  return apiClient
+  .url('/auth/logout')
+  .post({token: authStore.auth})
+  .json()
+  .then(() => {
+    authStore.clearAuth()
+    router.replace('/login')
+  })
+}
+
+export {
+  login,
+  logout
 }

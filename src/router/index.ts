@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MainLayout from '@/core/components/MainLayout.vue'
-import LoginPage from '@/views/auth/pages/LoginPage.vue'
+import LoginPage from '@/auth/pages/LoginPage.vue'
 import authStore from '@/core/stores/auth.store'
+import productsRoutes from '@/products/products.routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,7 +15,12 @@ const router = createRouter({
     {
       path: '/',
       component: MainLayout,
-      children: []
+      children: [
+        {
+          path: 'products',
+          children: productsRoutes
+        }
+      ]
     },
     {
       path: '/:pathMatch(.*)*',
