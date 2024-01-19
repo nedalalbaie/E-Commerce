@@ -7,75 +7,93 @@
       </h1>
       <div class="flex justify-between items-center bg-[#FCF2EA] rounded-xl py-1 px-4">
         <input
-          placeholder="أبحث عن المنتجات"
+          placeholder="إبحث عن منتجات"
           type="text"
-          class="w-56 border-none p-2 rounded-lg outline-none transition-all duration-100"
+          class="w-56 border-none p-2 rounded-lg outline-none transition-all duration-100 placeholder:text-gray-700"
         >
         <SearchIcon custom-style="w-6 h-6" />
       </div>
     </div>
-    <div
-      class="bg-white w-72 shadow-md rounded-lg p-4"
-    >
-      <p class="text-center">
-        سرير مواليد Happy Baby
-      </p>
-      <div class="relative h-64 bg-product bg-cover bg-center">
-        <p class="absolute top-0 left-0 bg-red-600 rounded-br-xl text-white px-3">
-          20%
+    <div class="grid grid-cols-productsCards gap-4">
+      <div
+        v-for="i in 5"
+        :key="i"
+        class="bg-white w-72 shadow-md rounded-lg p-4"
+      >
+        <p class="text-xl text-center">
+          سرير مواليد Happy Baby
         </p>
-        <p class="absolute bottom-0 right-0 bg-gray-600 rounded-tl-xl text-white px-3 py-2">
-          199.00 299.00 دل
-        </p>
-      </div>
-
-      <div class="mt-4 flex items-center border-b border-gray-700 pb-1">
-        <p class="w-1/2">
-          الوصف
-        </p>
-        <p class="w-1/2 text-center">
-          سرير مواليد من شركة Happy Baby
-        </p>
-      </div>
-      <div class="mt-4 flex items-center border-b border-gray-700">
-        <p class="w-1/2">
-          التصنيف
-        </p>
-        <p class="w-1/2 text-center">
-          سرير
-        </p>
-      </div>
-      <div class="mt-4 flex items-center border-b border-gray-700">
-        <p class="w-1/2">
-          الجنس
-        </p>
-        <p class="w-1/2 text-center">
-          --
-        </p>
-      </div>
-      <div class="mt-4 flex items-center border-b border-gray-700">
-        <p class="w-1/2">
-          اللون
-        </p>
-        <p class="w-1/2 text-center">
-          البني
-        </p>
-      </div>
-      <div class="mt-4 flex items-center border-b border-gray-700">
-        <p class="w-1/2">
-          الكمية
-        </p>
-        <p class="w-1/2 text-center">
-          27
-        </p>
-      </div>
-      <div class="mt-4 flex items-center border-b border-gray-700">
-        <p class="w-1/2">
-          الحجم
-        </p>
-        <p class="w-1/2 text-center">
-          90*110 سم
-        </p>
+        <div class="relative h-64 bg-product bg-cover bg-center mt-2">
+          <p class="absolute top-0 left-0 bg-red-600 rounded-br-xl text-white px-3">
+            20%
+          </p>
+          <p class="absolute bottom-0 right-0 bg-gray-600 rounded-tl-xl text-white px-3 py-2">
+            199.00 299.00 دل
+          </p>
+        </div>
+  
+        <div class="mt-4 flex items-center border-b border-gray-700 pb-1">
+          <p class="w-1/2">
+            الوصف
+          </p>
+          <p class="w-1/2 text-center">
+            سرير مواليد من شركة Happy Baby
+          </p>
+        </div>
+        <div class="mt-4 flex items-center border-b border-gray-700">
+          <p class="w-1/2">
+            التصنيف
+          </p>
+          <p class="w-1/2 text-center">
+            سرير
+          </p>
+        </div>
+        <div class="mt-4 flex items-center border-b border-gray-700">
+          <p class="w-1/2">
+            الجنس
+          </p>
+          <p class="w-1/2 text-center">
+            --
+          </p>
+        </div>
+        <div class="mt-4 flex items-center border-b border-gray-700">
+          <p class="w-1/2">
+            اللون
+          </p>
+          <p class="w-1/2 text-center">
+            البني
+          </p>
+        </div>
+        <div class="mt-4 flex items-center border-b border-gray-700">
+          <p class="w-1/2">
+            الكمية
+          </p>
+          <p class="w-1/2 text-center">
+            27
+          </p>
+        </div>
+        <div class="mt-4 flex items-center border-b border-gray-700">
+          <p class="w-1/2">
+            الحجم
+          </p>
+          <p class="w-1/2 text-center">
+            90*110 سم
+          </p>
+        </div>
+        <div class="flex justify-center gap-4 mt-6 text-white">
+          <button
+            class="flex items-center gap-2 bg-primary-100 hover:bg-primary-400 transition-colors duration-150 px-4 py-1 rounded-xl"
+          >
+            <span>تعديل</span>
+            <EditIcon />
+          </button>
+          <button
+            class="flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 transition-colors duration-150 px-4 py-1 rounded-xl"
+          >
+            <span>حذف</span>
+            <DeleteIcon />
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -86,23 +104,35 @@ import { getProducts } from "../products-service"
 import type { PaginationParams } from '@/core/models/pagination-params'
 import SearchIcon from "@/core/components/icons/SearchIcon.vue";
 import { useQuery } from "@tanstack/vue-query";
+import EditIcon from "@/core/components/icons/EditIcon.vue";
+import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
 
-const listParams = ref<PaginationParams>({
-    page: 1,
-    limit: 10,
-    name: undefined,
-    categoryId: undefined
-})
+// const listParams = ref<PaginationParams>({
+//   page: 1,
+//   limit: 10,
+//   name: undefined,
+//   categoryId: undefined
+// })
 
-const products = useQuery({
-    queryKey: ['products', listParams],
-    queryFn: () => getProducts(listParams.value)
-})
+// const products = useQuery({
+//   queryKey: ['products', listParams],
+//   queryFn: () => getProducts(listParams.value)
+// })
 
-onMounted(() => {
-})
+// const getBackgroundImage = (url: string) => ({
+//   backgroundImage: `url(${url})`
+// })
 
-const getBackgroundImage = (url: string) => ({
-    backgroundImage: `url(${url})`
-})
+const products = [
+  {
+    id: "",
+    name: "سرير مواليد Happy Baby",
+    product_code: "string",
+    description: "بدلة اولاد 100% قطن",
+    category_id: "number",
+    price: "29.00 ",
+    inventory_level: "number",
+    image1_path: "../../../assets/images/bed.png"
+  },
+]
 </script>

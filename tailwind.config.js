@@ -7,7 +7,12 @@ module.exports = {
         primary: {
           100: '#835400',
           200: '#EBE1D9',
-          300: '#FFDDB5'
+          300: '#FFDDB5',
+          400: 'rgb(122 78 0)', // Brown on hover
+        },
+        secondary: {
+          100: "#004C6B",
+          200: "rgb(0 67 94)" // Blue on hover
         }
       },
       width: {
@@ -15,6 +20,9 @@ module.exports = {
       },
       backgroundImage: {
         product: "url('./src/assets/images/bed.png')"
+      },
+      gridTemplateColumns: {
+        productsCards: "repeat(auto-fit, minmax(300px, 1fr))"
       }
     }
   },
