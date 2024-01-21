@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="flex items-center justify-between">
-      <h1 class="text-3xl">
-        المنتجات
-        <span>(20 )</span>
-      </h1>
+    <h1 class="text-3xl">
+      المنتجات
+      <span>(20 )</span>
+    </h1>
+    <div class="flex items-center justify-between mt-6">
       <div class="flex justify-between items-center bg-[#FCF2EA] rounded-xl py-1 px-4">
         <input
           placeholder="إبحث عن منتجات"
@@ -13,12 +13,22 @@
         >
         <SearchIcon custom-style="w-6 h-6" />
       </div>
+      <v-btn
+        :append-icon="mdiPlus"
+        :to="{ name: 'add-product' }"
+        color="primary"
+        size="large"
+        rounded="xl"
+        variant="elevated"
+      >
+        إضافة منتج
+      </v-btn>
     </div>
-    <div class="grid grid-cols-productsCards gap-4">
+    <div class="grid grid-cols-productsCards gap-x-4 gap-y-8 mt-6">
       <div
         v-for="i in 5"
         :key="i"
-        class="bg-white w-72 shadow-md rounded-lg p-4"
+        class="bg-white shadow-lg rounded-lg p-4"
       >
         <p class="text-xl text-center">
           سرير مواليد Happy Baby
@@ -106,6 +116,9 @@ import SearchIcon from "@/core/components/icons/SearchIcon.vue";
 import { useQuery } from "@tanstack/vue-query";
 import EditIcon from "@/core/components/icons/EditIcon.vue";
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
+import {
+  mdiPlus
+} from '@mdi/js'
 
 // const listParams = ref<PaginationParams>({
 //   page: 1,

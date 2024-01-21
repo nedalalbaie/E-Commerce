@@ -22,7 +22,7 @@ module.exports = {
         product: "url('./src/assets/images/bed.png')"
       },
       gridTemplateColumns: {
-        productsCards: "repeat(auto-fit, minmax(300px, 1fr))"
+        productsCards: "repeat(auto-fill, minmax(330px, 1fr))"
       }
     }
   },
