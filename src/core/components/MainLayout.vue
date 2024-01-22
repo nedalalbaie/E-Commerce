@@ -36,8 +36,8 @@
       </div>
     </v-navigation-drawer>
 
-    <v-main class="min-h-[300px]">
-      <main class="max-w-[1400px] mx-auto px-6 pt-10 pb-4">
+    <v-main class="min-h-screen bg-[#FFF8F4]">
+      <main class="max-w-[1400px] mx-auto px-6 pt-10 pb-4 ">
         <RouterView />
       </main>
     </v-main>

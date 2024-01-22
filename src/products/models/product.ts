@@ -5,6 +5,8 @@ type Product = {
   description: string
   category_id: number
   price: number
+  quantity: number
+  gender: number
   inventory_level: number
   image1_path: string
   image2_path: string
@@ -12,6 +14,6 @@ type Product = {
   image4_path: string
 }
 
-type AddProductRequest = Omit<Product, 'id'>
+type AddProductRequest = Omit<Product, 'id' | 'inventory_level' >
 
 export type { Product, AddProductRequest }

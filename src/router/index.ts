@@ -3,6 +3,7 @@ import MainLayout from '@/core/components/MainLayout.vue'
 import LoginPage from '@/auth/pages/LoginPage.vue'
 import authStore from '@/core/stores/auth.store'
 import productsRoutes from '@/products/products.routes'
+import categoriesRoutes from '@/categories/categories.routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,7 +20,11 @@ const router = createRouter({
         {
           path: 'products',
           children: productsRoutes
-        }
+        },
+        {
+          path: 'categories',
+          children: categoriesRoutes
+        },
       ]
     },
     {

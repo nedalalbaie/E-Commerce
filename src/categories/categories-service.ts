@@ -1,13 +1,13 @@
 import apiClient from '@/core/helpers/api-client'
 import queryString from 'wretch/addons/queryString'
-import type { Product, AddProductRequest } from './models/product'
+import type { Category, AddCategoryRequest, EditCategoryRequest } from './models/Category'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 
-const getProducts = (params: PaginationParams): Promise<List<Product[]>> => {
+const getCategories = (params: PaginationParams): Promise<List<Category[]>> => {
   return apiClient
     .addon(queryString)
-    .url('/products')
+    .url('/category')
     .query(params)
     .get()
     .notFound(() => ({
@@ -17,18 +17,18 @@ const getProducts = (params: PaginationParams): Promise<List<Product[]>> => {
     .json()
 }
 
-const postProduct = (body: AddProductRequest): Promise<Product> => {
+const addCategory = (body: AddCategoryRequest): Promise<Category> => {
   return apiClient
-    .url('/products')
+    .url('/category')
     .post(body)
     .json((res) => {
       return res
     })
 }
 
-const editProduct = (id: string, body: Partial<AddProductRequest>): Promise<Product> => {
+const editCategory = (id: string, body: EditCategoryRequest): Promise<Category> => {
   return apiClient
-    .url(`/products/${id}`)
+    .url(`/category/${id}`)
     .patch({
       id,
       ...body
@@ -38,4 +38,4 @@ const editProduct = (id: string, body: Partial<AddProductRequest>): Promise<Prod
     })
 }
 
-export { getProducts, postProduct, editProduct }
+export { getCategories, addCategory, editCategory }
