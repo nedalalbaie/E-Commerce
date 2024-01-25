@@ -11,7 +11,7 @@
       />
 
       <v-autocomplete
-        v-model="categoryId"
+        v-model="category_id"
         :hide-no-data="false"
         item-title="name"
         item-value="id"
@@ -23,7 +23,7 @@
         variant="outlined"
         color="primary"
         auto-select-first
-        :error-messages="errors.categoryId"
+        :error-messages="errors.category_id"
       >
         <template #no-data>
           <v-list-item>
@@ -35,12 +35,12 @@
       </v-autocomplete>
 
       <v-text-field
-        v-model="productCode"
+        v-model="product_code"
         label="رمز المنتج"
         variant="outlined"
         color="primary"
         placeholder="رمز المنتج"
-        :error-messages="errors.productCode"
+        :error-messages="errors.product_code"
       />
 
       <v-text-field
@@ -62,6 +62,7 @@
         color="primary"
         placeholder="الكمية"
         :error-messages="errors.quantity"
+        @input="convertQuantityToNumber"
       />
 
       <v-text-field
@@ -85,14 +86,17 @@
           <v-radio
             label="أولاد"
             :value="GENDER.MALE"
+            color="#00658D"
           />
           <v-radio
             label="بنات"
             :value="GENDER.FEMALE"
+            color="#A13763"
           />
           <v-radio
             label="كلاهما"
             :value="GENDER.BOTH"
+            color="primary"
           />
         </v-radio-group>
       </div>
@@ -103,20 +107,29 @@
         الصور
       </h3>
       <p class="mt-2">
-        يمكنك رفع ما يصل الى 5 صور لهذا المنتج، اذا كانت هناك صورة فيمكنك تبديلها بالضغط واختيار صورة اخرى
+        يمكنك رفع ما يصل إلي 4 صور لهذا المنتج، اذا كانت هناك صورة فيمكنك تبديلها بالضغط واختيار صورة اخرى
       </p>
 
-      <ImageUpload @handle-image="handleImage" />
+      <div class="mt-4 grid grid-cols-4 gap-4">
+        <div
+          v-for="index in 4"
+          :key="index"
+        >
+          <ImageUpload
+            :index="index"
+            @handle-image="handleImage"
+          />
+        </div>
+      </div>
     </div>
 
-    <div>
+    <div class="mt-3">
       <v-btn
         :disabled="!meta.valid"
         size="large"
         variant="elevated"
         color="primary"
         type="submit"
-        class="mt-3"
         :loading="props.isLoading"
       >
         {{ editMode ? 'تعديل منتج' : 'إضافة منتج' }}
@@ -130,7 +143,7 @@ import { useForm, useField } from 'vee-validate';
 import { object, string, number } from 'zod';
 import type { Product } from "../models/product";
 import { GENDER } from "../models/gender"
-import { computed, ref, watchEffect } from "vue";
+import { computed, reactive, ref, watchEffect } from "vue";
 import { getCategories } from "@/categories/categories-service";
 import { useQuery } from "@tanstack/vue-query";
 import ImageUpload from "@/core/components/ImageUpload.vue"
@@ -155,6 +168,8 @@ const emit = defineEmits<{
   }]
 }>()
 
+const base64Images = reactive([ "", "", "", "",])
+
 const editMode = computed(() => !!props.product)
 const listParams = ref({
   page: 1,
@@ -170,9 +185,9 @@ const categories = useQuery({
 const validationSchema = toTypedSchema(
   object({
     name: editMode.value ? string() : string().min(1, 'يجب إدخال إسم المنتج '),
-    productCode: editMode.value ? string() : string().min(1, 'يجب إدخال رمز المنتج '),
+    product_code: editMode.value ? string() : string().min(1, 'يجب إدخال رمز المنتج '),
     description: editMode.value ? string() : string().min(1, 'يجب إدخال التفاصيل  '),
-    categoryId: number().min(1, 'يجب إختيار التصنيف'),
+    category_id: number().min(1, 'يجب إختيار التصنيف'),
     price: number().min(1, 'يجب إدخال السعر'),
     quantity: number().min(1, 'يجب إدخال الكمية'),
     gender: number().min(1, 'يجب إدخال الجنس')
@@ -180,13 +195,14 @@ const validationSchema = toTypedSchema(
 );
 
 const { handleSubmit, errors, meta, setValues } = useForm({
-  validationSchema
+  validationSchema,
+  initialValues: {category_id: 20}
 });
 
 const { value: name } = useField<string>('name');
-const { value: productCode } = useField<number>('productCode');
+const { value: product_code } = useField<number>('product_code');
 const { value: description } = useField<string>('description');
-const { value: categoryId } = useField<number>('categoryId');
+const { value: category_id } = useField<number>('category_id');
 const { value: price } = useField<number>('price');
 const { value: quantity } = useField<number>('quantity');
 const { value: gender } = useField<number>('gender');
@@ -195,9 +211,9 @@ watchEffect(() => {
   if (props.product) {
     setValues({
       name: props.product.name,
-      productCode: props.product.product_code,
+      product_code: props.product.product_code,
       description: props.product.description,
-      categoryId: props.product.category_id,
+      category_id: props.product.category_id,
       price: props.product.price,
       quantity: props.product.quantity,
     })
@@ -205,15 +221,28 @@ watchEffect(() => {
 })
 
 const convertPriceToNumber = () => {
-  price.value = Number(price.value);
-};
+  price.value = Number(price.value)
+}
+
+const convertQuantityToNumber = () => {
+  quantity.value = Number(quantity.value)
+}
 
 const submit = handleSubmit(values => {
-  emit("submit", values as any)
+  const payload = {
+    ...values,
+    image1_path: base64Images[0] ,
+    image2_path: base64Images[1],
+    image3_path: base64Images[2],
+    image4_path: base64Images[3]
+  }
+  emit("submit", payload) 
+  console.log(payload);
+  
 })
 
-const handleImage = (imageBase64: string) => {
-  // imageUrl.value = imageBase64
+const handleImage = (base64Image: string, index: number) => {
+  base64Images[index - 1] = base64Image
 }
 
 

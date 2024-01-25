@@ -9,12 +9,12 @@ const myCustomLightTheme: ThemeDefinition = {
     colors: {
       primary: "#835400",
       secondary: "#EBE1D9",
+      info: "#2196F3",
       background: "#FFFFFF",
       surface: "#FFFFFF",
       "primary-darken-1": "#3700B3",
       "secondary-darken-1": "#018786",
       error: "#B00020",
-      info: "#2196F3",
       success: "#4CAF50",
       warning: "#FB8C00",
     },

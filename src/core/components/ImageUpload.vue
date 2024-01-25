@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4">
+  <div>
     <input
       ref="fileUpload"
       class="hidden"
@@ -9,20 +9,17 @@
     >
     <div
       v-if="!base64Image && !isLoading"
-      class="flex  items-center flex-col w-full bg-white rounded-lg h-28 border-4 border-slate-300 hover:-translate-y-2 transition-all delay-100 cursor-pointer mt-2 "
+      class="flex justify-center items-center bg-white rounded-lg h-64 border-4 border-slate-300 hover:-translate-y-2 transition-all delay-100 cursor-pointer mt-2 "
       @click="fileUploadClick"
     >
-      <DragIcon />
-      <p class="text-gray-500">
-        Drag an image
-      </p>
+      <UploadImageIcon />
     </div>
     <div
       v-if="base64Image"
-      class="relative"
+      class="relative rounded-lg"
     >
       <img
-        class="rounded-lg  border-4 border-gray-200 w-[25rem] p-2"
+        class="rounded-lg border-4 border-gray-200 h-64 object-cover object-center p-2"
         :src="base64Image"
         alt="uploaded image"
       >
@@ -41,16 +38,17 @@
 </template>
 <script setup lang="ts">
 import { type InputHTMLAttributes, ref } from 'vue'
-import DragIcon from "@/core/components/icons/DragIcon.vue"
+import UploadImageIcon from "@/core/components/icons/UploadImageIcon.vue"
 import GarbageIcon from "@/core/components/icons/GarbageIcon.vue"
 import SpinAnimation from '@/core/components/icons/SpinAnimation.vue'
 import { toBase64 } from '@/core/helpers/toBase64'
 /* eslint-disable */
-// const props = defineProps<{
-//     imagePath: string
-// }>()
+const props = defineProps<{
+    imagePath?: string,
+    index: number
+}>()
 const emit = defineEmits<{
-    handleImage: [imageBase64: string]
+    handleImage: [imageBase64: string, index: number]
 }>()
 
 const fileUpload: InputHTMLAttributes = ref(null)
@@ -64,7 +62,7 @@ const handleFileUpload = (event: Event) => {
         toBase64(file).then(result => {
             isLoading.value = false
             base64Image.value = result
-            emit('handleImage', base64Image.value)
+            emit('handleImage', base64Image.value, props.index)
         })
     }
 }
@@ -78,6 +76,7 @@ const deleteImage = () => {
     if (fileUpload.value) {
         fileUpload.value.value = ''
     }
+    emit('handleImage', base64Image.value, props.index)
 }
 
 // watchEffect(() => {

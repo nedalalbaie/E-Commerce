@@ -29,7 +29,7 @@
       <div
         v-for="i in 5"
         :key="i"
-        class="flex justify-between items-center bg-white rounded-lg p-6 mt-4"
+        class="flex justify-between items-center bg-white rounded-lg p-6 mt-4 shadow-md"
       >
         <p class="text-xl">
           سرير - 2 منتج
