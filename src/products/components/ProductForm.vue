@@ -110,16 +110,13 @@
         يمكنك رفع ما يصل إلي 4 صور لهذا المنتج، اذا كانت هناك صورة فيمكنك تبديلها بالضغط واختيار صورة اخرى
       </p>
 
-      <div class="mt-4 grid grid-cols-4 gap-4">
-        <div
+      <div class="mt-8 grid grid-cols-4 gap-4">
+        <ImageUpload
           v-for="index in 4"
           :key="index"
-        >
-          <ImageUpload
-            :index="index"
-            @handle-image="handleImage"
-          />
-        </div>
+          :index="index"
+          @handle-image="handleImage"
+        />
       </div>
     </div>
 

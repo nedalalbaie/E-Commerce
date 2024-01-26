@@ -37,7 +37,7 @@
     </v-navigation-drawer>
 
     <v-main class="min-h-screen bg-[#FFF8F4]">
-      <main class="max-w-[1400px] mx-auto px-6 pt-10 pb-4 ">
+      <main class="max-w-[1400px] mx-auto px-6 py-10">
         <RouterView />
       </main>
     </v-main>

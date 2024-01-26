@@ -27,12 +27,12 @@
 
     <div class="mt-8">
       <div
-        v-for="i in 5"
-        :key="i"
+        v-for="category in categories.data.value?.data"
+        :key="category.id"
         class="flex justify-between items-center bg-white rounded-lg p-6 mt-4 shadow-md"
       >
         <p class="text-xl">
-          سرير - 2 منتج
+          {{ category.name }} - {{ category.description }}
         </p>
         <div class="flex flex-col md:flex-row gap-4">
           <v-btn
@@ -58,21 +58,25 @@
 </template>
 <script setup lang="ts">
 import SearchIcon from "@/core/components/icons/SearchIcon.vue";
+import type { PaginationParams } from "@/core/models/pagination-params";
 import {
     mdiPlus
 } from '@mdi/js'
+import { useQuery } from "@tanstack/vue-query";
+import { ref } from "vue";
+import { getCategories } from "../categories-service";
 
-// const listParams = ref<PaginationParams>({
-//   page: 1,
-//   limit: 10,
-//   name: undefined,
-//   categoryId: undefined
-// })
+const listParams = ref<PaginationParams>({
+  page: 1,
+  limit: 10,
+  name: undefined,
+  categoryId: undefined
+})
 
-// const categories = useQuery({
-//   queryKey: ['categories', listParams],
-//   queryFn: () => getCategories(listParams.value)
-// })
+const categories = useQuery({
+  queryKey: ['categories', listParams],
+  queryFn: () => getCategories(listParams.value)
+})
 
 
 </script>

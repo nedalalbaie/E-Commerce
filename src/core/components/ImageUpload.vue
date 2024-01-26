@@ -9,17 +9,17 @@
     >
     <div
       v-if="!base64Image && !isLoading"
-      class="flex justify-center items-center bg-white rounded-lg h-64 border-4 border-slate-300 hover:-translate-y-2 transition-all delay-100 cursor-pointer mt-2 "
+      class="flex justify-center items-center bg-white rounded-lg h-64 border-2 border-slate-200 shadow-md hover:-translate-y-2 transition-all delay-100 cursor-pointer"
       @click="fileUploadClick"
     >
       <UploadImageIcon />
     </div>
     <div
       v-if="base64Image"
-      class="relative rounded-lg"
+      class="relative rounded-lg h-64"
     >
       <img
-        class="rounded-lg border-4 border-gray-200 h-64 object-cover object-center p-2"
+        class="rounded-lg border-4 border-gray-200 h-64 w-full object-cover object-center shadow-md"
         :src="base64Image"
         alt="uploaded image"
       >
@@ -44,39 +44,41 @@ import SpinAnimation from '@/core/components/icons/SpinAnimation.vue'
 import { toBase64 } from '@/core/helpers/toBase64'
 /* eslint-disable */
 const props = defineProps<{
-    imagePath?: string,
-    index: number
+  imagePath?: string,
+  index?: number
 }>()
 const emit = defineEmits<{
-    handleImage: [imageBase64: string, index: number]
+  handleImage: [imageBase64: string, index?: number]
 }>()
 
 const fileUpload: InputHTMLAttributes = ref(null)
 const isLoading = ref(false)
 const base64Image = ref("")
+let selectedImage: File
 
 const handleFileUpload = (event: Event) => {
-    isLoading.value = true
-    const file = (event.target as HTMLInputElement).files?.[0]
-    if (file) {
-        toBase64(file).then(result => {
-            isLoading.value = false
-            base64Image.value = result
-            emit('handleImage', base64Image.value, props.index)
-        })
-    }
+  isLoading.value = true
+  const file = (event.target as HTMLInputElement).files?.[0]
+  if (file) {
+    toBase64(file).then(result => {
+      isLoading.value = false
+      base64Image.value = result
+      selectedImage = file
+      emit('handleImage', base64Image.value, props.index)
+    })
+  }
 }
 
 const fileUploadClick = () => {
-    fileUpload.value.click()
+  fileUpload.value.click()
 }
 
 const deleteImage = () => {
-    base64Image.value = ""
-    if (fileUpload.value) {
-        fileUpload.value.value = ''
-    }
-    emit('handleImage', base64Image.value, props.index)
+  base64Image.value = ""
+  if (fileUpload.value) {
+    fileUpload.value.value = ''
+  }
+  emit('handleImage', base64Image.value, props.index)
 }
 
 // watchEffect(() => {
