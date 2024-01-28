@@ -10,7 +10,7 @@ type Category = {
 type AddCategoryRequest = {
   name: string
   description: string
-  image_path: string
+  image_path: File
 }
 
 type EditCategoryRequest = Partial<{

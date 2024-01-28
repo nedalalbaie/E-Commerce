@@ -8,10 +8,10 @@ type Product = {
   quantity: number
   gender: number
   inventory_level: number
-  image1_path: string
-  image2_path: string
-  image3_path: string
-  image4_path: string
+  image1_path: File
+  image2_path: File
+  image3_path: File
+  image4_path: File
 }
 
 type AddProductRequest = Omit<Product, 'id' | 'inventory_level' >

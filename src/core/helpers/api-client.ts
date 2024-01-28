@@ -9,7 +9,7 @@ function authInterceptor(next: FetchLike) {
     if (auth) {
       opts.headers = {
         ...opts.headers,
-        Authorization: `Bearer ${auth.token}`
+        Authorization: `Bearer ${auth}`
       }
     }
 

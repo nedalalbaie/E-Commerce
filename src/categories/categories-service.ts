@@ -1,6 +1,7 @@
 import apiClient from '@/core/helpers/api-client'
 import queryString from 'wretch/addons/queryString'
-import type { Category, AddCategoryRequest, EditCategoryRequest } from './models/Category'
+import formData from 'wretch/addons/formData'
+import type { AddCategoryRequest, Category, EditCategoryRequest } from './models/Category'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 
@@ -19,8 +20,10 @@ const getCategories = (params: PaginationParams): Promise<List<Category[]>> => {
 
 const addCategory = (body: AddCategoryRequest): Promise<Category> => {
   return apiClient
+    .addon(formData)
     .url('/category')
-    .post(body)
+    .formData(body)
+    .post()
     .json((res) => {
       return res
     })
@@ -28,11 +31,10 @@ const addCategory = (body: AddCategoryRequest): Promise<Category> => {
 
 const editCategory = (id: string, body: EditCategoryRequest): Promise<Category> => {
   return apiClient
+    .addon(formData)
     .url(`/category/${id}`)
-    .patch({
-      id,
-      ...body
-    })
+    .formData(body)
+    .put()
     .json((res) => {
       return res
     })

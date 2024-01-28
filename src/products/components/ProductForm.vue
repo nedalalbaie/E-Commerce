@@ -138,34 +138,24 @@
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm, useField } from 'vee-validate';
 import { object, string, number } from 'zod';
-import type { Product } from "../models/product";
+import type { AddProductRequest, Product } from "../models/product";
 import { GENDER } from "../models/gender"
 import { computed, reactive, ref, watchEffect } from "vue";
 import { getCategories } from "@/categories/categories-service";
 import { useQuery } from "@tanstack/vue-query";
 import ImageUpload from "@/core/components/ImageUpload.vue"
 
+type ProductForm = AddProductRequest
+
 const props = defineProps<{
   isLoading: boolean,
   product?: Product
 }>()
 const emit = defineEmits<{
-  submit: [value: {
-    name: string;
-    product_code: string;
-    description: string;
-    category_id: number;
-    price: number;
-    quantity: number;
-    gender: number;
-    image1_path: string;
-    image2_path: string;
-    image3_path: string;
-    image4_path: string;
-  }]
+  submit: [value: ProductForm]
 }>()
 
-const base64Images = reactive([ "", "", "", "",])
+const base64Images = reactive<File[] | null []>([ null, null, null, null,])
 
 const editMode = computed(() => !!props.product)
 const listParams = ref({
@@ -238,8 +228,8 @@ const submit = handleSubmit(values => {
   
 })
 
-const handleImage = (base64Image: string, index: number) => {
-  base64Images[index - 1] = base64Image
+const handleImage = (imageFile: File | null, index: number) => {
+  base64Images[index - 1] = imageFile
 }
 
 

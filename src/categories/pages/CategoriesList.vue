@@ -34,6 +34,13 @@
         <p class="text-xl">
           {{ category.name }} - {{ category.description }}
         </p>
+        <div>
+          <!-- <img
+            class="w-40 h-40 object-cover rounded-lg my-2 border border-gray-200"
+            :src="category.image_path"
+            alt=""
+          > -->
+        </div>
         <div class="flex flex-col md:flex-row gap-4">
           <v-btn
             :append-icon="mdiPlus"

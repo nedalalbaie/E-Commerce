@@ -27,15 +27,13 @@
       </h3>
 
       <div class="mt-8 w-1/4">
-        <ImageUpload
-          @handle-image="handleImage"
-        />
+        <ImageUpload @handle-image="handleImage" />
       </div>
     </div>
 
     <div class="mt-6">
       <v-btn
-        :disabled="!meta.valid"
+        :disabled="isDisabled"
         size="large"
         variant="elevated"
         color="primary"
@@ -48,65 +46,61 @@
   </form>
 </template>
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod';
-import { useForm, useField } from 'vee-validate';
-import { object, string, } from 'zod';
-import type { Category } from "../models/Category";
-import { computed, ref, watchEffect } from "vue";
+import { toTypedSchema } from '@vee-validate/zod'
+import { useForm, useField } from 'vee-validate'
+import { object, string, } from 'zod'
+import type { AddCategoryRequest, Category } from "../models/Category"
+import { computed, ref, watchEffect } from "vue"
 import ImageUpload from "@/core/components/ImageUpload.vue"
 
+type CategoryForm =  AddCategoryRequest
+
 const props = defineProps<{
-    isLoading: boolean,
-    category?: Category
+  isLoading: boolean,
+  category?: Category
 }>()
 const emit = defineEmits<{
-    submit: [value: {
-        name: string;
-        description: string;
-        image_path: string;
-    }]
+  submit: [value: CategoryForm]
 }>()
 
-const base64Image = ref("")
+const selectedImage = ref<File | null>(null)
 
 const editMode = computed(() => !!props.category)
+const isDisabled = computed(() => !meta.value.valid || !selectedImage.value)
 
 const validationSchema = toTypedSchema(
-    object({
-        name: editMode.value ? string() : string().min(1, 'يجب إدخال إسم التصنيف '),
-        description: editMode.value ? string() : string().min(1, 'يجب إدخال التفاصيل  '),
-    })
-);
+  object({
+    name: editMode.value ? string() : string().min(1, 'يجب إدخال إسم التصنيف '),
+    description: editMode.value ? string() : string().min(1, 'يجب إدخال التفاصيل  '),
+  })
+)
 
 const { handleSubmit, errors, meta, setValues } = useForm({
-    validationSchema
-});
+  validationSchema
+})
 
-const { value: name } = useField<string>('name');
-const { value: description } = useField<string>('description');
+const { value: name } = useField<string>('name')
+const { value: description } = useField<string>('description')
 
 watchEffect(() => {
-    if (props.category) {
-        setValues({
-            name: props.category.name,
-            description: props.category.description
-        })
-    }
+  if (props.category) {
+    setValues({
+      name: props.category.name,
+      description: props.category.description
+    })
+  }
 })
 
 const submit = handleSubmit(values => {
-    const payload = {
-        ...values,
-        image_path: base64Image.value
-    }
-    emit("submit", payload)
-    console.log(payload);
+  emit("submit", {
+    ...values,
+    image_path: selectedImage.value as File
+  })
 
 })
 
-const handleImage = (image: string) => {
-  base64Image.value = image
+const handleImage = (image: File | null) => {
+  selectedImage.value = image
 }
-
 
 </script>
