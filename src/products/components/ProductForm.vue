@@ -155,7 +155,7 @@ const emit = defineEmits<{
   submit: [value: ProductForm]
 }>()
 
-const base64Images = reactive<File[] | null []>([ null, null, null, null,])
+const base64Images = reactive<File[] | null[]>([null, null, null, null,])
 
 const editMode = computed(() => !!props.product)
 const listParams = ref({
@@ -182,8 +182,7 @@ const validationSchema = toTypedSchema(
 );
 
 const { handleSubmit, errors, meta, setValues } = useForm({
-  validationSchema,
-  initialValues: {category_id: 20}
+  validationSchema
 });
 
 const { value: name } = useField<string>('name');
@@ -217,19 +216,23 @@ const convertQuantityToNumber = () => {
 
 const submit = handleSubmit(values => {
   const payload = {
-    ...values,
-    image1_path: base64Images[0] ,
-    image2_path: base64Images[1],
-    image3_path: base64Images[2],
-    image4_path: base64Images[3]
+
   }
-  emit("submit", payload) 
+  emit("submit", {
+    ...values,
+    image1_path: base64Images[0] as File,
+    image2_path: base64Images[1] as File,
+    image3_path: base64Images[2] as File,
+    image4_path: base64Images[3] as File
+  })
   console.log(payload);
-  
+
 })
 
-const handleImage = (imageFile: File | null, index: number) => {
-  base64Images[index - 1] = imageFile
+const handleImage = (imageFile: File | null, index?: number) => {
+  if (index) {
+    base64Images[index - 1] = imageFile
+  }
 }
 
 

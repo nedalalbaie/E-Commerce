@@ -1,28 +1,24 @@
 <template>
   <div>
-    <h1 class="text-3xl">
-      المنتجات
-      <span>(20 )</span>
-    </h1>
     <div class="flex items-center justify-between mt-6">
-      <div class="flex justify-between items-center bg-[#FCF2EA] rounded-xl py-1 px-4">
-        <input
-          placeholder="إبحث عن منتجات"
-          type="text"
-          class="w-56 border-none p-2 rounded-lg outline-none transition-all duration-100 placeholder:text-gray-700"
-        >
-        <SearchIcon custom-style="w-6 h-6" />
+      <h1 class="text-3xl">
+        الطلبات
+        <span>(20 )</span>
+      </h1>
+      <div class="flex gap-4">
+        <p class="bg-sky-200 py-1 px-2 rounded-md">
+          قيد المعالجة
+        </p>
+        <p class="bg-sky-200 py-1 px-2 rounded-md">
+          قيد التوصيل
+        </p>
+        <p class="bg-sky-200 py-1 px-2 rounded-md">
+          تم التوصيل
+        </p>
+        <p class="bg-sky-200 py-1 px-2 rounded-md">
+          ملغية
+        </p>
       </div>
-      <v-btn
-        :append-icon="mdiPlus"
-        :to="{ name: 'add-product' }"
-        color="primary"
-        size="large"
-        rounded="xl"
-        variant="elevated"
-      >
-        إضافة منتج
-      </v-btn>
     </div>
     <div class="grid grid-cols-productsCards gap-x-4 gap-y-8 mt-6">
       <div
@@ -41,7 +37,7 @@
             199.00 299.00 دل
           </p>
         </div>
-  
+    
         <div class="mt-4 flex items-center border-b border-gray-700 pb-1">
           <p class="w-1/2">
             الوصف
@@ -108,44 +104,44 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { getProducts } from "../products-service"
-import type { PaginationParams } from '@/core/models/pagination-params'
-import SearchIcon from "@/core/components/icons/SearchIcon.vue";
-import { useQuery } from "@tanstack/vue-query";
-import EditIcon from "@/core/components/icons/EditIcon.vue";
-import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
-import {
-  mdiPlus
-} from '@mdi/js'
-
-const listParams = ref<PaginationParams>({
-  page: 1,
-  limit: 10,
-  name: undefined,
-  categoryId: undefined
-})
-
-// const products = useQuery({
-//   queryKey: ['products', listParams],
-//   queryFn: () => getProducts(listParams.value)
-// })
-
-// const getBackgroundImage = (url: string) => ({
-//   backgroundImage: `url(${url})`
-// })
-
-const products = [
-  {
-    id: "",
-    name: "سرير مواليد Happy Baby",
-    product_code: "string",
-    description: "بدلة اولاد 100% قطن",
-    category_id: "number",
-    price: "29.00 ",
-    inventory_level: "number",
-    image1_path: "../../../assets/images/bed.png"
-  },
-]
-</script>
+  <script setup lang="ts">
+  import { ref } from "vue";
+  import { getOrders } from "../orders-service"
+  import type { PaginationParams } from '@/core/models/pagination-params'
+  import SearchIcon from "@/core/components/icons/SearchIcon.vue";
+  import { useQuery } from "@tanstack/vue-query";
+  import EditIcon from "@/core/components/icons/EditIcon.vue";
+  import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
+  import {
+    mdiPlus
+  } from '@mdi/js'
+  
+  const listParams = ref<PaginationParams>({
+    page: 1,
+    limit: 10,
+    name: undefined,
+    categoryId: undefined
+  })
+  
+  // const orders = useQuery({
+  //   queryKey: ['products', listParams],
+  //   queryFn: () => getOrders(listParams.value)
+  // })
+  
+  // const getBackgroundImage = (url: string) => ({
+  //   backgroundImage: `url(${url})`
+  // })
+  
+  const products = [
+    {
+      id: "",
+      code: "#001830",
+      status: "تم التوصيل",
+      customer: "Mohammed",
+      createdAt: "28-3-2023",
+      price: "29.00 ",
+      inventory_level: "number",
+      image1_path: "../../../assets/images/bed.png"
+    },
+  ]
+  </script>
