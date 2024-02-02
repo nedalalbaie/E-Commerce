@@ -5,6 +5,7 @@ import authStore from '@/core/stores/auth.store'
 import productsRoutes from '@/products/products.routes'
 import categoriesRoutes from '@/categories/categories.routes'
 import ordersRoutes from '@/orders/orders.routes'
+import adsRoutes from '@/ads/ads.routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,10 @@ const router = createRouter({
         {
           path: 'orders',
           children: ordersRoutes
+        },
+        {
+          path: 'ads',
+          children: adsRoutes
         },
       ]
     },

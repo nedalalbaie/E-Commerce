@@ -4,7 +4,7 @@ import type { Product, AddProductRequest } from './models/product'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 
-const getProducts = (params: PaginationParams): Promise<List<Product[]>> => {
+const getProducts = (params: PaginationParams): Promise<{data: List<Product[]>}> => {
   return apiClient
     .addon(queryString)
     .url('/products')

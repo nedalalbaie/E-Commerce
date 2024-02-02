@@ -4,10 +4,10 @@ import type { Order, PostOrderRequest, PatchOrderRequest } from './models/order'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 
-const getOrders = (params: PaginationParams): Promise<List<Order[]>> => {
+const getOrders = (params: PaginationParams): Promise<{ data: List<Order[]> }> => {
   return apiClient
     .addon(queryString)
-    .url('/orders')
+    .url('/order')
     .query(params)
     .get()
     .notFound(() => ({
@@ -17,9 +17,16 @@ const getOrders = (params: PaginationParams): Promise<List<Order[]>> => {
     .json()
 }
 
+const getOrder = (id: number): Promise<Order> => {
+  return apiClient
+   .url(`/order/${id}`)
+   .get()
+   .json()
+}
+
 const postOrder = (body: PostOrderRequest): Promise<Order> => {
   return apiClient
-    .url('/orders')
+    .url('/order')
     .post(body)
     .json((res) => {
       return res
@@ -28,7 +35,7 @@ const postOrder = (body: PostOrderRequest): Promise<Order> => {
 
 const patchOrder = (id: string, body: Partial<PatchOrderRequest>): Promise<Order> => {
   return apiClient
-    .url(`/orders/${id}`)
+    .url(`/order/${id}`)
     .patch({
       id,
       ...body
@@ -38,4 +45,11 @@ const patchOrder = (id: string, body: Partial<PatchOrderRequest>): Promise<Order
     })
 }
 
-export { getOrders, postOrder, patchOrder }
+const cancelOrder = (id: number) => {
+  return apiClient
+   .url(`/order/${id}`)
+   .delete()
+   .json()
+}
+
+export { getOrders, getOrder, postOrder, patchOrder, cancelOrder }
