@@ -10,10 +10,63 @@
           مفعل
           <CheckIcon fill="black" />
         </button>
-        <button class="bg-sky-200 py-1 px-2 rounded-md flex items-center gap-2">
+        <button class="py-1 px-2 rounded-md flex items-center gap-2 border-2 border-gray-300">
           معطل
           <CheckIcon fill="black" />
         </button>
+      </div>
+    </div>
+
+    <div class="bg-white grid grid-cols-[60%40%] rounded-md shadow-md mt-10">
+      <div class="p-8 flex flex-col justify-between gap-8">
+        <div>
+          <div class="flex gap-2 text-2xl font-medium mt-4">
+            <p>متجر Bananna</p>
+            <p class="text-green-700">
+              - مفعل
+            </p>
+          </div>
+          <p class=" mt-8 text-lg">
+            يعلن متجر Banana عن تخفيض في اغذية الموز للأطفال يصل إلى 35٪!
+          </p>
+        </div>
+
+        <!-- to="{path: 'edit-ad', params: {id: order.id}}" -->
+        <div class="flex gap-5">
+          <v-btn
+            size="large"
+            rounded="xl"
+            variant="elevated"
+            color="primary"
+            :to="{ name: 'edit-ad' }"
+          >
+            تعديل
+            <template #prepend>
+              <EditIcon />
+            </template>
+          </v-btn>
+
+          <v-btn
+            size="large"
+            rounded="xl"
+            variant="elevated"
+            color="#004C6B"
+            type="submit"
+          >
+            حذف
+            <template #prepend>
+              <DeleteIcon fill="fill-white" />
+            </template>
+          </v-btn>
+        </div>
+      </div>
+
+      <div>
+        <img
+          src="../../assets/images/bannan.png"
+          alt=""
+          class="w-full max-h-64 object-cover object-center rounded-l-md"
+        >
       </div>
     </div>
   </div>
@@ -28,16 +81,16 @@ import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
 import CheckIcon from "@/core/components/icons/CheckIcon.vue";
 
 const listParams = ref<PaginationParams>({
-    page: 1,
-    limit: 10,
-    name: undefined,
-    categoryId: undefined
+  page: 1,
+  limit: 10,
+  name: undefined,
+  categoryId: undefined
 })
 
 const ads = useQuery({
-    queryKey: ['ads', listParams],
-    queryFn: () => getAds(listParams.value),
-    select: (response) => response.data
+  queryKey: ['ads', listParams],
+  queryFn: () => getAds(listParams.value),
+  select: (response) => response.data
 })
 
 </script>

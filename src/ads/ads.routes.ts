@@ -12,7 +12,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('./pages/CreateAd.vue')
   },
   {
-    path: 'edit/:id',
+    path: 'edit',
     name: 'edit-ad',
     component: () => import('./pages/EditAd.vue')
   }

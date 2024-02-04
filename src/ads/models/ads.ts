@@ -1,6 +1,7 @@
 type Ad = {
   id: number
-  name: string
+  address: string
+  description: string
   show: boolean
   start_date: string
   end_date: string
