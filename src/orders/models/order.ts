@@ -1,11 +1,13 @@
 type Order = {
   id: number
+  status: string
+  customer_name: string 
+  phone_number: string
   order_number: number
   total_price: number
   shipping_address: string
-  status: string
-  product_codes: any[]
-  quantity_selected: any[]
+  product_codes: string[]
+  quantity_selected: number[]
   created_at: string
   updated_at: string
 }

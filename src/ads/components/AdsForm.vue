@@ -3,6 +3,7 @@
     <div class="grid gap-x-8 gap-y-2 mt-6">
       <v-text-field
         v-model="address"
+        class="lg:w-1/2"
         label="العنوان"
         variant="outlined"
         color="primary"
@@ -28,8 +29,8 @@
       </p>
     </div>
 
-    <div class="mt-4">
-      <ImageUpload
+    <div class="mt-4 lg:w-2/5">
+      <AdImageUpload
         @handle-image="handleImage"
       />
     </div>
@@ -54,7 +55,7 @@ import { useForm, useField } from 'vee-validate';
 import { object, string } from 'zod';
 import type { PostAdRequest, Ad } from "../models/ads";
 import { computed, ref, watchEffect } from "vue";
-import ImageUpload from "@/core/components/ImageUpload.vue"
+import AdImageUpload from "../components/AdImageUpload.vue"
 
 type AdForm = PostAdRequest
 
