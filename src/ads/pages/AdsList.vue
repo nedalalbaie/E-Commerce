@@ -79,7 +79,7 @@ import { useQuery } from "@tanstack/vue-query";
 import EditIcon from "@/core/components/icons/EditIcon.vue";
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
 import CheckIcon from "@/core/components/icons/CheckIcon.vue";
-
+  
 const listParams = ref<PaginationParams>({
   page: 1,
   limit: 10,

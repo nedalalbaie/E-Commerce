@@ -22,7 +22,10 @@
     </div>
 
     <div>
-      <v-switch label="تفعيل" />
+      <v-switch
+        inset
+        label="تفعيل"
+      />
       <p>
         الإعلان مفعل حالياً وسيظهر للمستخدمين
       </p>
@@ -55,6 +58,7 @@ import { object, string } from 'zod';
 import type { PostAdRequest, Ad } from "../models/ads";
 import { computed, ref, watchEffect } from "vue";
 import ImageUpload from "@/core/components/ImageUpload.vue"
+import { mdiCheck } from "@mdi/js"
 
 type AdForm = PostAdRequest
 
