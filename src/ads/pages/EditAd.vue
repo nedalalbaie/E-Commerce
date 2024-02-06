@@ -3,7 +3,7 @@
     تعديل إعلان 
   </h1>
   <AdsForm
-    :is-loading="addAdMutation.isPending.value"
+    :is-loading="editAdMutation.isPending.value"
     @submit="handleSubmit"
   />
 </template>
@@ -15,7 +15,7 @@ import AdsForm from "../components/AdsForm.vue"
 import type { PostAdRequest } from '../models/ads';
 
 const queryClient = useQueryClient()
-const addAdMutation = useMutation({
+const editAdMutation = useMutation({
     mutationFn: postAd,
     onSuccess: () => {
         router.replace({ name: 'categories' })
@@ -27,6 +27,6 @@ const addAdMutation = useMutation({
 })
 
 const handleSubmit = (payload: PostAdRequest) => {
-    addAdMutation.mutate(payload)
+    editAdMutation.mutate(payload)
 }
 </script>

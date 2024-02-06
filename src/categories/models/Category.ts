@@ -17,7 +17,7 @@ type EditCategoryRequest = Partial<{
   id: number
   name: string
   description: string
-  image_path: string
+  image_path: File
 }>
 
 export type { Category, AddCategoryRequest, EditCategoryRequest }
