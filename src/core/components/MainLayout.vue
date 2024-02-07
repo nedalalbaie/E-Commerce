@@ -67,7 +67,8 @@ const navRoutes = [
     { title: 'التصنيفات', icon: CategoryIcon, alt: 'Categories',  route: '/categories' },
     { title: 'الطلبات', icon: ReceiptIcon, alt: 'Orders', route: '/orders' },
     { title: 'الإعلانات', icon: AdsIcon, alt: 'Ads', route: '/ads' },
-    { title: 'المستخدمين', icon: UserIcon, alt: 'Users', route: '/users' },
+    { title: 'الزبائن', icon: UserIcon, alt: 'Users', route: '/customers' },
+    { title: 'الكوبونات', icon: UserIcon, alt: 'coupons', route: '/coupons' },
     { title: 'الإحصائيات', icon: UserIcon, alt: 'statistics', route: '/statistics' },
 ]
 

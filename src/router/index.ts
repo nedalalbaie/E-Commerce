@@ -6,6 +6,8 @@ import productsRoutes from '@/products/products.routes'
 import categoriesRoutes from '@/categories/categories.routes'
 import ordersRoutes from '@/orders/orders.routes'
 import adsRoutes from '@/ads/ads.routes'
+import customersRoutes from "@/customers/customer.routes"
+import couponsRoutes from '@/coupons/coupons.routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +36,14 @@ const router = createRouter({
         {
           path: 'ads',
           children: adsRoutes
+        },
+        {
+          path: 'customers',
+          children: customersRoutes
+        },
+        {
+          path: 'coupons',
+          children: couponsRoutes
         },
       ]
     },
