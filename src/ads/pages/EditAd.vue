@@ -27,6 +27,8 @@ const editAdMutation = useMutation({
 })
 
 const handleSubmit = (payload: PostAdRequest) => {
+   console.log(payload);
+   
     editAdMutation.mutate(payload)
 }
 </script>

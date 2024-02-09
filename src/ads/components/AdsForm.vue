@@ -97,14 +97,10 @@ watchEffect(() => {
 })
 
 const submit = handleSubmit(values => {
-    const payload = {
-
-    }
     emit("submit", {
         ...values,
         url: base64Image.value,
     })
-    console.log(payload);
 })
 
 const handleImage = (imageFile: File | null ) => {

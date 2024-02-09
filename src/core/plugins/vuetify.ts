@@ -3,6 +3,8 @@ import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import { VBtn } from "vuetify/components/VBtn";
 import { ar } from "vuetify/locale";
 import "vuetify/styles";
+// import DateFnsAdapter from '@date-io/date-fns'
+// import enUS from 'date-fns/locale/en-US'
 
 const myCustomLightTheme: ThemeDefinition = {
     dark: false,
@@ -11,7 +13,7 @@ const myCustomLightTheme: ThemeDefinition = {
       secondary: "#EBE1D9",
       info: "#2196F3",
       background: "#FFFFFF",
-      surface: "#FFFFFF",
+      surface: "#FFFFFF",  
       "primary-darken-1": "#3700B3",
       "secondary-darken-1": "#018786",
       error: "#B00020",
@@ -31,14 +33,19 @@ const vuetify = createVuetify({
       locale: "ar",
       messages: { ar },
     },
+    // date: {
+    //   adapter: DateFnsAdapter,
+    //   locale: {
+    //     // en: enUS,
+    //     ar: ar
+    //   },
+    // },
     aliases: {
       MyButton: VBtn,
     },
     defaults: {
       VBtn: {
         variant: "flat",
-        // color: "primary",
-        // style: "background-image: linear-gradient(to right, #122B40, #446CB3)",
         class: "text-none",
       },
       MyButton: { variant: "tonal" },

@@ -54,6 +54,13 @@ import CategoryIcon from "./icons/CategoryIcon.vue"
 import ReceiptIcon from "./icons/ReceiptIcon.vue"
 import AdsIcon from "./icons/AdsIcon.vue"
 import UserIcon from "./icons/UserIcon.vue"
+import Statistics from "./icons/StatisticsIcon.vue"
+import DiscountIcon from "./icons/DiscountIcon.vue"
+
+import {
+  mdiAccountMultiple,
+  mdiTicketPercentOutline
+} from "@mdi/js"
 
 const theme = useTheme()
 
@@ -67,9 +74,10 @@ const navRoutes = [
     { title: 'التصنيفات', icon: CategoryIcon, alt: 'Categories',  route: '/categories' },
     { title: 'الطلبات', icon: ReceiptIcon, alt: 'Orders', route: '/orders' },
     { title: 'الإعلانات', icon: AdsIcon, alt: 'Ads', route: '/ads' },
-    { title: 'الزبائن', icon: UserIcon, alt: 'Users', route: '/customers' },
-    { title: 'الكوبونات', icon: UserIcon, alt: 'coupons', route: '/coupons' },
-    { title: 'الإحصائيات', icon: UserIcon, alt: 'statistics', route: '/statistics' },
+    { title: 'الزبائن', icon: mdiAccountMultiple, alt: 'Users', route: '/customers' },
+    { title: 'الكوبونات', icon: mdiTicketPercentOutline, alt: 'coupons', route: '/coupons' },
+    { title: 'النخفيضات', icon: DiscountIcon, alt: 'discounts', route: '/discounts' },
+    { title: 'الإحصائيات', icon: Statistics, alt: 'statistics', route: '/statistics' },
 ]
 
 </script>
