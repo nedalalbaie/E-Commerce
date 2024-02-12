@@ -24,10 +24,13 @@
         alt="uploaded image"
       >
       <div
-        class="absolute -top-3 -left-1 bg-red-200 p-2 rounded-[50%] shadow-full-white dark:shadow-full-dark border-2 border-red-300 hover:-translate-y-1 transition-all delay-150 cursor-pointer"
+        class="absolute top-1 right-2 bg-gray-200 p-1 rounded-md hover:-translate-y-1 transition-all delay-150 cursor-pointer border border-black"
         @click="deleteImage"
       >
-        <GarbageIcon />
+        <DeleteIcon
+          fill="fill-black"
+          custom-style="w-7 h-7"
+        />
       </div>
     </div>
     <SpinAnimation
@@ -39,7 +42,7 @@
 <script setup lang="ts">
 import { type InputHTMLAttributes, ref } from 'vue'
 import UploadImageIcon from "@/core/components/icons/UploadImageIcon.vue"
-import GarbageIcon from "@/core/components/icons/GarbageIcon.vue"
+import DeleteIcon from "@/core/components/icons/DeleteIcon.vue"
 import SpinAnimation from '@/core/components/icons/SpinAnimation.vue'
 import { toBase64 } from '@/core/helpers/toBase64'
 /* eslint-disable */

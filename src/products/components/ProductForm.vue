@@ -11,7 +11,7 @@
       />
 
       <v-autocomplete
-        v-model="category_id"
+        v-model="sub_category_id"
         :hide-no-data="false"
         item-title="name"
         item-value="id"
@@ -23,7 +23,7 @@
         variant="outlined"
         color="primary"
         auto-select-first
-        :error-messages="errors.category_id"
+        :error-messages="errors.sub_category_id"
       >
         <template #no-data>
           <v-list-item>
@@ -55,13 +55,13 @@
       />
 
       <v-text-field
-        v-model="quantity"
+        v-model="inventory_level"
         label="الكمية"
         type="number"
         variant="outlined"
         color="primary"
         placeholder="الكمية"
-        :error-messages="errors.quantity"
+        :error-messages="errors.inventory_level"
         @input="convertQuantityToNumber"
       />
 
@@ -103,6 +103,10 @@
     </div>
 
     <div>
+      <ColorPicker @pass-hexcodes="handleHexaCodes" />
+    </div>
+
+    <div class="mt-40">
       <h3 class="text-xl">
         الصور
       </h3>
@@ -144,6 +148,7 @@ import { computed, reactive, ref, watchEffect } from "vue";
 import { getCategories } from "@/categories/categories-service";
 import { useQuery } from "@tanstack/vue-query";
 import ImageUpload from "@/core/components/ImageUpload.vue"
+import ColorPicker from "../components/ColorPicker.vue"
 
 type ProductForm = AddProductRequest
 
@@ -153,9 +158,10 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
   submit: [value: ProductForm]
-}>()
+}>() 
 
 const base64Images = reactive<File[] | null[]>([null, null, null, null,])
+const hexCodes = ref<string []>([])
 
 const editMode = computed(() => !!props.product)
 const listParams = ref({
@@ -174,34 +180,32 @@ const validationSchema = toTypedSchema(
     name: editMode.value ? string() : string().min(1, 'يجب إدخال إسم المنتج '),
     product_code: editMode.value ? string() : string().min(1, 'يجب إدخال رمز المنتج '),
     description: editMode.value ? string() : string().min(1, 'يجب إدخال التفاصيل  '),
-    category_id: number().min(1, 'يجب إختيار التصنيف'),
+    sub_category_id: number().min(1, 'يجب إختيار التصنيف'),
     price: number().min(1, 'يجب إدخال السعر'),
-    quantity: number().min(1, 'يجب إدخال الكمية'),
-    gender: number().min(1, 'يجب إدخال الجنس')
+    inventory_level: number().min(1, 'يجب إدخال الكمية'),
+    gender: number().min(1, 'يجب إدخال الجنس'),
   })
 );
 
 const { handleSubmit, errors, meta, setValues } = useForm({
-  validationSchema
+  validationSchema,
+  initialValues: {
+    sub_category_id: 1
+  }
 });
 
 const { value: name } = useField<string>('name');
 const { value: product_code } = useField<number>('product_code');
 const { value: description } = useField<string>('description');
-const { value: category_id } = useField<number>('category_id');
+const { value: sub_category_id } = useField<number>('sub_category_id');
 const { value: price } = useField<number>('price');
-const { value: quantity } = useField<number>('quantity');
+const { value: inventory_level } = useField<number>('inventory_level');
 const { value: gender } = useField<number>('gender');
 
 watchEffect(() => {
   if (props.product) {
     setValues({
-      name: props.product.name,
-      product_code: props.product.product_code,
-      description: props.product.description,
-      category_id: props.product.category_id,
-      price: props.product.price,
-      quantity: props.product.quantity,
+      ...props.product
     })
   }
 })
@@ -211,21 +215,26 @@ const convertPriceToNumber = () => {
 }
 
 const convertQuantityToNumber = () => {
-  quantity.value = Number(quantity.value)
+  inventory_level.value = Number(inventory_level.value)
 }
 
 const submit = handleSubmit(values => {
-  const payload = {
-
-  }
-  emit("submit", {
+  // emit("submit", {
+  //   ...values,
+  //   image1_path: base64Images[0] as File,
+  //   image2_path: base64Images[1] as File,
+  //   image3_path: base64Images[2] as File,
+  //   image4_path: base64Images[3] as File,
+  //   hex_codes: hexCodes.value
+  // })
+  console.log({
     ...values,
     image1_path: base64Images[0] as File,
     image2_path: base64Images[1] as File,
     image3_path: base64Images[2] as File,
-    image4_path: base64Images[3] as File
-  })
-  console.log(payload);
+    image4_path: base64Images[3] as File,
+    hex_codes: hexCodes.value
+  });
 
 })
 
@@ -235,5 +244,8 @@ const handleImage = (imageFile: File | null, index?: number) => {
   }
 }
 
+const handleHexaCodes = (passedHexCodes: string []) => {
+  hexCodes.value = passedHexCodes
+}
 
 </script>

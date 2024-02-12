@@ -24,7 +24,9 @@
       إضافة تخفيض
     </v-btn>
   </div>
+ 
   <!-- <LoadingSkeleton v-if="discounts.isPending.value" /> -->
+
   <div
     v-if="discounts"
     class="shadow-lg rounded-lg mt-4 border border-gray-200"
@@ -62,6 +64,7 @@ import { ref } from "vue";
 import type { PaginationParams } from '@/core/models/pagination-params'
 import { useQuery } from "@tanstack/vue-query";
 import debounce from 'lodash.debounce'
+import LoadingSkeleton from "@/core/components/LoadingSkeleton.vue"
 
 const searchValue = ref('');
 const listParams = ref<PaginationParams>({

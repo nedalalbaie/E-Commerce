@@ -101,7 +101,7 @@
             class="flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 transition-colors duration-150 px-4 py-1 rounded-xl"
           >
             <span>حذف</span>
-            <DeleteIcon />
+            <DeleteIcon fill="fill-white" />
           </button>
         </div>
       </div>

@@ -2,7 +2,7 @@
   <svg
     id="Capa_1"
     fill="#000000"
-    height="200px"
+    height="100%"
     width="200px"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"

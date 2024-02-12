@@ -12,8 +12,8 @@
         clearable
         placeholder="البحث"
         density="compact"
+        @input="handleSearch"
       />
-      <!-- @input="handleSearch" -->
     </div>
     <v-btn
       :append-icon="mdiPlus"
@@ -24,7 +24,9 @@
       إضافة كوبون
     </v-btn>
   </div>
+  
   <LoadingSkeleton v-if="coupones.isPending.value" />
+
   <div
     v-if="coupones.data.value"
     class="shadow-lg rounded-lg mt-4 border border-gray-200"
@@ -62,9 +64,10 @@ import { ref } from "vue";
 import { getCoupons } from "../coupons-service"
 import type { PaginationParams } from '@/core/models/pagination-params'
 import { useQuery } from "@tanstack/vue-query";
-// import debounce from 'lodash.debounce'
+import debounce from 'lodash.debounce'
+import LoadingSkeleton from "@/core/components/LoadingSkeleton.vue"
 
-const searchValue = ref('');
+const searchValue = ref('');   
 const listParams = ref<PaginationParams>({
   page: 1,
   limit: 10,
@@ -89,12 +92,12 @@ const onTableOptionsChange = ({ page, limit }: PaginationParams) => {
   listParams.value = {
     ...listParams.value,
     page: page ?? 1,
-    limit: limit ?? 10
+    limit: limit ?? 10 
   }
 }
 
-// const handleSearch  = debounce(() => {
-//     listParams.value.filter = searchValue.value
-// }, 300)
+const handleSearch  = debounce(() => {
+    listParams.value.name = searchValue.value
+}, 300)
 
 </script>
