@@ -71,7 +71,7 @@ import {
 } from '@mdi/js'
 import { useQuery } from "@tanstack/vue-query";
 import { ref } from "vue";
-import { getCategories } from "../categories-service";
+import { getCategories } from "../services/categories-service";
 
 const listParams = ref<PaginationParams>({
   page: 1,
@@ -86,4 +86,4 @@ const categories = useQuery({
 })
 
 
-</script>
+</script>../services/categories-service

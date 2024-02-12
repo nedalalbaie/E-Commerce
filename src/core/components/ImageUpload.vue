@@ -24,7 +24,7 @@
         alt="uploaded image"
       >
       <div
-        class="absolute top-1 right-2 bg-gray-200 p-1 rounded-md hover:-translate-y-1 transition-all delay-150 cursor-pointer border border-black"
+        class="absolute top-1 right-2 bg-gray-200 p-1 rounded-md hover:-translate-y-1 transition-all delay-150 cursor-pointer border-2 border-gray-400"
         @click="deleteImage"
       >
         <DeleteIcon

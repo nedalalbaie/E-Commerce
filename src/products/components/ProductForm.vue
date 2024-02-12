@@ -15,8 +15,8 @@
         :hide-no-data="false"
         item-title="name"
         item-value="id"
-        :items="categories.data.value"
-        :loading="categories.isPending.value"
+        :items="subCategories.data.value"
+        :loading="subCategories.isPending.value"
         hide-selected
         label="التصنيفات"
         placeholder="التصنيفات"
@@ -103,10 +103,10 @@
     </div>
 
     <div>
-      <ColorPicker @pass-hexcodes="handleHexaCodes" />
+      <ColorPicker @pass-hexcodes="handleHexCodes" />
     </div>
 
-    <div class="mt-40">
+    <div class="mt-10">
       <h3 class="text-xl">
         الصور
       </h3>
@@ -145,7 +145,7 @@ import { object, string, number } from 'zod';
 import type { AddProductRequest, Product } from "../models/product";
 import { GENDER } from "../models/gender"
 import { computed, reactive, ref, watchEffect } from "vue";
-import { getCategories } from "@/categories/categories-service";
+import { getSubCategories } from "@/categories/services/subCategories-service";
 import { useQuery } from "@tanstack/vue-query";
 import ImageUpload from "@/core/components/ImageUpload.vue"
 import ColorPicker from "../components/ColorPicker.vue"
@@ -158,10 +158,10 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{
   submit: [value: ProductForm]
-}>() 
+}>()
 
 const base64Images = reactive<File[] | null[]>([null, null, null, null,])
-const hexCodes = ref<string []>([])
+const hexCodes = ref<string[]>([])
 
 const editMode = computed(() => !!props.product)
 const listParams = ref({
@@ -169,9 +169,9 @@ const listParams = ref({
   limit: 50,
 })
 
-const categories = useQuery({
-  queryKey: ['categories', listParams],
-  queryFn: () => getCategories(listParams.value),
+const subCategories = useQuery({
+  queryKey: ['sub-categories', listParams],
+  queryFn: () => getSubCategories(listParams.value),
   select: (response) => response.data
 })
 
@@ -188,10 +188,7 @@ const validationSchema = toTypedSchema(
 );
 
 const { handleSubmit, errors, meta, setValues } = useForm({
-  validationSchema,
-  initialValues: {
-    sub_category_id: 1
-  }
+  validationSchema
 });
 
 const { value: name } = useField<string>('name');
@@ -219,23 +216,14 @@ const convertQuantityToNumber = () => {
 }
 
 const submit = handleSubmit(values => {
-  // emit("submit", {
-  //   ...values,
-  //   image1_path: base64Images[0] as File,
-  //   image2_path: base64Images[1] as File,
-  //   image3_path: base64Images[2] as File,
-  //   image4_path: base64Images[3] as File,
-  //   hex_codes: hexCodes.value
-  // })
-  console.log({
+  emit("submit", {
     ...values,
     image1_path: base64Images[0] as File,
     image2_path: base64Images[1] as File,
     image3_path: base64Images[2] as File,
     image4_path: base64Images[3] as File,
     hex_codes: hexCodes.value
-  });
-
+  })
 })
 
 const handleImage = (imageFile: File | null, index?: number) => {
@@ -244,8 +232,8 @@ const handleImage = (imageFile: File | null, index?: number) => {
   }
 }
 
-const handleHexaCodes = (passedHexCodes: string []) => {
+const handleHexCodes = (passedHexCodes: string[]) => {
   hexCodes.value = passedHexCodes
 }
 
-</script>
+</script>@/categories/services/categories-service
