@@ -34,7 +34,7 @@
         <div class="flex items-center gap-4">
           <img
             class="w-40 rounded-lg my-2 border border-gray-200"
-            :src="category.image_path"
+            :src="`${storage}/${category.image_path}`"
             alt=""
           >
           <p class="text-xl">
@@ -72,6 +72,8 @@ import {
 import { useQuery } from "@tanstack/vue-query";
 import { ref } from "vue";
 import { getCategories } from "../services/categories-service";
+
+const storage = import.meta.env.VITE_API_Storage
 
 const listParams = ref<PaginationParams>({
   page: 1,

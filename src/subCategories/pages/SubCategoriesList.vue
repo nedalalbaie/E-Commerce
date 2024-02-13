@@ -34,12 +34,11 @@
         <div class="flex items-center gap-4">
           <img
             class="w-40 rounded-lg my-2 border border-gray-200"
-            :src="category.image_path"
+            :src="`${storage}/${category.image_path}`"
             alt=""
           >
           <p class="text-xl">
-            {{ category.name }} 
-            <!-- {{ category.description }} -->
+            {{ category.name }} - {{ category.description }} 
           </p>
         </div>
         <div class="flex flex-col md:flex-row gap-4">
@@ -74,6 +73,8 @@ import {
 import { useQuery } from "@tanstack/vue-query";
 import { ref } from "vue";
 import { getSubCategories } from "../subCategories-service";
+
+const storage = import.meta.env.VITE_API_Storage
 
 const listParams = ref<PaginationParams>({
   page: 1,

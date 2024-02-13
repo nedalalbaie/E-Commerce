@@ -17,56 +17,61 @@
       </div>
     </div>
 
-    <div class="bg-white grid grid-cols-[60%40%] rounded-md shadow-md mt-10">
-      <div class="p-8 flex flex-col justify-between gap-8">
-        <div>
-          <div class="flex gap-2 text-2xl font-medium mt-4">
-            <p>متجر Bananna</p>
-            <p class="text-green-700">
-              - مفعل
+    <div class="grid grid-cols-[60%40%] ">
+      <div
+        v-for="ad in ads.data.value?.data"
+        :key="ad.id"
+        class="rounded-md shadow-md bg-white mt-10"
+      >
+        <div class="p-8 flex flex-col justify-between gap-8">
+          <div>
+            <div class="flex gap-2 text-2xl font-medium mt-4">
+              <p>متجر Bananna</p>
+              <p class="text-green-700">
+                - مفعل
+              </p>
+            </div>
+            <p class=" mt-8 text-lg">
+              {{ ad.description }}
             </p>
           </div>
-          <p class=" mt-8 text-lg">
-            يعلن متجر Banana عن تخفيض في اغذية الموز للأطفال يصل إلى 35٪!
-          </p>
+
+          <div class="flex gap-5">
+            <v-btn
+              size="large"
+              rounded="xl"
+              variant="elevated"
+              color="primary"
+              :to="{path: 'edit-ad', params: {id: ad.id}}"
+            >
+              تعديل
+              <template #prepend>
+                <EditIcon />
+              </template>
+            </v-btn>
+
+            <v-btn
+              size="large"
+              rounded="xl"
+              variant="elevated"
+              color="#004C6B"
+              type="submit"
+            >
+              حذف
+              <template #prepend>
+                <DeleteIcon fill="fill-white" />
+              </template>
+            </v-btn>
+          </div>
         </div>
 
-        <!-- to="{path: 'edit-ad', params: {id: order.id}}" -->
-        <div class="flex gap-5">
-          <v-btn
-            size="large"
-            rounded="xl"
-            variant="elevated"
-            color="primary"
-            :to="{ name: 'edit-ad' }"
+        <div>
+          <img
+            :src="`${storage}/${ad.url}`"
+            alt=""
+            class="w-full max-h-64 object-cover object-center rounded-l-md"
           >
-            تعديل
-            <template #prepend>
-              <EditIcon />
-            </template>
-          </v-btn>
-
-          <v-btn
-            size="large"
-            rounded="xl"
-            variant="elevated"
-            color="#004C6B"
-            type="submit"
-          >
-            حذف
-            <template #prepend>
-              <DeleteIcon fill="fill-white" />
-            </template>
-          </v-btn>
         </div>
-      </div>
-
-      <div>
-        <img
-          src="../../assets/images/bannan.png"
-          alt=""
-          class="w-full max-h-64 object-cover object-center rounded-l-md"
-        >
       </div>
     </div>
   </div>
@@ -79,6 +84,8 @@ import { useQuery } from "@tanstack/vue-query";
 import EditIcon from "@/core/components/icons/EditIcon.vue";
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
 import CheckIcon from "@/core/components/icons/CheckIcon.vue";
+
+const storage = import.meta.env.VITE_API_Storage
   
 const listParams = ref<PaginationParams>({
   page: 1,

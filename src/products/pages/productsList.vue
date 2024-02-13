@@ -141,8 +141,10 @@ const products = useQuery({
   select: (response) => response.data 
 })
 
+const storage = import.meta.env.VITE_API_Storage
+
 const getBackgroundImage = (url: string) => ({
-  backgroundImage: `url(${url})`
+  backgroundImage: `${storage}/url(${url})`
 })
 
 // const products = [
