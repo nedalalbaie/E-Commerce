@@ -27,7 +27,7 @@
 
     <div class="mt-8">
       <div
-        v-for="category in categories.data.value?.results"
+        v-for="category in categories.data.value?.result"
         :key="category.id"
         class="flex justify-between items-center bg-white rounded-lg p-6 mt-4 shadow-md"
       >
