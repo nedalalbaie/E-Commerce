@@ -18,8 +18,8 @@ const queryClient = useQueryClient()
 const addSubCategoryMutation = useMutation({
     mutationFn: addSubCategory,
     onSuccess: () => {
-        router.replace({ name: 'categories' })
-        queryClient.invalidateQueries({ queryKey: ['categories'] })
+        router.replace({ name: 'subCategories' })
+        queryClient.invalidateQueries({ queryKey: ['subCategories'] })
     },
     onError: (error) => {
         console.log(error)

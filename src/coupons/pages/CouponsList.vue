@@ -78,7 +78,7 @@ const listParams = ref<PaginationParams>({
 const coupones = useQuery({
   queryKey: ['coupones', listParams],
   queryFn: () => getCoupons(listParams.value),
-  select: (response) => response.data
+  select: (response) => response.result
 })
 
 const headers = [

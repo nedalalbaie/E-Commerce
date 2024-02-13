@@ -4,7 +4,7 @@ import type { Discount, DiscountFormRequest } from './models/discount'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 
-const getDiscounts = (params: PaginationParams): Promise<{ data: List<Discount[]> }> => {
+const getDiscounts = (params: PaginationParams): Promise<{ result: List<Discount[]> }> => {
   return apiClient
     .addon(queryString)
     .url('/discount')

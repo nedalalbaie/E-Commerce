@@ -4,7 +4,7 @@ import type { Coupon, CouponFormRequest } from './models/coupon'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 
-const getCoupons = (params: PaginationParams): Promise<{ data: List<Coupon[]> }> => {
+const getCoupons = (params: PaginationParams): Promise<{ result: List<Coupon[]> }> => {
   return apiClient
     .addon(queryString)
     .url('/coupons')

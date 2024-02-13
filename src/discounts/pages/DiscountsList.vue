@@ -25,10 +25,10 @@
     </v-btn>
   </div>
  
-  <!-- <LoadingSkeleton v-if="discounts.isPending.value" /> -->
+  <LoadingSkeleton v-if="discounts.isPending.value" />
 
   <div
-    v-if="discounts"
+    v-if="discounts.data.value"
     class="shadow-lg rounded-lg mt-4 border border-gray-200"
   >
     <v-data-table-server
@@ -36,8 +36,8 @@
       :items-per-page="listParams.limit"
       :page="listParams.page"
       :headers="headers"
-      :items-length="discounts.length"
-      :items="discounts"
+      :items-length="discounts.data.value.data.length"
+      :items="discounts.data.value.data"
       @update:options="onTableOptionsChange({ page: $event.page, limit: $event.itemsPerPage })"
     >
       <template #[`item.actions`]="{ item }">
@@ -60,7 +60,7 @@ import {
   mdiTagEdit
 } from '@mdi/js'
 import { ref } from "vue";
-// import { getDiscounts } from "../discounts-service"
+import { getDiscounts } from "../discounts-service"
 import type { PaginationParams } from '@/core/models/pagination-params'
 import { useQuery } from "@tanstack/vue-query";
 import debounce from 'lodash.debounce'
@@ -74,30 +74,11 @@ const listParams = ref<PaginationParams>({
   category_id: undefined
 })
 
-// const discounts = useQuery({
-//   queryKey: ['discounts', listParams],
-//   queryFn: () => getDiscounts(listParams.value),
-//   select: (response) => response.data
-// })
-
-const discounts = [
-  {
-    id: 1,
-    code: '343',
-    discount_type: 'percentage',
-    amount: 203,
-    start_date: '2024/5/6',
-    end_date: '2025/6/8'
-  },
-  {
-    id: 2,
-    code: '343',
-    discount_type: 'fixed',
-    amount: 350,
-    start_date: '2024/5/6',
-    end_date: '2025/6/8'
-  },
-]
+const discounts = useQuery({
+  queryKey: ['discounts', listParams],
+  queryFn: () => getDiscounts(listParams.value),
+  select: (response) => response.result
+})
 
 const headers = [
   { title: 'الكود', value: 'code', width: '300px', sortable: false, },
@@ -116,7 +97,7 @@ const onTableOptionsChange = ({ page, limit }: PaginationParams) => {
 }
 
 const handleSearch = debounce(() => {
-  listParams.value.name = searchValue.value
+  listParams.value.productName = searchValue.value
 }, 300)
 
 </script>

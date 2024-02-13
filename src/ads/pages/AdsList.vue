@@ -77,9 +77,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
 import { getAds } from "../ads-service"
-import type { PaginationParams } from '@/core/models/pagination-params'
 import { useQuery } from "@tanstack/vue-query";
 import EditIcon from "@/core/components/icons/EditIcon.vue";
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
@@ -87,17 +85,10 @@ import CheckIcon from "@/core/components/icons/CheckIcon.vue";
 
 const storage = import.meta.env.VITE_API_Storage
   
-const listParams = ref<PaginationParams>({
-  page: 1,
-  limit: 10,
-  productName: undefined,
-  category_id: undefined
-})
-
 const ads = useQuery({
-  queryKey: ['ads', listParams],
-  queryFn: () => getAds(listParams.value),
-  select: (response) => response.data
+  queryKey: ['ads'],
+  queryFn: () => getAds(),
+  select: (response) => response.result
 })
 
 </script>

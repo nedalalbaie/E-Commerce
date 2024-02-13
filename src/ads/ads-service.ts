@@ -1,15 +1,11 @@
 import apiClient from '@/core/helpers/api-client'
-import queryString from 'wretch/addons/queryString'
 import formData from 'wretch/addons/formData'
 import type { Ad, PostAdRequest, PatchAdRequest } from './models/ads'
-import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 
-const getAds = (params: PaginationParams): Promise<{ data: List<Ad[]> }> => {
+const getAds = (): Promise<{ result: List<Ad[]> }> => {
   return apiClient
-    .addon(queryString)
     .url('/ads')
-    .query(params)
     .get()
     .notFound(() => ({
       data: [],

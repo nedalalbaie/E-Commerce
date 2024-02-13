@@ -144,19 +144,7 @@ const products = useQuery({
 const storage = import.meta.env.VITE_API_Storage
 
 const getBackgroundImage = (url: string) => ({
-  backgroundImage: `${storage}${url})`
+  backgroundImage: `${storage}${url}`
 })
 
-// const products = [
-//   {
-//     id: "",
-//     name: "سرير مواليد Happy Baby",
-//     product_code: "string",
-//     description: "بدلة اولاد 100% قطن",
-//     category_id: "number",
-//     price: "29.00 ",
-//     inventory_level: "number",
-//     image1_path: "./src/assets/images/river.jpg"
-//   },
-// ]
 </script>
