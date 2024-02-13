@@ -138,7 +138,7 @@ const listParams = ref<PaginationParams>({
 const products = useQuery({
   queryKey: ['products', listParams],
   queryFn: () => getProducts(listParams.value),
-  select: (response) => response.data 
+  select: (response) => response.result 
 })
 
 const storage = import.meta.env.VITE_API_Storage
