@@ -32,7 +32,7 @@
     <div
       v-for="ad in ads.data.value?.data"
       :key="ad.id"
-      class="rounded-md shadow-md bg-white mt-10"
+      class="flex justify-center rounded-md shadow-md bg-white mt-10"
     >
       <div class="p-8 flex flex-col justify-between gap-8">
         <div>
