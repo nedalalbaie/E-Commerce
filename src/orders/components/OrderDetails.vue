@@ -76,7 +76,7 @@
     <div class="grid grid-cols-3 px-8 py-6">
       <p>الزبون</p>
       <p>رقم الهاتف</p>
-      <p>العنوان</p>
+      <p>{{ props.order?.shipping_address }}</p>
     </div>
   </div>
 
@@ -90,7 +90,7 @@
     <slot />
 
     <div class="bg-primary-100 text-white px-8 py-2 text-xl text-center">
-      <p>الإجمالي 3450.00 د.ل</p>
+      <p>الإجمالي {{ props.order?.total_price }} د.ل</p>
     </div>
   </div>
 

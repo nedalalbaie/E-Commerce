@@ -24,6 +24,9 @@
         إضافة منتج
       </v-btn>
     </div>
+    <div v-if="!products.data.value">
+      <LoadingProducts />
+    </div>
     <div class="grid grid-cols-productsCards gap-x-4 gap-y-8 mt-6">
       <div
         v-for="product in products.data.value?.data"
@@ -33,7 +36,10 @@
         <p class="text-xl text-center">
           {{ product.name }}
         </p>
-        <div class="relative h-64 bg-product bg-cover bg-center mt-2">
+        <div
+          class="relative h-64 bg-cover bg-center mt-2"
+          :style="getBackgroundImage(product.image1_path)"
+        >
           <p class="absolute top-0 left-0 bg-red-600 rounded-br-xl text-white px-3">
             20% 
           </p>
@@ -110,13 +116,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { getProducts } from "../products-service"
 import type { PaginationParams } from '@/core/models/pagination-params'
 import SearchIcon from "@/core/components/icons/SearchIcon.vue";
 import { useQuery } from "@tanstack/vue-query";
 import EditIcon from "@/core/components/icons/EditIcon.vue";
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
+import LoadingProducts from "../components/LoadingProducts.vue";
 import {
   mdiPlus
 } from '@mdi/js'

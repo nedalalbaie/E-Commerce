@@ -131,6 +131,11 @@ const submit = handleSubmit(values => {
     ...values,
     image_path: selectedImage.value as File
   })
+  console.log({
+    ...values,
+    image_path: selectedImage.value as File
+  });
+  
 })
 
 const handleImage = (image: File | null) => {
