@@ -1,5 +1,6 @@
 import apiClient from '@/core/helpers/api-client'
 import queryString from 'wretch/addons/queryString'
+import formData from 'wretch/addons/formData'
 import type { Ad, PostAdRequest, PatchAdRequest } from './models/ads'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
@@ -18,15 +19,14 @@ const getAds = (params: PaginationParams): Promise<{ data: List<Ad[]> }> => {
 }
 
 const getAd = (id: number): Promise<Ad> => {
-  return apiClient
-   .url(`/ads/${id}`)
-   .get()
-   .json()
+  return apiClient.url(`/ads/${id}`).get().json()
 }
 
 const postAd = (body: PostAdRequest): Promise<Ad> => {
   return apiClient
+    .addon(formData)
     .url('/ads')
+    .formData(body)
     .post(body)
     .json((res) => {
       return res
@@ -35,7 +35,9 @@ const postAd = (body: PostAdRequest): Promise<Ad> => {
 
 const patchAd = (id: string, body: Partial<PatchAdRequest>): Promise<Ad> => {
   return apiClient
+    .addon(formData)
     .url(`/ads/${id}`)
+    .formData(body)
     .patch(body)
     .json((res) => {
       return res
@@ -43,10 +45,7 @@ const patchAd = (id: string, body: Partial<PatchAdRequest>): Promise<Ad> => {
 }
 
 const deleteAd = (id: number) => {
-  return apiClient
-   .url(`/ads/${id}`)
-   .delete()
-   .json()
+  return apiClient.url(`/ads/${id}`).delete().json()
 }
 
 export { getAds, getAd, postAd, patchAd, deleteAd }
