@@ -1,6 +1,18 @@
 <template>
   <div>
-    <div class="flex items-center justify-between mt-6">
+    <div class="flex justify-end">
+      <v-btn
+        :append-icon="mdiPlus"
+        :to="{ name: 'add-category' }"
+        color="primary"
+        size="large"
+        rounded="xl"
+        variant="elevated"
+      >
+        إضافة تصنيف
+      </v-btn>
+    </div>
+    <div class="flex items-center justify-between mt-8">
       <h1 class="text-3xl">
         الإعلانات
         <span>(3)</span>
@@ -80,6 +92,9 @@ import { useQuery } from "@tanstack/vue-query";
 import EditIcon from "@/core/components/icons/EditIcon.vue";
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
 import CheckIcon from "@/core/components/icons/CheckIcon.vue";
+import {
+    mdiPlus
+} from '@mdi/js'
 
 const storage = import.meta.env.VITE_API_Storage
   
