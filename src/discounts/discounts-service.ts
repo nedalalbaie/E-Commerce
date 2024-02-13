@@ -7,7 +7,7 @@ import type { List } from '@/core/models/list'
 const getDiscounts = (params: PaginationParams): Promise<{ result: List<Discount[]> }> => {
   return apiClient
     .addon(queryString)
-    .url('/discount')
+    .url('/discounts')
     .query(params)
     .get()
     .notFound(() => ({
@@ -17,12 +17,12 @@ const getDiscounts = (params: PaginationParams): Promise<{ result: List<Discount
 }
 
 const getDiscount = (id: number): Promise<Discount> => {
-  return apiClient.url(`/discount/${id}`).get().json()
+  return apiClient.url(`/discounts/${id}`).get().json()
 }
 
 const postDiscount = (body: DiscountFormRequest): Promise<Discount> => {
   return apiClient
-    .url('/discount')
+    .url('/discounts')
     .post(body)
     .json((res) => {
       return res
@@ -31,7 +31,7 @@ const postDiscount = (body: DiscountFormRequest): Promise<Discount> => {
 
 const editDiscount = (id: number, body: Partial<DiscountFormRequest>): Promise<Discount> => {
   return apiClient
-    .url(`/discount/${id}`)
+    .url(`/discounts/${id}`)
     .put(body)
     .json((res) => {
       return res

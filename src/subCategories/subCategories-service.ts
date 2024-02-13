@@ -7,7 +7,7 @@ import type { PaginationParams } from '@/core/models/pagination-params'
 const getSubCategories = (params: PaginationParams): Promise<{result : SubCategory[]}> => {
   return apiClient
     .addon(queryString)
-    .url('/subCategory')
+    .url('/subCategories')
     .query(params)
     .get()
     .notFound(() => ({
@@ -18,13 +18,13 @@ const getSubCategories = (params: PaginationParams): Promise<{result : SubCatego
 }
 
 const getSubCategory = (id: number): Promise<SubCategory> => {
-  return apiClient.url(`/subCategory/${id}`).get().json()
+  return apiClient.url(`/subCategories/${id}`).get().json()
 }
 
 const getSubCategoryByCategoryId = (categoryId: number): Promise<SubCategory> => {
   return apiClient
     .addon(queryString)
-    .url(`/subCategory`)
+    .url(`/subCategories`)
     .query({ cat_id: categoryId })
     .get().json()
 }
@@ -32,7 +32,7 @@ const getSubCategoryByCategoryId = (categoryId: number): Promise<SubCategory> =>
 const addSubCategory = (body: CreateOrPatchSubCategory): Promise<SubCategory> => {
   return apiClient
     .addon(formData)
-    .url('/subCategory')
+    .url('/subCategories')
     .formData(body)
     .post()
     .json((res) => {
@@ -43,7 +43,7 @@ const addSubCategory = (body: CreateOrPatchSubCategory): Promise<SubCategory> =>
 const editSubCategory = (id: number, body: CreateOrPatchSubCategory): Promise<SubCategory> => {
   return apiClient
     .addon(formData)
-    .url(`/subCategory/${id}`)
+    .url(`/subCategories/${id}`)
     .formData(body)
     .put()
     .json((res) => {

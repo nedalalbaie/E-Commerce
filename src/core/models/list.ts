@@ -1,6 +1,6 @@
 export type List<T> = {
   current_page: number;
-  total: number; // totalPages 
-  per_page: number; // totalRecords
+  total: number; 
+  per_page: number; 
   data: T
 }

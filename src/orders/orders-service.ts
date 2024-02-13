@@ -7,7 +7,7 @@ import type { List } from '@/core/models/list'
 const getOrders = (params: PaginationParams): Promise<{ data: List<Order[]> }> => {
   return apiClient
     .addon(queryString)
-    .url('/order')
+    .url('/orders')
     .query(params)
     .get()
     .notFound(() => ({
@@ -19,14 +19,14 @@ const getOrders = (params: PaginationParams): Promise<{ data: List<Order[]> }> =
 
 const getOrder = (id: number): Promise<Order> => {
   return apiClient
-   .url(`/order/${id}`)
+   .url(`/orders/${id}`)
    .get()
    .json()
 }
 
 const postOrder = (body: PostOrderRequest): Promise<Order> => {
   return apiClient
-    .url('/order')
+    .url('/orders')
     .post(body)
     .json((res) => {
       return res
@@ -35,11 +35,8 @@ const postOrder = (body: PostOrderRequest): Promise<Order> => {
 
 const patchOrder = (id: number, body: Partial<PatchOrderRequest>): Promise<Order> => {
   return apiClient
-    .url(`/order/${id}`)
-    .patch({
-      id,
-      ...body
-    })
+    .url(`/orders/${id}`)
+    .patch(body)
     .json((res) => {
       return res
     })
@@ -47,7 +44,7 @@ const patchOrder = (id: number, body: Partial<PatchOrderRequest>): Promise<Order
 
 const cancelOrder = (id: number) => {
   return apiClient
-   .url(`/order/${id}`)
+   .url(`/orders/${id}`)
    .delete()
    .json()
 }

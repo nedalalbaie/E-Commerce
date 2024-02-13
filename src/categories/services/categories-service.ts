@@ -7,7 +7,7 @@ import type { PaginationParams } from '@/core/models/pagination-params'
 const getCategories = (params: PaginationParams): Promise<{ result: Category[] }> => {
   return apiClient
     .addon(queryString)
-    .url('/category')
+    .url('/categories')
     .query(params)
     .get()
     .notFound(() => ({
@@ -20,7 +20,7 @@ const getCategories = (params: PaginationParams): Promise<{ result: Category[] }
 const addCategory = (body: AddCategoryRequest): Promise<Category> => {
   return apiClient
     .addon(formData)
-    .url('/category')
+    .url('/categories')
     .formData(body)
     .post()
     .json((res) => {
@@ -31,7 +31,7 @@ const addCategory = (body: AddCategoryRequest): Promise<Category> => {
 const editCategory = (id: string, body: EditCategoryRequest): Promise<Category> => {
   return apiClient
     .addon(formData)
-    .url(`/category/${id}`)
+    .url(`/categories/${id}`)
     .formData(body)
     .put()
     .json((res) => {

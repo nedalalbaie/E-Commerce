@@ -4,7 +4,7 @@ import type { Customer, CustomerFormRequest } from './models/customer'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 
-const getCustomers = (params: PaginationParams): Promise<{ data: List<Customer[]> }> => {
+const getCustomers = (params: PaginationParams): Promise< List<Customer[]> > => {
   return apiClient
     .addon(queryString)
     .url('/customers')
