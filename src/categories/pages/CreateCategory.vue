@@ -9,7 +9,7 @@
 </template>
 <script setup lang="ts">
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import { addCategory } from "../categories-service"
+import { addCategory } from "../services/categories-service"
 import router from "@/router";
 import CategoryForm from "../components/CategoryForm.vue"
 import type { AddCategoryRequest } from '../models/Category';
@@ -29,4 +29,4 @@ const addCategoryMutation = useMutation({
 const handleSubmit = (payload: AddCategoryRequest) => {
     addCategoryMutation.mutate(payload)
 }
-</script>
+</script>../services/categories-service

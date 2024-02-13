@@ -72,6 +72,7 @@ const toggleTheme = () => {
 const navRoutes = [
     { title: 'المنتجات', icon: ProductIcon, alt: 'Products', route: '/products' },
     { title: 'التصنيفات', icon: CategoryIcon, alt: 'Categories',  route: '/categories' },
+    { title: 'التصنيفات الفرعية', icon: CategoryIcon, alt: 'Sub Categories',  route: '/subCategories' },
     { title: 'الطلبات', icon: ReceiptIcon, alt: 'Orders', route: '/orders' },
     { title: 'الإعلانات', icon: AdsIcon, alt: 'Ads', route: '/ads' },
     { title: 'الزبائن', icon: mdiAccountMultiple, alt: 'Users', route: '/customers' },

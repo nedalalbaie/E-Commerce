@@ -26,19 +26,19 @@
     </div>
     <div class="grid grid-cols-productsCards gap-x-4 gap-y-8 mt-6">
       <div
-        v-for="i in 5"
-        :key="i"
+        v-for="product in products.data.value?.data"
+        :key="product.id"
         class="bg-white shadow-lg rounded-lg p-4"
       >
         <p class="text-xl text-center">
-          سرير مواليد Happy Baby
+          {{ product.name }}
         </p>
         <div class="relative h-64 bg-product bg-cover bg-center mt-2">
           <p class="absolute top-0 left-0 bg-red-600 rounded-br-xl text-white px-3">
-            20%
+            20% 
           </p>
           <p class="absolute bottom-0 right-0 bg-gray-600 rounded-tl-xl text-white px-3 py-2">
-            199.00 299.00 دل
+            {{ product.price }} دل
           </p>
         </div>
   
@@ -47,7 +47,7 @@
             الوصف
           </p>
           <p class="w-1/2 text-center">
-            سرير مواليد من شركة Happy Baby
+            {{ product.description }}
           </p>
         </div>
         <div class="mt-4 flex items-center border-b border-gray-700">
@@ -79,7 +79,7 @@
             الكمية
           </p>
           <p class="w-1/2 text-center">
-            27
+            {{ product.inventory_level }}
           </p>
         </div>
         <div class="mt-4 flex items-center border-b border-gray-700">
@@ -91,12 +91,13 @@
           </p>
         </div>
         <div class="flex justify-center gap-4 mt-6 text-white">
-          <button
+          <a
             class="flex items-center gap-2 bg-primary-100 hover:bg-primary-400 transition-colors duration-150 px-4 py-1 rounded-xl"
+            :href="`/products/edit/${product.id}`"
           >
             <span>تعديل</span>
             <EditIcon />
-          </button>
+          </a>
           <button
             class="flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 transition-colors duration-150 px-4 py-1 rounded-xl"
           >
@@ -127,25 +128,26 @@ const listParams = ref<PaginationParams>({
   categoryId: undefined
 })
 
-// const products = useQuery({
-//   queryKey: ['products', listParams],
-//   queryFn: () => getProducts(listParams.value)
-// })
+const products = useQuery({
+  queryKey: ['products', listParams],
+  queryFn: () => getProducts(listParams.value),
+  select: (response) => response.data 
+})
 
-// const getBackgroundImage = (url: string) => ({
-//   backgroundImage: `url(${url})`
-// })
+const getBackgroundImage = (url: string) => ({
+  backgroundImage: `url(${url})`
+})
 
-const products = [
-  {
-    id: "",
-    name: "سرير مواليد Happy Baby",
-    product_code: "string",
-    description: "بدلة اولاد 100% قطن",
-    category_id: "number",
-    price: "29.00 ",
-    inventory_level: "number",
-    image1_path: "../../../assets/images/bed.png"
-  },
-]
+// const products = [
+//   {
+//     id: "",
+//     name: "سرير مواليد Happy Baby",
+//     product_code: "string",
+//     description: "بدلة اولاد 100% قطن",
+//     category_id: "number",
+//     price: "29.00 ",
+//     inventory_level: "number",
+//     image1_path: "./src/assets/images/river.jpg"
+//   },
+// ]
 </script>

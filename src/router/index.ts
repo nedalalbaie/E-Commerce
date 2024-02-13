@@ -9,6 +9,7 @@ import adsRoutes from '@/ads/ads.routes'
 import customersRoutes from "@/customers/customer.routes"
 import couponsRoutes from '@/coupons/coupons.routes'
 import discountsRoutes from '@/discounts/discounts.routes'
+import subCategoriesRoutes from '@/subCategories/subCategories.routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,10 @@ const router = createRouter({
         {
           path: 'categories',
           children: categoriesRoutes
+        },
+        {
+          path: 'subCategories',
+          children: subCategoriesRoutes
         },
         {
           path: 'orders',

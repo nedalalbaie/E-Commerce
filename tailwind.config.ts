@@ -23,7 +23,7 @@ export default {
         logo: 'clamp(8rem, -1.7895rem + 50.5263vw, 14rem);'
       },
       backgroundImage: {
-        product: "url('./src/assets/images/bed.png')"
+        product: "url('./src/assets/images/river.jpg')"
       },
       gridTemplateColumns: {
         productsCards: "repeat(auto-fill, minmax(330px, 1fr))"

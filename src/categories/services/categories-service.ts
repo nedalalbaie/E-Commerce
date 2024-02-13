@@ -1,7 +1,7 @@
 import apiClient from '@/core/helpers/api-client'
 import queryString from 'wretch/addons/queryString'
 import formData from 'wretch/addons/formData'
-import type { AddCategoryRequest, Category, EditCategoryRequest } from './models/Category'
+import type { AddCategoryRequest, Category, EditCategoryRequest } from '../models/Category'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 

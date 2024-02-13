@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="text-3xl">
-      التصنيفات
+      التصنيفات الفرعية
       <span>(20 )</span>
     </h1>
     <div class="md:flex items-center justify-between mt-6">
@@ -15,31 +15,32 @@
       </div>
       <v-btn
         :append-icon="mdiPlus"
-        :to="{ name: 'add-category' }"
+        :to="{ name: 'add-subCategories' }"
         color="primary"
         size="large"
         rounded="xl"
         variant="elevated"
       >
-        إضافة تصنيف
+        إضافة تصنيف 
       </v-btn>
     </div>
 
     <div class="mt-8">
       <div
-        v-for="category in categories.data.value?.data"
+        v-for="category in subs"
         :key="category.id"
         class="flex justify-between items-center bg-white rounded-lg p-6 mt-4 shadow-md"
       >
-        <p class="text-xl">
-          {{ category.name }} - {{ category.description }}
-        </p>
-        <div>
-          <!-- <img
-            class="w-40 h-40 object-cover rounded-lg my-2 border border-gray-200"
+        <div class="flex items-center gap-4">
+          <img
+            class="w-40 rounded-lg my-2 border border-gray-200"
             :src="category.image_path"
             alt=""
-          > -->
+          >
+          <p class="text-xl">
+            {{ category.name }} 
+            <!-- {{ category.description }} -->
+          </p>
         </div>
         <div class="flex flex-col md:flex-row gap-4">
           <v-btn
@@ -47,6 +48,7 @@
             color="primary"
             rounded="xl"
             variant="elevated"
+            :to="{ name: 'edit-subCategories', params: { id: category.id } }"
           >
             تعديل
           </v-btn>
@@ -71,7 +73,7 @@ import {
 } from '@mdi/js'
 import { useQuery } from "@tanstack/vue-query";
 import { ref } from "vue";
-import { getCategories } from "../services/categories-service";
+import { getSubCategories } from "../subCategories-service";
 
 const listParams = ref<PaginationParams>({
   page: 1,
@@ -80,10 +82,27 @@ const listParams = ref<PaginationParams>({
   categoryId: undefined
 })
 
-const categories = useQuery({
-  queryKey: ['categories', listParams],
-  queryFn: () => getCategories(listParams.value)
-})
+// const subCategories = useQuery({
+//   queryKey: ['subCategories', listParams],
+//   queryFn: () => getSubCategories(listParams.value)
+// })
+
+const subs = [
+  {
+    id: 50,
+    name: 'الإلكترونات',
+    description: '',
+    image_path: './src/assets/images/mountains.jpg',
+    cat_id: 'dffdf',
+  },
+  {
+    id: 50,
+    name: 'الأجهزة الكهربائية',
+    description: '',
+    image_path: './src/assets/images/river.jpg',
+    cat_id: 'dffdf',
+  },
+]
 
 
-</script>../services/categories-service
+</script>
