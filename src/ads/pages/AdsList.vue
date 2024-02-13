@@ -17,61 +17,59 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-[60%40%] ">
-      <div
-        v-for="ad in ads.data.value?.data"
-        :key="ad.id"
-        class="rounded-md shadow-md bg-white mt-10"
-      >
-        <div class="p-8 flex flex-col justify-between gap-8">
-          <div>
-            <div class="flex gap-2 text-2xl font-medium mt-4">
-              <p>متجر Bananna</p>
-              <p class="text-green-700">
-                - مفعل
-              </p>
-            </div>
-            <p class=" mt-8 text-lg">
-              {{ ad.description }}
+    <div
+      v-for="ad in ads.data.value?.data"
+      :key="ad.id"
+      class="rounded-md shadow-md bg-white mt-10"
+    >
+      <div class="p-8 flex flex-col justify-between gap-8">
+        <div>
+          <div class="flex gap-2 text-2xl font-medium mt-4">
+            <p>متجر Bananna</p>
+            <p class="text-green-700">
+              - مفعل
             </p>
           </div>
-
-          <div class="flex gap-5">
-            <v-btn
-              size="large"
-              rounded="xl"
-              variant="elevated"
-              color="primary"
-              :to="{path: 'edit-ad', params: {id: ad.id}}"
-            >
-              تعديل
-              <template #prepend>
-                <EditIcon />
-              </template>
-            </v-btn>
-
-            <v-btn
-              size="large"
-              rounded="xl"
-              variant="elevated"
-              color="#004C6B"
-              type="submit"
-            >
-              حذف
-              <template #prepend>
-                <DeleteIcon fill="fill-white" />
-              </template>
-            </v-btn>
-          </div>
+          <p class=" mt-8 text-lg">
+            {{ ad.description }}
+          </p>
         </div>
 
-        <div>
-          <img
-            :src="`${storage}${ad.url}`"
-            alt=""
-            class="w-full max-h-64 object-cover object-center rounded-l-md"
+        <div class="flex gap-5">
+          <v-btn
+            size="large"
+            rounded="xl"
+            variant="elevated"
+            color="primary"
+            :to="{path: 'edit-ad', params: {id: ad.id}}"
           >
+            تعديل
+            <template #prepend>
+              <EditIcon />
+            </template>
+          </v-btn>
+
+          <v-btn
+            size="large"
+            rounded="xl"
+            variant="elevated"
+            color="#004C6B"
+            type="submit"
+          >
+            حذف
+            <template #prepend>
+              <DeleteIcon fill="fill-white" />
+            </template>
+          </v-btn>
         </div>
+      </div>
+
+      <div>
+        <img
+          :src="`${storage}${ad.url}`"
+          alt=""
+          class="w-full max-h-64 object-cover object-center rounded-l-md"
+        >
       </div>
     </div>
   </div>
