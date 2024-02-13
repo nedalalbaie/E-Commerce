@@ -81,7 +81,6 @@ const removeColor = (selectedColor: string, index: number) => {
     colors.value.push(selectedColor);
 }
 
-
 </script>
 
 <style scoped>

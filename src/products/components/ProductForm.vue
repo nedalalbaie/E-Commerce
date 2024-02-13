@@ -103,7 +103,7 @@
     </div>
 
     <div>
-      <ColorPicker @pass-hexcodes="handleHexaCodes" />
+      <ColorPicker @pass-hexcodes="handleHexCodes" />
     </div>
 
     <div class="mt-40">
@@ -219,23 +219,14 @@ const convertQuantityToNumber = () => {
 }
 
 const submit = handleSubmit(values => {
-  // emit("submit", {
-  //   ...values,
-  //   image1_path: base64Images[0] as File,
-  //   image2_path: base64Images[1] as File,
-  //   image3_path: base64Images[2] as File,
-  //   image4_path: base64Images[3] as File,
-  //   hex_codes: hexCodes.value
-  // })
-  console.log({
+  emit("submit", {
     ...values,
     image1_path: base64Images[0] as File,
     image2_path: base64Images[1] as File,
     image3_path: base64Images[2] as File,
     image4_path: base64Images[3] as File,
     hex_codes: hexCodes.value
-  });
-
+  })
 })
 
 const handleImage = (imageFile: File | null, index?: number) => {
@@ -244,7 +235,7 @@ const handleImage = (imageFile: File | null, index?: number) => {
   }
 }
 
-const handleHexaCodes = (passedHexCodes: string []) => {
+const handleHexCodes = (passedHexCodes: string []) => {
   hexCodes.value = passedHexCodes
 }
 
