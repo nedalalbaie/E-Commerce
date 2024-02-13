@@ -3,7 +3,7 @@
     <div class="flex justify-end">
       <v-btn
         :append-icon="mdiPlus"
-        :to="{ name: 'add-category' }"
+        :to="{ name: 'add-ad' }"
         color="primary"
         size="large"
         rounded="xl"
