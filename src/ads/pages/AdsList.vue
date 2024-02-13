@@ -67,7 +67,7 @@
 
         <div>
           <img
-            :src="`${storage}/${ad.url}`"
+            :src="`${storage}${ad.url}`"
             alt=""
             class="w-full max-h-64 object-cover object-center rounded-l-md"
           >

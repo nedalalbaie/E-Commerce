@@ -132,7 +132,7 @@ const listParams = ref<PaginationParams>({
   page: 1,
   limit: 10,
   name: undefined,
-  categoryId: undefined
+  category_id: undefined
 })
 
 const products = useQuery({
@@ -144,7 +144,7 @@ const products = useQuery({
 const storage = import.meta.env.VITE_API_Storage
 
 const getBackgroundImage = (url: string) => ({
-  backgroundImage: `${storage}/url(${url})`
+  backgroundImage: `${storage}url(${url})`
 })
 
 // const products = [

@@ -172,7 +172,7 @@ const listParams = ref({
 const subCategories = useQuery({
   queryKey: ['sub-categories', listParams],
   queryFn: () => getSubCategories(listParams.value),
-  select: (response) => response.data
+  select: (response) => response.result
 })
 
 const validationSchema = toTypedSchema(

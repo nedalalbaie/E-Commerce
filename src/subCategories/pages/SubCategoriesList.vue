@@ -34,7 +34,7 @@
         <div class="flex items-center gap-4">
           <img
             class="w-40 rounded-lg my-2 border border-gray-200"
-            :src="`${storage}/${category.image_path}`"
+            :src="`${storage}${category.image_path}`"
             alt=""
           >
           <p class="text-xl">
@@ -80,7 +80,7 @@ const listParams = ref<PaginationParams>({
   page: 1,
   limit: 10,
   name: undefined,
-  categoryId: undefined
+  category_id: undefined
 })
 
 const subCategories = useQuery({
