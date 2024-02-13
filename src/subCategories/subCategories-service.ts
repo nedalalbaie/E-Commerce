@@ -3,9 +3,8 @@ import queryString from 'wretch/addons/queryString'
 import formData from 'wretch/addons/formData'
 import type { SubCategory, CreateOrPatchSubCategory } from './models/subCategory'
 import type { PaginationParams } from '@/core/models/pagination-params'
-import type { List } from '@/core/models/list'
 
-const getSubCategories = (params: PaginationParams): Promise<List<SubCategory[]>> => {
+const getSubCategories = (params: PaginationParams): Promise<{results : SubCategory[]}> => {
   return apiClient
     .addon(queryString)
     .url('/subCategory')

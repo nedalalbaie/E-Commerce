@@ -33,7 +33,7 @@ const postOrder = (body: PostOrderRequest): Promise<Order> => {
     })
 }
 
-const patchOrder = (id: string, body: Partial<PatchOrderRequest>): Promise<Order> => {
+const patchOrder = (id: number, body: Partial<PatchOrderRequest>): Promise<Order> => {
   return apiClient
     .url(`/order/${id}`)
     .patch({

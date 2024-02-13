@@ -3,9 +3,8 @@ import queryString from 'wretch/addons/queryString'
 import formData from 'wretch/addons/formData'
 import type { AddCategoryRequest, Category, EditCategoryRequest } from '../models/Category'
 import type { PaginationParams } from '@/core/models/pagination-params'
-import type { List } from '@/core/models/list'
 
-const getCategories = (params: PaginationParams): Promise<List<Category[]>> => {
+const getCategories = (params: PaginationParams): Promise<{ results: Category[] }> => {
   return apiClient
     .addon(queryString)
     .url('/category')

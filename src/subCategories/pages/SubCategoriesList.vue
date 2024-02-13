@@ -27,7 +27,7 @@
 
     <div class="mt-8">
       <div
-        v-for="category in subs"
+        v-for="category in subCategories.data.value?.results"
         :key="category.id"
         class="flex justify-between items-center bg-white rounded-lg p-6 mt-4 shadow-md"
       >
@@ -82,27 +82,27 @@ const listParams = ref<PaginationParams>({
   categoryId: undefined
 })
 
-// const subCategories = useQuery({
-//   queryKey: ['subCategories', listParams],
-//   queryFn: () => getSubCategories(listParams.value)
-// })
+const subCategories = useQuery({
+  queryKey: ['subCategories', listParams],
+  queryFn: () => getSubCategories(listParams.value)
+})
 
-const subs = [
-  {
-    id: 50,
-    name: 'الإلكترونات',
-    description: '',
-    image_path: './src/assets/images/mountains.jpg',
-    cat_id: 'dffdf',
-  },
-  {
-    id: 50,
-    name: 'الأجهزة الكهربائية',
-    description: '',
-    image_path: './src/assets/images/river.jpg',
-    cat_id: 'dffdf',
-  },
-]
+// const subs = [
+//   {
+//     id: 50,
+//     name: 'الإلكترونات',
+//     description: '',
+//     image_path: './src/assets/images/mountains.jpg',
+//     cat_id: 'dffdf',
+//   },
+//   {
+//     id: 50,
+//     name: 'الأجهزة الكهربائية',
+//     description: '',
+//     image_path: './src/assets/images/river.jpg',
+//     cat_id: 'dffdf',
+//   },
+// ]
 
 
 </script>

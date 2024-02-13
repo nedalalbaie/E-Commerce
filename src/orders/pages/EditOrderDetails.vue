@@ -1,5 +1,8 @@
 <template>
-  <OrderDetails @submit="onSubmit">
+  <OrderDetails
+    :order="order.data.value"
+    @submit="handleSubmit"
+  >
     <template #default>
       <div
         v-for="product in orderProducts"
@@ -77,10 +80,11 @@
 import { reactive } from "vue";
 import OrderDetails from "../components/OrderDetails.vue"
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
-// import router from "@/router";
-// import { useQueryClient, useMutation } from "@tanstack/vue-query";
-// import { patchOrder } from "../orders-service";
 import { useRoute } from "vue-router";
+import router from "@/router";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/vue-query";
+import { patchOrder, getOrder } from "../orders-service";
+import type { PatchOrderRequest } from "../models/order";
 
 const orderProducts = reactive([
     {
@@ -102,21 +106,27 @@ const dialogQuestion = (title: string, id: number) => {
 }
 
 const route = useRoute();
-const id = route.params.id as string;
+const id = Number(route.params.id);
 
-// const queryClient = useQueryClient()
-// const patchOrderMutation = useMutation({
-//   mutationFn: patchOrder,
-//   onSuccess: () => {
-//     router.replace({ name: 'orders' })
-//     queryClient.invalidateQueries({ queryKey: ['orders'] })
-//   },
-//   onError: (error) => {
-//     console.log(error)
-//   }
-// })
+const order = useQuery({
+    queryKey: ['order'],
+    queryFn: () => getOrder(id)
+})
 
-const onSubmit = () => {
-//   patchOrderMutation.mutate(id)
+const queryClient = useQueryClient()
+const patchOrderMutation = useMutation({
+    mutationFn: ({ id, body }: { id: number, body: PatchOrderRequest, }) => patchOrder(id, body),
+    onSuccess: () => {
+        router.replace({ name: 'orders' })
+        queryClient.invalidateQueries({ queryKey: ['orders'] })
+    },
+    onError: (error) => {
+        console.log(error)
+    }
+})
+
+const handleSubmit = (body: PatchOrderRequest) => {
+    patchOrderMutation.mutate({ body, id })
 }
+
 </script>

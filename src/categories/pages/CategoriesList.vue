@@ -27,19 +27,19 @@
 
     <div class="mt-8">
       <div
-        v-for="category in categories.data.value?.data"
+        v-for="category in categories.data.value?.results"
         :key="category.id"
         class="flex justify-between items-center bg-white rounded-lg p-6 mt-4 shadow-md"
       >
-        <p class="text-xl">
-          {{ category.name }} - {{ category.description }}
-        </p>
-        <div>
-          <!-- <img
-            class="w-40 h-40 object-cover rounded-lg my-2 border border-gray-200"
+        <div class="flex items-center gap-4">
+          <img
+            class="w-40 rounded-lg my-2 border border-gray-200"
             :src="category.image_path"
             alt=""
-          > -->
+          >
+          <p class="text-xl">
+            {{ category.name }} - {{ category.description }}
+          </p>
         </div>
         <div class="flex flex-col md:flex-row gap-4">
           <v-btn
@@ -86,4 +86,4 @@ const categories = useQuery({
 })
 
 
-</script>../services/categories-service
+</script>
