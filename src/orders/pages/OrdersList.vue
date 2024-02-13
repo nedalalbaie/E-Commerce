@@ -164,7 +164,7 @@ const listParams = ref<PaginationParams>({
 const orders = useQuery({
   queryKey: ['orders', listParams],
   queryFn: () => getOrders(listParams.value),
-  select: (response) => response.data
+  select: (response) => response.result
 })
 
 const formatToDate = (date: string) => {
