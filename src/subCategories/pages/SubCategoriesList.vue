@@ -79,7 +79,7 @@ const storage = import.meta.env.VITE_API_Storage
 const listParams = ref<PaginationParams>({
   page: 1,
   limit: 10,
-  name: undefined,
+  productName: undefined,
   category_id: undefined
 })
 

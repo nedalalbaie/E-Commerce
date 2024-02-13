@@ -71,8 +71,8 @@ const searchValue = ref('');
 const listParams = ref<PaginationParams>({
   page: 1,
   limit: 10,
-  name: undefined,
-  categoryId: undefined
+  productName: undefined,
+  category_id: undefined
 })
 
 const coupones = useQuery({
@@ -97,7 +97,7 @@ const onTableOptionsChange = ({ page, limit }: PaginationParams) => {
 }
 
 const handleSearch  = debounce(() => {
-    listParams.value.name = searchValue.value
+    listParams.value.productName = searchValue.value
 }, 300)
 
 </script>

@@ -157,8 +157,8 @@ import ViewIconVue from "@/core/components/icons/ViewIcon.vue";
 const listParams = ref<PaginationParams>({
   page: 1,
   limit: 10,
-  name: undefined,
-  categoryId: undefined
+  productName: undefined,
+  category_id: undefined
 })
 
 const orders = useQuery({
