@@ -1,9 +1,9 @@
 type Coupon = {
     id: number;
     coupon_code: string;
-    limit: number;
-    discount_percentage: number;
-    expire_date: string;
+    limit: string | number;
+    discount_percentage: string | number;
+    expire_date: Date;
 }
 
 type CouponFormRequest = Omit<Coupon, | 'id'>

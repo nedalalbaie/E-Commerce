@@ -13,6 +13,7 @@
       <v-text-field
         v-model="limit"
         label="الحد الأعلي"
+        type="number"
         variant="outlined"
         color="primary"
         placeholder="الحد الأعلي"
@@ -29,15 +30,16 @@
         :error-messages="errors.discount_percentage"
       />
 
-      <v-text-field
-        v-model="expire_date"
-        label="إنتهاء الصلاحية"
-        type="text"
-        variant="outlined"
-        color="primary"
-        placeholder="إنتهاء الصلاحية"
-        :error-messages="errors.expire_date"
-      />
+      <div class="mt-8">
+        <v-date-picker
+          v-model="expire_date"
+          color="primary"
+          header="إنتهاء الصلاحية"
+          :border="true"
+          title=""
+          show-adjacent-months
+        />
+      </div>
     </div>
 
     <div class="mt-3">
@@ -57,7 +59,7 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm, useField } from 'vee-validate';
-import { object, string, number } from 'zod';
+import { object, string, number, date } from 'zod';
 import type { Coupon, CouponFormRequest } from "../models/coupon";
 import { computed, watchEffect } from "vue";
 
@@ -74,9 +76,9 @@ const editMode = computed(() => !!props.coupon)
 const validationSchema = toTypedSchema(
     object({
         coupon_code: string().min(1, 'يجب إدخال كود الكوبون '),
-        limit: number().min(1, 'يجب إدخال  الحد الأعلي  '),
-        discount_percentage: number().min(1, 'يجب إدخال نسبة التخفيض  '),
-        expire_date: string().min(1, 'يجب إدخال تاريخ إنتهاء الصلاحية ')
+        limit: string().min(1, 'يجب إدخال  الحد الأعلي  ').or(number().min(1, 'يجب إدخال  الحد الأعلي  ')),
+        discount_percentage: string().min(1, 'يجب إدخال نسبة التخفيض  ').or(number().min(1, 'يجب إدخال نسبة التخفيض  ')),
+        expire_date: date()
     })
 );
 
@@ -85,9 +87,9 @@ const { handleSubmit, errors, meta, setValues } = useForm({
 });
 
 const { value: coupon_code } = useField<string>('coupon_code');
-const { value: limit } = useField<number>('limit');
+const { value: limit } = useField<string>('limit');
 const { value: discount_percentage } = useField<string>('discount_percentage');
-const { value: expire_date } = useField<number>('expire_date');
+const { value: expire_date } = useField<string>('expire_date');
 
 watchEffect(() => {
     if (props.coupon) {

@@ -35,7 +35,7 @@
   
   <div class="mt-8 flex gap-4 relative">
     <div
-      v-for="(color, index) in hex_codes"
+      v-for="(color, index) in hexCodes"
       :key="index"
       class="w-14 h-14 rounded-[50%] shadow-full-white flex items-end"
       :style="{ 'background-color': color }"
@@ -59,23 +59,23 @@ const emit = defineEmits<{
   passHexcodes: [value: string []]
 }>()
  
-const hex_codes = ref<string[]>([])
+const hexCodes = ref<string[]>([])
 const isColorListOpen = ref(false)
 
 const colors = ref(["red", "blue", "white", "Black", "Yellow", "Orange", "Brown", "Purple", "Pink", "green", "gray"])
 
 const addColor = (selectedColor: string) => {
-    hex_codes.value?.push(selectedColor)
+    hexCodes.value?.push(selectedColor)
     colors.value = colors.value.filter((color: string) => color !== selectedColor)
-    emit("passHexcodes", hex_codes.value)  
+    emit("passHexcodes", hexCodes.value)  
 }
 
 const removeColor = (selectedColor: string, index: number) => {
-    if (hex_codes.value) {
-        if (hex_codes.value.length < 2) {
-            hex_codes.value.splice(index, 1)
+    if (hexCodes.value) {
+        if (hexCodes.value.length < 2) {
+            hexCodes.value.splice(index, 1)
         } else {
-            hex_codes.value = hex_codes.value.filter((color: any) => color !== selectedColor)
+            hexCodes.value = hexCodes.value.filter(color => color !== selectedColor)
         }
     }
     colors.value.push(selectedColor);

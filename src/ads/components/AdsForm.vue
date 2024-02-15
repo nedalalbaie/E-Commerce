@@ -22,25 +22,48 @@
       />
     </div>
 
-    <div>
+    <div class="flex gap-14 mt-10">
+      <v-date-picker
+        v-model="start_date"
+        color="primary"
+        header="تاريخ بداية الإعلان"
+        :border="true"
+        title=""
+        show-adjacent-months
+      />
+
+      <v-date-picker
+        v-model="end_date"
+        color="primary"
+        header="تاريخ إنتهاء الإعلان"
+        :border="true"
+        title=""
+        show-adjacent-months
+        height="550px"
+      />
+    </div>
+
+    <div class="mt-4">
       <v-switch
+        v-model="show"
         inset
-        label="تفعيل"
+        :center-affix="true"
+        color="primary"
+        :label="show ? 'تعطيل' : 'تفعيل'"
+        :error-messages="errors.show"
       />
       <p>
-        الإعلان مفعل حالياً وسيظهر للمستخدمين
+        {{ show ? ' الإعلان مفعل حالياً وسيظهر للمستخدمين' : 'الإعلان غير مفعل حاليا' }}
       </p>
     </div>
 
     <div class="mt-8 lg:w-1/4">
-      <AdImageUpload
-        @handle-image="handleImage"
-      />
+      <AdImageUpload @handle-image="handleImage" />
     </div>
 
-    <div class="mt-3">
+    <div class="mt-6">
       <v-btn
-        :disabled="!meta.valid"
+        :disabled="isDisabled"
         size="large"
         variant="elevated"
         color="primary"
@@ -49,62 +72,74 @@
       >
         {{ editMode ? 'تعديل ' : 'حفظ' }}
       </v-btn>
-    </div> 
+    </div>
   </form>
 </template>
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm, useField } from 'vee-validate';
-import { object, string } from 'zod';
-import type { PostAdRequest, Ad } from "../models/ads";
+import { object, string, boolean, date } from 'zod';
+import type { PostOrPatchAdRequest, Ad } from "../models/ads";
 import { computed, ref, watchEffect } from "vue";
 import AdImageUpload from "../components/AdImageUpload.vue"
 
-type AdForm = PostAdRequest
-
 const props = defineProps<{
-    isLoading: boolean,
-    ad?: Ad
+  isLoading: boolean,
+  ad?: Ad
 }>()
 const emit = defineEmits<{
-    submit: [value: AdForm]
+  submit: [value: PostOrPatchAdRequest]
 }>()
 
-const base64Image = ref<File>()
+const imageFile = ref<File>()
 const editMode = computed(() => !!props.ad)
+const isDisabled = computed(() => !meta.value.valid || !imageFile.value)
 
 const validationSchema = toTypedSchema(
-    object({
-        address: editMode.value ? string() : string().min(1, 'يجب إدخال  العنوان '),
-        description: editMode.value ? string() : string().min(1, 'يجب إدخال التفاصيل  '),
-    })
+  object({
+    address: string().min(1, 'يجب إدخال  العنوان '),
+    description: string().min(1, 'يجب إدخال التفاصيل  '),
+    show: boolean(),
+    start_date: date(),
+    end_date: date()
+  })
 );
 
 const { handleSubmit, errors, meta, setValues } = useForm({
-    validationSchema
+  validationSchema,
+  initialValues: {
+    show: false
+  }
 });
 
 const { value: address } = useField<number>('address');
 const { value: description } = useField<string>('description');
+const { value: show } = useField<boolean>('show');
+const { value: start_date } = useField<Date>('start_date');
+const { value: end_date } = useField<Date>('end_date');
 
 watchEffect(() => {
-    if (props.ad) {
-        setValues({
-            address: props.ad.address,
-            description: props.ad.description,
-        })
-    }
+  if (props.ad) {
+    setValues({
+      ...props.ad
+    })
+  }
 })
 
 const submit = handleSubmit(values => {
-    emit("submit", {
-        ...values,
-        url: base64Image.value,
-    })
+  emit("submit", {
+    ...values,
+    url: imageFile.value as File,
+  })
+  console.log({
+    ...values,
+    url: imageFile.value,
+  });
+
 })
 
-const handleImage = (imageFile: File | null ) => {
-    base64Image.value = imageFile as File
+const handleImage = (imageFileParam: File | null) => {
+  imageFile.value = imageFileParam as File
 }
 
 

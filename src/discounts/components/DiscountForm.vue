@@ -45,7 +45,7 @@
       />
     </div>
 
-    <div class="flex gap-10">
+    <div class="flex gap-14 mt-10">
       <v-date-picker
         v-model="start_date"
         color="primary"
@@ -115,8 +115,8 @@ const { handleSubmit, errors, meta, setValues } = useForm({
 const { value: code } = useField<string>('code');
 const { value: discount_type } = useField<number>('discount_type');
 const { value: amount } = useField<number>('amount');
-const { value: start_date } = useField<string>('start_date');
-const { value: end_date } = useField<number>('end_date');
+const { value: start_date } = useField<Date>('start_date');
+const { value: end_date } = useField<Date>('end_date');
 
 watchEffect(() => {
   if (props.discount) {
@@ -127,8 +127,6 @@ watchEffect(() => {
 })
 
 const submit = handleSubmit(values => {
-  console.log(values);
-  
   emit("submit", values)
 })
 

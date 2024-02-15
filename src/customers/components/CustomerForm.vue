@@ -74,7 +74,7 @@ const editMode = computed(() => !!props.customer)
 const validationSchema = toTypedSchema(
   object({
     name: string().min(1, 'يجب إدخال إسم الزبون '),
-    phone_number: string().min(1, 'يجب إدخال  رقم العاتف '),
+    phone_number: string().min(1, 'يجب إدخال  رقم الهاتف '),
     email: string().min(1, 'يجب إدخال الإيميل  '),
     address: string().min(1, 'يجب إختيار العنوان')
   })

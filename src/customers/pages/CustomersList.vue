@@ -6,7 +6,7 @@
     </h1>
 
     <div
-      v-for="customer in customers.data.value?.data"
+      v-for="customer in customers.data.value"
       :key="customer.id"
       class="bg-white rounded-lg shadow-md mt-10 p-8"
     >
@@ -18,7 +18,7 @@
 
         <p>
           <span>
-            العنوان : 
+            العنوان :
           </span>
           <span>
             جنزور
@@ -33,20 +33,20 @@
           variant="elevated"
           color="primary"
           type="submit"
-          :to="{name: 'view-customer', params: {id: customer.id}}"
+          :to="{ name: 'view-customer', params: { id: customer.id } }"
         >
           عرض
           <template #prepend>
             <ViewIconVue />
           </template>
         </v-btn>
-        
+
         <v-btn
           size="large"
           rounded="xl"
           variant="elevated"
           color="primary"
-          :to="{ name: 'edit-customer', params: {id: customer.id} }"
+          :to="{ name: 'edit-customer', params: { id: customer.id } }"
         >
           تعديل
           <template #prepend>
@@ -80,16 +80,16 @@ import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
 import ViewIconVue from "@/core/components/icons/ViewIcon.vue";
 
 const listParams = ref<PaginationParams>({
-    page: 1,
-    limit: 10,
-    productName: undefined,
-    category_id: undefined
+  page: 1,
+  limit: 10,
+  productName: undefined,
+  category_id: undefined
 })
 
 const customers = useQuery({
-    queryKey: ['ads', listParams],
-    queryFn: () => getCustomers(listParams.value),
-    select: (response) => response.data
+  queryKey: ['ads', listParams],
+  queryFn: () => getCustomers(listParams.value),
+  select: (response) => response.data
 })
 
 </script>

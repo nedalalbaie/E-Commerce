@@ -3,13 +3,13 @@ type Ad = {
   address: string
   description: string
   show: boolean
-  start_date: string
-  end_date: string
+  start_date: Date
+  end_date: Date
+  url: string
+}
+
+type PostOrPatchAdRequest = Omit<Ad, | "id" | "url"> & {
   url: File
 }
 
-type PostAdRequest = {}
-
-type PatchAdRequest = {}
-
-export type { Ad, PostAdRequest, PatchAdRequest }
+export type { Ad, PostOrPatchAdRequest }

@@ -14,8 +14,9 @@
     >
       <UploadImageIcon />
     </div>
+    
     <div
-      v-if="base64Image"
+      v-if="base64Image && !isLoading"
       class="relative rounded-lg"
     >
       <img
@@ -25,9 +26,8 @@
       >
       <div
         class="absolute top-0 left-0 h-full w-full flex justify-center items-center "
-        @click="deleteImage"
+        @click="fileUploadClick"
       >
-        <!-- <GarbageIcon /> -->
         <p class="bg-gray-600 bg-opacity-75 border-2 border-gray-600 py-1 px-3 text-white hover:-translate-y-1 transition-all delay-150 cursor-pointer">
           انقر لتغيير الصورة
         </p>
@@ -40,9 +40,8 @@
   </div>
 </template>
   <script setup lang="ts">
-  import { type InputHTMLAttributes, ref } from 'vue'
+  import { type InputHTMLAttributes, ref, watchEffect } from 'vue'
   import UploadImageIcon from "@/core/components/icons/UploadImageIcon.vue"
-  import GarbageIcon from "@/core/components/icons/GarbageIcon.vue"
   import SpinAnimation from '@/core/components/icons/SpinAnimation.vue'
   import { toBase64 } from '@/core/helpers/toBase64'
   /* eslint-disable */
@@ -75,16 +74,18 @@
     fileUpload.value.click()
   }
   
-  const deleteImage = () => {
-    base64Image.value = ""
-    if (fileUpload.value) {
-      fileUpload.value.value = ''
-    }
-    selectedImage.value = null
-    emit('handleImage', selectedImage.value )
-  }
+  // const deleteImage = () => {
+  //   base64Image.value = ""
+  //   if (fileUpload.value) {
+  //     fileUpload.value.value = ''
+  //   }
+  //   selectedImage.value = null
+  //   emit('handleImage', selectedImage.value )
+  // }
   
-  // watchEffect(() => {
-  //     base64Image.value = props.imagePath
-  // })
+  watchEffect(() => {
+    if (props.imagePath) {
+      base64Image.value = props.imagePath
+    }
+  })
   </script>

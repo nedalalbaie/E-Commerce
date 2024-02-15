@@ -88,22 +88,4 @@ const subCategories = useQuery({
   queryFn: () => getSubCategories(listParams.value)
 })
 
-// const subs = [
-//   {
-//     id: 50,
-//     name: 'الإلكترونات',
-//     description: '',
-//     image_path: './src/assets/images/mountains.jpg',
-//     cat_id: 'dffdf',
-//   },
-//   {
-//     id: 50,
-//     name: 'الأجهزة الكهربائية',
-//     description: '',
-//     image_path: './src/assets/images/river.jpg',
-//     cat_id: 'dffdf',
-//   },
-// ]
-
-
 </script>
