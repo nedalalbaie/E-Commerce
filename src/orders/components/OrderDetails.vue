@@ -39,7 +39,7 @@
 
         <template #default="{ isActive }">
           <v-card
-            :title="dialogQuestion(props.order?.order_number as number)"
+            :title="dialogQuestion(definedProps.order?.order_number as number)"
             rounded="lg"
             color="#EFE9F5"
             style="padding-block: 1.75rem !important ;"
@@ -57,7 +57,7 @@
               />
               <v-btn
                 text="نعم"
-                @click="isActive.value = false; onCancelOrder(props.order?.id as number)"
+                @click="isActive.value = false; onCancelOrder(definedProps.order?.id as number)"
               />
             </v-card-actions>
           </v-card>
@@ -76,7 +76,7 @@
     <div class="grid grid-cols-3 px-8 py-6">
       <p>الزبون</p>
       <p>رقم الهاتف</p>
-      <p>{{ props.order?.shipping_address }}</p>
+      <p>{{ definedProps.order?.shipping_address }}</p>
     </div>
   </div>
 
@@ -90,7 +90,7 @@
     <slot />
 
     <div class="bg-primary-100 text-white px-8 py-2 text-xl text-center">
-      <p>الإجمالي {{ props.order?.total_price }} د.ل</p>
+      <p>الإجمالي {{ definedProps.order?.total_price }} د.ل</p>
     </div>
   </div>
 
@@ -107,9 +107,9 @@ import { cancelOrder } from "../orders-service";
 import router from "@/router";
 import { useQueryClient, useMutation } from "@tanstack/vue-query";
 
-// eslint-disable-next-line vue/valid-define-props
-const props = defineProps<{
-  order?: Order
+// eslint-disable-next-line
+const definedProps = defineProps<{
+  order: Order
 }>()
 const emit = defineEmits(["submit"])
 

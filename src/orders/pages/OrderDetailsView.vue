@@ -1,5 +1,5 @@
 <template>
-  <OrderDetails>
+  <OrderDetails :order="orderDetails.data.value!">
     <template #default>
       <div
         v-for="product in orderProducts"
@@ -17,7 +17,18 @@
 </template>
 
 <script setup lang="ts">
+import { getOrder } from "../orders-service";
+import { useQuery } from "@tanstack/vue-query";
+import { useRoute } from "vue-router";
 import OrderDetails from "../components/OrderDetails.vue"
+
+const route = useRoute();
+const id = Number(route.params.id);
+
+const orderDetails = useQuery({
+  queryKey: ['orderDetails'],
+  queryFn: () => getOrder(id)
+})
 
 let orderProducts = [
   {

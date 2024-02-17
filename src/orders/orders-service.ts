@@ -18,10 +18,7 @@ const getOrders = (params: PaginationParams): Promise<{ result: List<Order[]> }>
 }
 
 const getOrder = (id: number): Promise<Order> => {
-  return apiClient
-   .url(`/orders/${id}`)
-   .get()
-   .json()
+  return apiClient.addon(queryString).url(`/get-item-details`).query({ id: id }).get().json()
 }
 
 const postOrder = (body: PostOrderRequest): Promise<Order> => {
@@ -43,10 +40,7 @@ const patchOrder = (id: number, body: Partial<PatchOrderRequest>): Promise<Order
 }
 
 const cancelOrder = (id: number) => {
-  return apiClient
-   .url(`/orders/${id}`)
-   .delete()
-   .json()
+  return apiClient.url(`/orders/${id}`).delete().json()
 }
 
 export { getOrders, getOrder, postOrder, patchOrder, cancelOrder }
