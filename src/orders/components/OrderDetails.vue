@@ -3,7 +3,7 @@
     class="flex items-center justify-between mt-6"
   >
     <h1 class="text-3xl flex items-center gap-2">
-      الطلب #12345 - قيد المعالجة
+      الطلب {{ order.order_details.order_number }}# - قيد المعالجة
       <div class="h-6 w-6 rounded-[50%] bg-orange-300" />
     </h1>
     <div class="flex gap-4">
@@ -39,7 +39,7 @@
 
         <template #default="{ isActive }">
           <v-card
-            :title="dialogQuestion(definedProps.order?.order_number as number)"
+            :title="dialogQuestion(order.order_details.order_number as number)"
             rounded="lg"
             color="#EFE9F5"
             style="padding-block: 1.75rem !important ;"
@@ -57,7 +57,7 @@
               />
               <v-btn
                 text="نعم"
-                @click="isActive.value = false; onCancelOrder(definedProps.order?.id as number)"
+                @click="isActive.value = false; onCancelOrder(order.order_details.id as number)"
               />
             </v-card-actions>
           </v-card>
@@ -74,9 +74,9 @@
     </div>
   
     <div class="grid grid-cols-3 px-8 py-6">
-      <p>الزبون</p>
-      <p>رقم الهاتف</p>
-      <p>{{ definedProps.order?.shipping_address }}</p>
+      <p>{{ order.user.name }}</p>
+      <p>{{ order.user.phone_number }}</p>
+      <p>{{ order.user.address }}</p>
     </div>
   </div>
 
@@ -90,7 +90,7 @@
     <slot />
 
     <div class="bg-primary-100 text-white px-8 py-2 text-xl text-center">
-      <p>الإجمالي {{ definedProps.order?.total_price }} د.ل</p>
+      <p>الإجمالي {{ order.order_details.total_price }} د.ل</p>
     </div>
   </div>
 

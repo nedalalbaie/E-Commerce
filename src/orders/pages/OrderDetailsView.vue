@@ -1,5 +1,8 @@
 <template>
-  <OrderDetails :order="orderDetails.data.value!">
+  <OrderDetails
+    v-if="orderDetails.data.value"
+    :order="orderDetails.data.value"
+  >
     <template #default>
       <div
         v-for="product in orderDetails.data.value?.products"
