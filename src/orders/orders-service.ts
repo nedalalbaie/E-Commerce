@@ -4,7 +4,7 @@ import type { Order, PostOrderRequest, PatchOrderRequest } from './models/order'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 
-const getOrders = (params: PaginationParams): Promise<{ result: List<Order[]> }> => {
+const getOrders = (params: PaginationParams): Promise<List<Order[]>> => {
   return apiClient
     .addon(queryString)
     .url('/orders')

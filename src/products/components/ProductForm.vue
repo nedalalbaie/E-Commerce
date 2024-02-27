@@ -171,8 +171,7 @@ const listParams = ref({
 
 const subCategories = useQuery({
   queryKey: ['sub-categories', listParams],
-  queryFn: () => getSubCategories(listParams.value),
-  select: (response) => response.result
+  queryFn: () => getSubCategories(listParams.value)
 })
 
 const validationSchema = toTypedSchema(
@@ -236,4 +235,4 @@ const handleHexCodes = (passedHexCodes: string[]) => {
   hexCodes.value = passedHexCodes
 }
 
-</script>@/subCategories/subCategories-service
+</script>

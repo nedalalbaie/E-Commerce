@@ -1,9 +1,9 @@
 import apiClient from '@/core/helpers/api-client'
 import formData from 'wretch/addons/formData'
-import type { Ad, PostAdRequest, PatchAdRequest } from './models/ads'
+import type { Ad, PostOrPatchAdRequest } from './models/ads'
 import type { List } from '@/core/models/list'
 
-const getAds = (): Promise<{ result: List<Ad[]> }> => {
+const getAds = (): Promise<List<Ad[]>> => {
   return apiClient
     .url('/ads')
     .get()
@@ -18,7 +18,7 @@ const getAd = (id: number): Promise<Ad> => {
   return apiClient.url(`/ads/${id}`).get().json()
 }
 
-const postAd = (body: PostAdRequest): Promise<Ad> => {
+const postAd = (body: PostOrPatchAdRequest): Promise<Ad> => {
   return apiClient
     .addon(formData)
     .url('/ads')
@@ -29,7 +29,7 @@ const postAd = (body: PostAdRequest): Promise<Ad> => {
     })
 }
 
-const patchAd = (id: string, body: Partial<PatchAdRequest>): Promise<Ad> => {
+const patchAd = (id: string, body: Partial<PostOrPatchAdRequest>): Promise<Ad> => {
   return apiClient
     .addon(formData)
     .url(`/ads/${id}`)

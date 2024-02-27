@@ -2,9 +2,8 @@ import apiClient from '@/core/helpers/api-client'
 import queryString from 'wretch/addons/queryString'
 import type { Discount, DiscountFormRequest } from './models/discount'
 import type { PaginationParams } from '@/core/models/pagination-params'
-import type { List } from '@/core/models/list'
 
-const getDiscounts = (params: PaginationParams): Promise<{ result: List<Discount[]> }> => {
+const getDiscounts = (params: PaginationParams): Promise<Discount[]> => {
   return apiClient
     .addon(queryString)
     .url('/discounts')

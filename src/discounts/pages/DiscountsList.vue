@@ -27,31 +27,40 @@
  
   <LoadingSkeleton v-if="discounts.isPending.value" />
 
-  <div
-    v-if="discounts.data.value"
-    class="shadow-lg rounded-lg mt-4 border border-gray-200"
-  >
-    <v-data-table-server
-      sticky
-      :items-per-page="listParams.limit"
-      :page="listParams.page"
-      :headers="headers"
-      :items-length="discounts.data.value.data.length"
-      :items="discounts.data.value.data"
-      @update:options="onTableOptionsChange({ page: $event.page, limit: $event.itemsPerPage })"
+  <div v-if="discounts.data.value">
+    <p
+      v-if="discounts.data.value?.length < 1"
+      class="text-lg"
     >
-      <template #[`item.actions`]="{ item }">
-        <v-btn
-          :append-icon="mdiTagEdit"
-          color="grey-darken-2"
-          size="small"
-          variant="elevated"
-          :to="{ name: 'edit-discount', params: { id: item.id } }"
-        >
-          تعديل
-        </v-btn>
-      </template>
-    </v-data-table-server>
+      لا توجد تخفيضات
+    </p>
+ 
+    <div
+      v-else
+      class="shadow-lg rounded-lg mt-4 border border-gray-200"
+    >
+      <v-data-table-server
+        sticky
+        :items-per-page="listParams.limit"
+        :page="listParams.page"
+        :headers="headers"
+        :items-length="discounts.data.value.length"
+        :items="discounts.data.value"
+        @update:options="onTableOptionsChange({ page: $event.page, limit: $event.itemsPerPage })"
+      >
+        <template #[`item.actions`]="{ item }">
+          <v-btn
+            :append-icon="mdiTagEdit"
+            color="grey-darken-2"
+            size="small"
+            variant="elevated"
+            :to="{ name: 'edit-discount', params: { id: item.id } }"
+          >
+            تعديل
+          </v-btn>
+        </template>
+      </v-data-table-server>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -76,9 +85,8 @@ const listParams = ref<PaginationParams>({
 
 const discounts = useQuery({
   queryKey: ['discounts', listParams],
-  queryFn: () => getDiscounts(listParams.value),
-  select: (response) => response.result
-})
+  queryFn: () => getDiscounts(listParams.value)
+}) 
 
 const headers = [
   { title: 'الكود', value: 'code', width: '300px', sortable: false, },

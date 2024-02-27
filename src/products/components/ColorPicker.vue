@@ -65,7 +65,7 @@ const isColorListOpen = ref(false)
 const colors = ref(["red", "blue", "white", "Black", "Yellow", "Orange", "Brown", "Purple", "Pink", "green", "gray"])
 
 const addColor = (selectedColor: string) => {
-    hexCodes.value?.push(selectedColor)
+    hexCodes.value.push(selectedColor)
     colors.value = colors.value.filter((color: string) => color !== selectedColor)
     emit("passHexcodes", hexCodes.value)  
 }

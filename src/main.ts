@@ -15,9 +15,7 @@ app.use(VueQueryPlugin, {
   queryClientConfig: {
     defaultOptions: {
       queries: {
-        //   staleTime: 2000,
         refetchOnWindowFocus: false
-        // retry: 0
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <OrderDetails
-    :order="order.data.value"
+    :order="order.data.value!"
     @submit="handleSubmit"
   >
     <template #default>

@@ -4,7 +4,7 @@ import formData from 'wretch/addons/formData'
 import type { SubCategory, CreateOrPatchSubCategory } from './models/subCategory'
 import type { PaginationParams } from '@/core/models/pagination-params'
 
-const getSubCategories = (params: PaginationParams): Promise<{result : SubCategory[]}> => {
+const getSubCategories = (params: PaginationParams): Promise<SubCategory[]> => {
   return apiClient
     .addon(queryString)
     .url('/subCategories')
@@ -26,7 +26,8 @@ const getSubCategoryByCategoryId = (categoryId: number): Promise<SubCategory> =>
     .addon(queryString)
     .url(`/subCategories`)
     .query({ cat_id: categoryId })
-    .get().json()
+    .get()
+    .json()
 }
 
 const addSubCategory = (body: CreateOrPatchSubCategory): Promise<SubCategory> => {
@@ -55,4 +56,11 @@ const deleteSubCategory = (id: number) => {
   return apiClient.url(`/subCategory/${id}`).delete().json()
 }
 
-export { getSubCategories, getSubCategory, getSubCategoryByCategoryId, addSubCategory, editSubCategory, deleteSubCategory }
+export {
+  getSubCategories,
+  getSubCategory,
+  getSubCategoryByCategoryId,
+  addSubCategory,
+  editSubCategory,
+  deleteSubCategory
+}

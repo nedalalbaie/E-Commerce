@@ -25,9 +25,18 @@
       </v-btn>
     </div>
 
-    <div class="mt-8">
+    <div
+      v-if="subCategories.data.value"
+      class="mt-8"
+    >
+      <p
+        v-if="subCategories.data.value.length < 1"
+        class="text-lg"
+      >
+        لا يوجد تصنيفات
+      </p>
       <div
-        v-for="category in subCategories.data.value?.result"
+        v-for="category in subCategories.data.value"
         :key="category.id"
         class="flex justify-between items-center bg-white rounded-lg p-6 mt-4 shadow-md"
       >
@@ -80,7 +89,7 @@ const listParams = ref<PaginationParams>({
   page: 1,
   limit: 10,
   productName: undefined,
-  category_id: undefined
+  category_id: undefined 
 })
 
 const subCategories = useQuery({

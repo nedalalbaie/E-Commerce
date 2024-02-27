@@ -25,9 +25,18 @@
       </v-btn>
     </div>
 
-    <div class="mt-8">
+    <div
+      v-if="categories.data.value"
+      class="mt-8"
+    >
+      <p
+        v-if="categories.data.value.length < 1"
+        class="text-lg"
+      >
+        لا يوجد تصنيفات
+      </p>
       <div
-        v-for="category in categories.data.value?.result"
+        v-for="category in categories.data.value"
         :key="category.id"
         class="flex justify-between items-center bg-white rounded-lg p-6 mt-4 shadow-md"
       >

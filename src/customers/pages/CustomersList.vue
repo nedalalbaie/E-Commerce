@@ -2,7 +2,9 @@
   <div>
     <h1 class="text-3xl mt-6">
       الزبائن
-      <span>(3)</span>
+      <span>
+        {{ customers.data.value?.length! > 0 ? `(${customers.data.value?.length!})` : '' }}
+      </span>
     </h1>
 
     <div
@@ -13,7 +15,7 @@
       <div class="flex gap-20 text-xl font-medium mt-4">
         <p>
           <span>الإسم : </span>
-          <span>عبدالرحمن</span>
+          <span>{{ customer.name }}</span>
         </p>
 
         <p>
@@ -21,7 +23,7 @@
             العنوان :
           </span>
           <span>
-            جنزور
+            {{ customer.address }}
           </span>
         </p>
       </div>

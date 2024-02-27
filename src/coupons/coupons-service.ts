@@ -4,23 +4,20 @@ import type { Coupon, CouponFormRequest } from './models/coupon'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
 
-const getCoupons = (params: PaginationParams): Promise<{ result: List<Coupon[]> }> => {
+const getCoupons = (params: PaginationParams): Promise<List<Coupon[]>> => {
   return apiClient
     .addon(queryString)
     .url('/coupons')
     .query(params)
     .get()
     .notFound(() => ({
-      data: [],
+      data: []
     }))
     .json()
 }
 
 const getCoupon = (id: number): Promise<Coupon> => {
-  return apiClient
-    .url(`/coupons/${id}`)
-    .get()
-    .json()
+  return apiClient.url(`/coupons/${id}`).get().json()
 }
 
 const postCoupon = (body: CouponFormRequest): Promise<Coupon> => {
