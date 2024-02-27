@@ -3,6 +3,7 @@ import queryString from 'wretch/addons/queryString'
 import type { Order, PostOrderRequest, PatchOrderRequest } from './models/order'
 import type { PaginationParams } from '@/core/models/pagination-params'
 import type { List } from '@/core/models/list'
+import type { OrderDetails } from './models/order-details'
 
 const getOrders = (params: PaginationParams): Promise<List<Order[]>> => {
   return apiClient
@@ -17,7 +18,7 @@ const getOrders = (params: PaginationParams): Promise<List<Order[]>> => {
     .json()
 }
 
-const getOrder = (id: number): Promise<Order> => {
+const getOrder = (id: number): Promise<OrderDetails> => {
   return apiClient.addon(queryString).url(`/get-item-details`).query({ id: id }).get().json()
 }
 

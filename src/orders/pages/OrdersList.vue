@@ -131,7 +131,7 @@
               <DeleteIcon fill="fill-white" />
             </template>
           </v-btn>
-          <!-- 
+          <!--           
           <button 
             class="flex items-center gap-2 transition-colors duration-150 px-5 py-2 rounded-xl"
             :class="order.status !== 'pending' ? 'bg-gray-200' : 'bg-secondary-100 hover:bg-secondary-200' "
@@ -163,8 +163,7 @@ const listParams = ref<PaginationParams>({
 
 const orders = useQuery({
   queryKey: ['orders', listParams],
-  queryFn: () => getOrders(listParams.value),
-  select: (response) => response.result
+  queryFn: () => getOrders(listParams.value)
 })
 
 const formatToDate = (date: string) => {

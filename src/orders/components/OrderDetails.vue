@@ -102,14 +102,14 @@
 <script setup lang="ts">
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
 import EditIcon from "@/core/components/icons/EditIcon.vue";
-import type { Order } from "../models/order";
 import { cancelOrder } from "../orders-service";
 import router from "@/router";
 import { useQueryClient, useMutation } from "@tanstack/vue-query";
+import type { OrderDetails } from "../models/order-details";
 
 // eslint-disable-next-line
 const definedProps = defineProps<{
-  order: Order
+  order: OrderDetails
 }>()
 const emit = defineEmits(["submit"])
 
