@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { postAd } from "../ads-service"
 import router from "@/router";
 import AdsForm from "../components/AdsForm.vue"
-import type { PatchAdRequest } from '../models/ads';
+import type { PostOrPatchAdRequest } from '../models/ads';
 
 const queryClient = useQueryClient()
 const addAdMutation = useMutation({
@@ -26,7 +26,7 @@ const addAdMutation = useMutation({
     }
 })
 
-const handleSubmit = (payload: PatchAdRequest) => {
+const handleSubmit = (payload: PostOrPatchAdRequest) => {
     addAdMutation.mutate(payload)
 }
 </script>

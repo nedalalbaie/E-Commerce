@@ -1,25 +1,13 @@
 <template>
-  <div
-    class="flex items-center justify-between mt-6"
-  >
+  <div class="flex items-center justify-between mt-6">
     <h1 class="text-3xl flex items-center gap-2">
-      الطلب {{ order.order_details.order_number }}# - قيد المعالجة
+      الطلب {{ order.order_details.order_number }}# - {{ checkStatus(order.order_details.status) }} 
       <div class="h-6 w-6 rounded-[50%] bg-orange-300" />
     </h1>
-    <div class="flex gap-4">
-      <v-btn
-        size="large"
-        rounded="xl"
-        variant="elevated"
-        color="primary"
-        @click="editOrder"
-      >
-        تعديل
-        <template #prepend>
-          <EditIcon />
-        </template>
-      </v-btn>
-
+    <div
+      v-if="order.order_details.status != STATUS.CANCELD"
+      class="flex gap-4"
+    >
       <v-dialog width="500">
         <template #activator="{ props }">
           <v-btn
@@ -30,7 +18,7 @@
             color="#004C6B"
             type="submit"
           >
-            إلغاء
+            إلغاء الطلبية
             <template #prepend>
               <DeleteIcon fill="fill-white" />
             </template>
@@ -72,7 +60,7 @@
       <p>رقم الهاتف</p>
       <p>العنوان</p>
     </div>
-  
+
     <div class="grid grid-cols-3 px-8 py-6">
       <p>{{ order.user.name }}</p>
       <p>{{ order.user.phone_number }}</p>
@@ -101,20 +89,20 @@
 </template>
 <script setup lang="ts">
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
-import EditIcon from "@/core/components/icons/EditIcon.vue";
 import { cancelOrder } from "../orders-service";
 import router from "@/router";
 import { useQueryClient, useMutation } from "@tanstack/vue-query";
 import type { OrderDetails } from "../models/order-details";
+import { STATUS } from "../models/status"
+import { checkStatus } from "@/core/helpers/check-status"
 
 // eslint-disable-next-line
 const definedProps = defineProps<{
   order: OrderDetails
 }>()
-const emit = defineEmits(["submit"])
 
 const dialogQuestion = (productCode: number) => {
-    return `إلغاء الطلبية ${productCode} ?`
+  return `إلغاء الطلبية ${productCode}# ?`
 }
 
 const queryClient = useQueryClient()
@@ -133,7 +121,4 @@ const onCancelOrder = (id: number) => {
   cancelOrderMutation.mutate(id)
 }
 
-const editOrder = () => {
-  emit("submit")
-}
 </script>

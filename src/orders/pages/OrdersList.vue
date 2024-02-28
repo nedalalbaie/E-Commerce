@@ -35,9 +35,15 @@
           </p>
           <p
             class="w-1/2 text-center font-medium"
-            :class="order.status === 'pending' ? 'text-orange-700' : 'text-green-600'"
+            :class="{
+              'text-green-600': order.status === STATUS.DELIVERD,
+              'text-blue-600': order.status === STATUS.PENDING,
+              'text-yellow-600': order.status === STATUS.SHIPPED,
+              'text-purple-600': order.status === STATUS.CONFIRMED,
+              'text-red-600': order.status === STATUS.CANCELD
+            }"
           >
-            {{ order.status === 'pending' ? 'قيد المعالجة' : 'تم التوصيل' }}
+            {{ checkStatus(order.status) }}
           </p>
         </div>
         <div class="mt-4 flex items-center border-b border-gray-700">
@@ -95,7 +101,7 @@
             variant="elevated"
             color="primary"
             type="submit"
-            :to="{name: 'order-details', params: {id: order.id}}"
+            :to="{ name: 'order-details', params: { id: order.id } }"
           >
             عرض
             <template #prepend>
@@ -103,43 +109,52 @@
             </template>
           </v-btn>
 
-          <v-btn
-            size="large"
-            rounded="xl"
-            variant="elevated"
-            color="primary"
-            type="submit"
-            :to="{name: 'edit-order', params: {id: order.id}}"
-            :disabled="order.status !== 'pending'"
+          <v-dialog
+            v-if="order.status != STATUS.CANCELD"
+            width="500"
           >
-            تعديل
-            <template #prepend>
-              <EditIcon />
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                size="large"
+                rounded="xl"
+                variant="elevated"
+                color="#004C6B"
+                type="submit"
+              >
+                إلغاء
+                <template #prepend>
+                  <DeleteIcon fill="fill-white" />
+                </template>
+              </v-btn>
             </template>
-          </v-btn>
 
-          <v-btn
-            size="large"
-            rounded="xl"
-            variant="elevated"
-            color="#004C6B"
-            type="submit"
-            :disabled="order.status !== 'pending'"
-          >
-            إلغاء
-            <template #prepend>
-              <DeleteIcon fill="fill-white" />
+            <template #default="{ isActive }">
+              <v-card
+                :title="dialogQuestion(order.order_number)"
+                rounded="lg"
+                color="#EFE9F5"
+                style="padding-block: 1.75rem !important ;"
+              >
+                <v-card-text>
+                  سيتم الغاء هذه الطبية بشكل نهائي، سيتلقى الزبون اشعارا يوضح ان الطبية تم الغاؤها.
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer />
+
+                  <v-btn
+                    text="لا"
+                    @click="isActive.value = false"
+                  />
+                  <v-btn
+                    text="نعم"
+                    @click="isActive.value = false; onCancelOrder(order.id)"
+                  />
+                </v-card-actions>
+              </v-card>
             </template>
-          </v-btn>
-          <!--           
-          <button 
-            class="flex items-center gap-2 transition-colors duration-150 px-5 py-2 rounded-xl"
-            :class="order.status !== 'pending' ? 'bg-gray-200' : 'bg-secondary-100 hover:bg-secondary-200' "
-            :disabled="order.status !== 'pending'"
-          >
-            <DeleteIcon />
-            <span>إلغاء</span>
-          </button> -->
+          </v-dialog>
         </div>
       </div>
     </div>
@@ -147,12 +162,14 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { getOrders } from "../orders-service"
+import { cancelOrder, getOrders } from "../orders-service"
 import type { PaginationParams } from '@/core/models/pagination-params'
-import { useQuery } from "@tanstack/vue-query";
-import EditIcon from "@/core/components/icons/EditIcon.vue";
+import { STATUS } from "../models/status"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
 import ViewIconVue from "@/core/components/icons/ViewIcon.vue";
+import router from "@/router";
+import { checkStatus } from "@/core/helpers/check-status"
 
 const listParams = ref<PaginationParams>({
   page: 1,
@@ -165,6 +182,26 @@ const orders = useQuery({
   queryKey: ['orders', listParams],
   queryFn: () => getOrders(listParams.value)
 })
+
+const queryClient = useQueryClient()
+const cancelOrderMutation = useMutation({
+  mutationFn: cancelOrder,
+  onSuccess: () => {
+    router.replace({ name: 'orders' })
+    queryClient.invalidateQueries({ queryKey: ['orders'] })
+  },
+  onError: (error) => {
+    console.log(error)
+  }
+})
+
+const onCancelOrder = (id: number) => {
+  cancelOrderMutation.mutate(id)
+}
+
+const dialogQuestion = (orderCode: number) => {
+  return `إلغاء الطلبية ${orderCode}# ?`
+}
 
 const formatToDate = (date: string) => {
   const dateObject = new Date(date);

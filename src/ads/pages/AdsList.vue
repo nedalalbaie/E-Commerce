@@ -9,7 +9,7 @@
         rounded="xl"
         variant="elevated"
       >
-        إضافة تصنيف
+        إضافة إعلان
       </v-btn>
     </div>
     <div class="flex items-center justify-between mt-8">
@@ -100,8 +100,7 @@ const storage = import.meta.env.VITE_API_Storage
   
 const ads = useQuery({
   queryKey: ['ads'],
-  queryFn: () => getAds(),
-  select: (response) => response.result
+  queryFn: () => getAds()
 })
 
 </script>

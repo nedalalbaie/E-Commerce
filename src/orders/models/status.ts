@@ -3,5 +3,5 @@ export const STATUS = {
     CONFIRMED: "confirmed",
     SHIPPED: "shipped",
     DELIVERD: "deliverd",
-    CANCELD: "canceld",
+    CANCELD: "canceled",
 } as const
