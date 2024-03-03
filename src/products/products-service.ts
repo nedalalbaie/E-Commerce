@@ -45,7 +45,7 @@ const editProduct = (id: number, body: Partial<AddProductRequest>): Promise<Prod
 }
 
 const deleteProduct = (id: number) => {
-  return apiClient.url(`/Products/${id}`).delete().json()
+  return apiClient.url(`/products/${id}`).delete().json()
 }
 
 export { getProducts, getProduct, postProduct, editProduct, deleteProduct }

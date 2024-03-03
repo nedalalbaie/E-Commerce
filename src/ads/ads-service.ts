@@ -23,7 +23,7 @@ const postAd = (body: PostOrPatchAdRequest): Promise<Ad> => {
     .addon(formData)
     .url('/ads')
     .formData(body)
-    .post(body)
+    .post()
     .json((res) => {
       return res
     })
@@ -34,7 +34,7 @@ const patchAd = (id: string, body: Partial<PostOrPatchAdRequest>): Promise<Ad> =
     .addon(formData)
     .url(`/ads/${id}`)
     .formData(body)
-    .patch(body)
+    .patch()
     .json((res) => {
       return res
     })

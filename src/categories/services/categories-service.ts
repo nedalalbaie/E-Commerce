@@ -39,4 +39,8 @@ const editCategory = (id: string, body: EditCategoryRequest): Promise<Category> 
     })
 }
 
-export { getCategories, addCategory, editCategory }
+const deleteCategory = (id: number) => {
+  return apiClient.url(`/categories/${id}`).delete().json()
+}
+
+export { getCategories, addCategory, editCategory, deleteCategory }

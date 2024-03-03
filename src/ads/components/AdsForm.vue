@@ -2,23 +2,13 @@
   <form @submit.prevent="submit">
     <div class="grid gap-x-8 gap-y-2 mt-6">
       <v-text-field
-        v-model="address"
+        v-model="name"
         class="lg:w-1/2"
-        label="العنوان"
+        label="الإسم"
         variant="outlined"
         color="primary"
-        placeholder="العنوان"
-        :error-messages="errors.address"
-      />
-
-      <v-textarea
-        v-model="description"
-        label="التفاصيل"
-        type="text"
-        variant="outlined"
-        color="primary"
-        placeholder="التفاصيل"
-        :error-messages="errors.description"
+        placeholder="الإسم"
+        :error-messages="errors.name"
       />
     </div>
 
@@ -46,6 +36,7 @@
     <div class="mt-4">
       <v-switch
         v-model="show"
+        :true-value="1"
         inset
         :center-affix="true"
         color="primary"
@@ -75,10 +66,11 @@
     </div>
   </form>
 </template>
+
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm, useField } from 'vee-validate';
-import { object, string, boolean, date } from 'zod';
+import { object, string, date, union, literal } from 'zod';
 import type { PostOrPatchAdRequest, Ad } from "../models/ads";
 import { computed, ref, watchEffect } from "vue";
 import AdImageUpload from "../components/AdImageUpload.vue"
@@ -97,9 +89,11 @@ const isDisabled = computed(() => !meta.value.valid || !imageFile.value)
 
 const validationSchema = toTypedSchema(
   object({
-    address: string().min(1, 'يجب إدخال  العنوان '),
-    description: string().min(1, 'يجب إدخال التفاصيل  '),
-    show: boolean(),
+    name: string().min(1, 'يجب إدخال  إسم الإعلان '),
+    show: union([
+      literal(0),
+      literal(1),
+    ]),
     start_date: date(),
     end_date: date()
   })
@@ -108,13 +102,12 @@ const validationSchema = toTypedSchema(
 const { handleSubmit, errors, meta, setValues } = useForm({
   validationSchema,
   initialValues: {
-    show: false
+    show: 0
   }
 });
 
-const { value: address } = useField<number>('address');
-const { value: description } = useField<string>('description');
-const { value: show } = useField<boolean>('show');
+const { value: name } = useField<number>('name');
+const { value: show } = useField<0 | 1>('show');
 const { value: start_date } = useField<Date>('start_date');
 const { value: end_date } = useField<Date>('end_date');
 
@@ -135,7 +128,6 @@ const submit = handleSubmit(values => {
     ...values,
     url: imageFile.value,
   });
-
 })
 
 const handleImage = (imageFileParam: File | null) => {

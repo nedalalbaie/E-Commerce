@@ -32,19 +32,16 @@
     <div
       v-for="ad in ads.data.value?.data"
       :key="ad.id"
-      class="flex justify-center rounded-md shadow-md bg-white mt-10"
+      class="flex justify-between rounded-md shadow-md bg-white mt-10"
     >
-      <div class="p-8 flex flex-col justify-between gap-8">
+      <div class="px-4 flex flex-col gap-8">
         <div>
           <div class="flex gap-2 text-2xl font-medium mt-4">
-            <p>متجر Bananna</p>
+            <p>{{ ad.name }}</p>
             <p class="text-green-700">
-              - مفعل
+              - {{ ad.show === 1 ? "مفعل" : "معطل" }}
             </p>
           </div>
-          <p class=" mt-8 text-lg">
-            {{ ad.description }}
-          </p>
         </div>
 
         <div class="flex gap-5">
@@ -53,7 +50,7 @@
             rounded="xl"
             variant="elevated"
             color="primary"
-            :to="{path: 'edit-ad', params: {id: ad.id}}"
+            :to="{name: 'edit-ad', params: {id: ad.id}}"
           >
             تعديل
             <template #prepend>
@@ -61,34 +58,67 @@
             </template>
           </v-btn>
 
-          <v-btn
-            size="large"
-            rounded="xl"
-            variant="elevated"
-            color="#004C6B"
-            type="submit"
+          <v-dialog
+            width="500"
           >
-            حذف
-            <template #prepend>
-              <DeleteIcon fill="fill-white" />
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                size="large"
+                rounded="xl"
+                variant="elevated"
+                color="#004C6B"
+                type="submit"
+              >
+                حذف
+                <template #prepend>
+                  <DeleteIcon fill="fill-white" />
+                </template>
+              </v-btn>
             </template>
-          </v-btn>
+
+            <template #default="{ isActive }">
+              <v-card
+                :title="dialogQuestion(ad.name)"
+                rounded="lg"
+                color="#EFE9F5"
+                style="padding-block: 1.75rem !important ;"
+              >
+                <v-card-text>
+                  سيتم الغاء هذا الإعلان بشكل نهائي .
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer />
+
+                  <v-btn
+                    text="لا"
+                    @click="isActive.value = false"
+                  />
+                  <v-btn
+                    text="نعم"
+                    @click="isActive.value = false; onCancelAd(ad.id)"
+                  />
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
         </div>
       </div>
 
       <div>
         <img
-          :src="`${storage}${ad.url}`"
+          :src="`${storage}/${ad.url}`"
           alt=""
-          class="w-full max-h-64 object-cover object-center rounded-l-md"
+          class="w-72 max-h-40 object-cover object-center rounded-l-md"
         >
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { getAds } from "../ads-service"
-import { useQuery } from "@tanstack/vue-query";
+import { getAds, deleteAd } from "../ads-service"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import EditIcon from "@/core/components/icons/EditIcon.vue";
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
 import CheckIcon from "@/core/components/icons/CheckIcon.vue";
@@ -102,5 +132,24 @@ const ads = useQuery({
   queryKey: ['ads'],
   queryFn: () => getAds()
 })
+
+const queryClient = useQueryClient()
+const cancelAdMutation = useMutation({
+  mutationFn: deleteAd,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['ads'] })
+  },
+  onError: (error) => {
+    console.log(error)
+  }
+})
+
+const onCancelAd = (id: number) => {
+  cancelAdMutation.mutate(id)
+}
+
+const dialogQuestion = (orderCode: string) => {
+  return `حذف الإعلان ${orderCode} ?`
+}
 
 </script>

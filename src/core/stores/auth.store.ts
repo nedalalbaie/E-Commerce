@@ -9,17 +9,17 @@ const authStore = reactive<{
 }>({
   auth: null,
   init() {
-    const auth = localStorage.getItem('auth')
+    const auth = localStorage.getItem('panda-store-auth')
     if (auth) {
       this.auth = JSON.parse(auth)
     }
   },
   setAuth(authResponse: AuthResponse) {
-    localStorage.setItem('auth', JSON.stringify(authResponse.data.token))
+    localStorage.setItem('panda-store-auth', JSON.stringify(authResponse.data.token))
     this.auth = authResponse.data.token
   },
   clearAuth() {
-    localStorage.removeItem('auth')
+    localStorage.removeItem('panda-store-auth')
     this.auth = null
   }
 })

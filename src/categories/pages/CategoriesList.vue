@@ -56,16 +56,9 @@
             color="primary"
             rounded="xl"
             variant="elevated"
+            :to="{ name: 'order-details', params: { id: category.id } }"
           >
             تعديل
-          </v-btn>
-          <v-btn
-            :append-icon="mdiPlus"
-            color="#004C6B"
-            rounded="xl"
-            variant="elevated"
-          >
-            حذف
           </v-btn>
         </div>
       </div>

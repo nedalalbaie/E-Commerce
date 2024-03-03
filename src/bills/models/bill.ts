@@ -8,8 +8,4 @@ type Bill = {
   created_at: string
 }
 
-type CreateBill = {
-  order_number: number
-}
-
-export type { Bill, CreateBill }
+export type { Bill }

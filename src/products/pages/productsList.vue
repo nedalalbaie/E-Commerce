@@ -37,7 +37,7 @@
           {{ product.name }}
         </p>
         <div
-          class="relative h-64 bg-cover bg-center mt-2 border-2"
+          class="relative h-64 bg-cover bg-center mt-2"
           :style="getBackgroundImage(product.image1_path)"
         >
           <p class="absolute top-0 left-0 bg-red-600 rounded-br-xl text-white px-3">
@@ -199,7 +199,7 @@ const getBackgroundImage = (url: string) => {
   }
   return {
   backgroundImage: `url(${storage}/${url})`,
-  backgroundSize: '60%' 
+  // backgroundSize: '60%' 
 }
 }
 
