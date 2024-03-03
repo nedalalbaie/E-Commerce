@@ -102,13 +102,17 @@
           </p>
         </div>
         <div class="flex justify-center gap-4 mt-6 text-white">
-          <a
-            class="flex items-center gap-2 bg-primary-100 hover:bg-primary-400 transition-colors duration-150 px-4 py-1 rounded-xl"
-            :href="`/products/edit/${product.id}`"
+          <v-btn
+            rounded="xl"
+            variant="elevated"
+            color="primary"
+            :to="{ name: 'edit-product', params: { id: product.id } }"
           >
-            <span>تعديل</span>
-            <EditIcon />
-          </a>
+            تعديل
+            <template #prepend>
+              <EditIcon />
+            </template>
+          </v-btn>
 
           <v-dialog
             width="500"
@@ -116,7 +120,6 @@
             <template #activator="{ props }">
               <v-btn
                 v-bind="props"
-                size="large"
                 rounded="xl"
                 variant="elevated"
                 color="#004C6B"
@@ -172,7 +175,6 @@ import LoadingProducts from "../components/LoadingProducts.vue";
 import {
   mdiPlus
 } from '@mdi/js'
-import router from "@/router";
 
 const listParams = ref<PaginationParams>({
   page: 1,

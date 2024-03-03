@@ -46,14 +46,14 @@
             {{ checkStatus(order.status) }}
           </p>
         </div>
-        <div class="mt-4 flex items-center border-b border-gray-700">
+        <!-- <div class="mt-4 flex items-center border-b border-gray-700">
           <p class="w-1/2">
             الزبون
           </p>
           <p class="w-1/2 text-center">
             عبدالرحمن
           </p>
-        </div>
+        </div> -->
         <div class="mt-4 flex items-center border-b border-gray-700">
           <p class="w-1/2">
             التاريخ
