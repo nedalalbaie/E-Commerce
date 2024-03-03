@@ -4,7 +4,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '',
     name: 'products',
-    component: () => import('./pages/ProductsList.vue')    
+    component: () => import('./pages/ProductsList.vue')     
   },
   {
     path: 'add',
@@ -14,7 +14,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: 'edit/:id',
     name: 'edit-product',
-    component: () => import('./pages/CreateProduct.vue')
+    component: () => import('./pages/EditProducts.vue')
   },
 ]
 

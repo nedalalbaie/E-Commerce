@@ -77,6 +77,7 @@ const navRoutes = [
     { title: 'الإعلانات', icon: AdsIcon, alt: 'Ads', route: '/ads' },
     { title: 'الزبائن', icon: mdiAccountMultiple, alt: 'Users', route: '/customers' },
     { title: 'الكوبونات', icon: mdiTicketPercentOutline, alt: 'coupons', route: '/coupons' },
+    { title: 'الفواتير', icon: mdiTicketPercentOutline, alt: 'bills', route: '/bills' },
     { title: 'النخفيضات', icon: DiscountIcon, alt: 'discounts', route: '/discounts' },
     { title: 'الإحصائيات', icon: Statistics, alt: 'statistics', route: '/statistics' },
 ]

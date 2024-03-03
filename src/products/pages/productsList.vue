@@ -37,7 +37,7 @@
           {{ product.name }}
         </p>
         <div
-          class="relative h-64 bg-cover bg-center mt-2"
+          class="relative h-64 bg-cover bg-center mt-2 border-2"
           :style="getBackgroundImage(product.image1_path)"
         >
           <p class="absolute top-0 left-0 bg-red-600 rounded-br-xl text-white px-3">
@@ -72,13 +72,18 @@
             --
           </p>
         </div>
-        <div class="mt-4 flex items-center border-b border-gray-700">
-          <p class="w-1/2">
-            اللون
+        <div class="mt-4 py-1 flex items-center border-b border-gray-700">
+          <p class="w-1/5">
+            {{ convertToObject(product.hex_codes).length > 1 ? 'الألوان' : 'اللون' }}
           </p>
-          <p class="w-1/2 text-center">
-            البني
-          </p>
+          <div class="w-4/5 flex justify-end gap-1">
+            <div
+              v-for="(color, index) in convertToObject(product.hex_codes)"
+              :key="index"
+              class="w-8 h-8 rounded-[50%] shadow-full-white border-2  flex items-end"
+              :style="{ 'background-color': color }"
+            />
+          </div>
         </div>
         <div class="mt-4 flex items-center border-b border-gray-700">
           <p class="w-1/2">
@@ -104,12 +109,52 @@
             <span>تعديل</span>
             <EditIcon />
           </a>
-          <button
-            class="flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 transition-colors duration-150 px-4 py-1 rounded-xl"
+
+          <v-dialog
+            width="500"
           >
-            <span>حذف</span>
-            <DeleteIcon fill="fill-white" />
-          </button>
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                size="large"
+                rounded="xl"
+                variant="elevated"
+                color="#004C6B"
+                type="submit"
+              >
+                إلغاء
+                <template #prepend>
+                  <DeleteIcon fill="fill-white" />
+                </template>
+              </v-btn>
+            </template>
+
+            <template #default="{ isActive }">
+              <v-card
+                :title="dialogQuestion(product.product_code)"
+                rounded="lg"
+                color="#EFE9F5"
+                style="padding-block: 1.75rem !important ;"
+              >
+                <v-card-text>
+                  سيتم حذف هذه المنتج بشكل نهائي .
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer />
+
+                  <v-btn
+                    text="لا"
+                    @click="isActive.value = false"
+                  />
+                  <v-btn
+                    text="نعم"
+                    @click="isActive.value = false; onDeleteProduct(product.id)"
+                  />
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
         </div>
       </div>
     </div>
@@ -117,16 +162,17 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { getProducts } from "../products-service"
+import { getProducts, deleteProduct } from "../products-service"
 import type { PaginationParams } from '@/core/models/pagination-params'
 import SearchIcon from "@/core/components/icons/SearchIcon.vue";
-import { useQuery } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import EditIcon from "@/core/components/icons/EditIcon.vue";
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
 import LoadingProducts from "../components/LoadingProducts.vue";
 import {
   mdiPlus
 } from '@mdi/js'
+import router from "@/router";
 
 const listParams = ref<PaginationParams>({
   page: 1,
@@ -142,8 +188,40 @@ const products = useQuery({
 
 const storage = import.meta.env.VITE_API_Storage
 
-const getBackgroundImage = (url: string) => ({
-  backgroundImage: `${storage}${url}`
+const getBackgroundImage = (url: string) => {
+  const image = new Image()
+  image.src = "https://ourtechteam2024.store/public/storage/product/202402291805t-shirt.jpg"
+  image.onload = () => {
+    console.log(image.height);
+
+  }
+  return {
+  backgroundImage: `url(${storage}/${url})`,
+  backgroundSize: '60%' 
+}
+}
+
+const convertToObject = (hexCodesParam: string) => {
+  return JSON.parse(hexCodesParam) as string []
+}
+
+const queryClient = useQueryClient()
+const deleteProductMutation = useMutation({
+  mutationFn: deleteProduct,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['products'] })
+  },
+  onError: (error) => {
+    console.log(error)
+  }
 })
+
+const onDeleteProduct = (id: number) => {
+  deleteProductMutation.mutate(id)
+}
+
+const dialogQuestion = (productCode: string) => {
+  return `حذف المنتج ${productCode}# ?`
+}
 
 </script>

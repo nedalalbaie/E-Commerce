@@ -1,5 +1,5 @@
 type Product = {
-  id: string
+  id: number
   name: string
   description: string
   inventory_level: number
@@ -11,7 +11,7 @@ type Product = {
   sub_category_id: number
   product_code: string
   gender: number
-  hex_codes: string[]
+  hex_codes: string
 }
 
 type AddProductRequest = Omit<Product, 'id' | 'image1_path' | 'image2_path' | 'image3_path' | 'image4_path'> & {

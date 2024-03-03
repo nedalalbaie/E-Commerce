@@ -18,6 +18,10 @@ const getProducts = (params: PaginationParams): Promise<List<Product[]>> => {
     .json()
 }
 
+const getProduct = (id: number): Promise<Product> => {
+  return apiClient.url(`/products/${id}`).get().json()
+}
+
 const postProduct = (body: AddProductRequest): Promise<Product> => {
   return apiClient
     .addon(formData)
@@ -29,7 +33,7 @@ const postProduct = (body: AddProductRequest): Promise<Product> => {
     })
 }
 
-const editProduct = (id: string, body: Partial<AddProductRequest>): Promise<Product> => {
+const editProduct = (id: number, body: Partial<AddProductRequest>): Promise<Product> => {
   return apiClient
     .addon(formData)
     .url(`/products/${id}`)
@@ -40,4 +44,8 @@ const editProduct = (id: string, body: Partial<AddProductRequest>): Promise<Prod
     })
 }
 
-export { getProducts, postProduct, editProduct }
+const deleteProduct = (id: number) => {
+  return apiClient.url(`/Products/${id}`).delete().json()
+}
+
+export { getProducts, getProduct, postProduct, editProduct, deleteProduct }

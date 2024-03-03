@@ -42,8 +42,8 @@
       >
         <div class="flex items-center gap-4">
           <img
-            class="w-40 rounded-lg my-2 border border-gray-200"
-            :src="`${storage}${category.image_path}`"
+            class="w-32 h-32 bg-cover rounded-lg my-2 border border-gray-200"
+            :src="`${storage}/${category.image_path}`"
             alt=""
           >
           <p class="text-xl">

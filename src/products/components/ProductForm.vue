@@ -203,6 +203,8 @@ watchEffect(() => {
     setValues({
       ...props.product
     })
+    console.log(sub_category_id.value);
+    
   }
 })
 
@@ -221,7 +223,7 @@ const submit = handleSubmit(values => {
     image2_path: base64Images[1] as File,
     image3_path: base64Images[2] as File,
     image4_path: base64Images[3] as File,
-    hex_codes: hexCodes.value
+    hex_codes: JSON.stringify(hexCodes.value)
   })
 })
 

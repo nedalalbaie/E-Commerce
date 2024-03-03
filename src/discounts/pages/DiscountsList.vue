@@ -93,7 +93,8 @@ const headers = [
   { title: 'نوع التخفيض', value: 'discount_type', width: '300px', sortable: false },
   { title: 'نسبة التخفيض', value: 'amount', width: '300px', sortable: false },
   { title: 'تاريخ بداية التخفيض', value: 'start_date', width: '300px', sortable: false },
-  { title: 'تاريخ إنتهاء الصلاحية', value: 'end_date', width: '300px', sortable: false }
+  { title: 'تاريخ إنتهاء الصلاحية', value: 'end_date', width: '300px', sortable: false },
+  { title: 'الإجرائات', key: 'actions', width: '300px', sortable: false }
 ]
 
 const onTableOptionsChange = ({ page, limit }: PaginationParams) => {
