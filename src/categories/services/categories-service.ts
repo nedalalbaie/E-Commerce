@@ -17,6 +17,10 @@ const getCategories = (params: PaginationParams): Promise<Category[]> => {
     .json()
 }
 
+const getCategory = (id: number): Promise<Category> => {
+  return apiClient.url(`/categories/${id}`).get().json()
+}
+
 const addCategory = (body: AddCategoryRequest): Promise<Category> => {
   return apiClient
     .addon(formData)
@@ -28,7 +32,7 @@ const addCategory = (body: AddCategoryRequest): Promise<Category> => {
     })
 }
 
-const editCategory = (id: string, body: EditCategoryRequest): Promise<Category> => {
+const editCategory = (id: number, body: EditCategoryRequest): Promise<Category> => {
   return apiClient
     .addon(formData)
     .url(`/categories/${id}`)
@@ -43,4 +47,4 @@ const deleteCategory = (id: number) => {
   return apiClient.url(`/categories/${id}`).delete().json()
 }
 
-export { getCategories, addCategory, editCategory, deleteCategory }
+export { getCategories, getCategory, addCategory, editCategory, deleteCategory }

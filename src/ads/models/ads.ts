@@ -2,8 +2,8 @@ type Ad = {
   id: number
   name: string
   show: 0 | 1
-  start_date: Date
-  end_date: Date
+  start_date: string
+  end_date: string
   url: string
 }
 

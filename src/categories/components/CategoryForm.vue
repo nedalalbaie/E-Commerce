@@ -27,7 +27,10 @@
       </h3>
 
       <div class="mt-8 w-1/4">
-        <ImageUpload @handle-image="handleImage" />
+        <ImageUpload
+          :image-path="props.category?.image_path"
+          @handle-image="handleImage"
+        />
       </div>
     </div>
 
@@ -45,6 +48,7 @@
     </div>
   </form>
 </template>
+
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm, useField } from 'vee-validate'
@@ -53,7 +57,7 @@ import type { AddCategoryRequest, Category } from "../models/Category"
 import { computed, ref, watchEffect } from "vue"
 import ImageUpload from "@/core/components/ImageUpload.vue"
 
-type CategoryForm =  AddCategoryRequest
+type CategoryForm = AddCategoryRequest
 
 const props = defineProps<{
   isLoading: boolean,
@@ -63,10 +67,28 @@ const emit = defineEmits<{
   submit: [value: CategoryForm]
 }>()
 
-const selectedImage = ref<File | null>(null)
+let checkOnce = true
 
+const selectedImage = ref<File | null>(null)
 const editMode = computed(() => !!props.category)
-const isDisabled = computed(() => !meta.value.valid || !selectedImage.value)
+const isDisabled = computed(() => {
+
+  if (!meta.value.valid) {
+    return true
+  }
+
+  else if (editMode.value) {
+    if (checkOnce) {
+      checkOnce = false
+      return false
+    } else if (!selectedImage.value) {
+
+      return true
+    } else return false
+  } else if (!selectedImage.value) {
+    return true
+  } else return false
+})
 
 const validationSchema = toTypedSchema(
   object({

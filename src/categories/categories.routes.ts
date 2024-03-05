@@ -12,9 +12,9 @@ const routes: RouteRecordRaw[] = [
     component: () => import('./pages/CreateCategory.vue')
   },
   {
-    path: 'edit',
+    path: 'edit/:id',  
     name: 'edit-category',
-    component: () => import('./pages/CreateCategory.vue')
+    component: () => import('./pages/EditCategory.vue')
   },
 ]
 

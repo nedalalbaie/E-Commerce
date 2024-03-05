@@ -32,7 +32,7 @@
     <div
       v-for="ad in ads.data.value?.data"
       :key="ad.id"
-      class="flex justify-between rounded-md shadow-md bg-white mt-10"
+      class="h-40 flex justify-between rounded-md shadow-md bg-white mt-10"
     >
       <div class="px-4 flex flex-col gap-8">
         <div>
@@ -44,7 +44,7 @@
           </div>
         </div>
 
-        <div class="flex gap-5">
+        <div class="flex gap-5 py-4">
           <v-btn
             size="large"
             rounded="xl"
@@ -110,7 +110,7 @@
         <img
           :src="`${storage}/${ad.url}`"
           alt=""
-          class="w-72 max-h-40 object-cover object-center rounded-l-md"
+          class="w-72 h-full object-cover object-center rounded-l-md"
         >
       </div>
     </div>

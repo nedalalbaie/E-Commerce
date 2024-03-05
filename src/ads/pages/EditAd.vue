@@ -9,10 +9,10 @@
 </template>
 <script setup lang="ts">
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import { postAd } from "../ads-service"
 import router from "@/router";
+import { postAd } from "../ads-service"
 import AdsForm from "../components/AdsForm.vue"
-import type { PostAdRequest } from '../models/ads';
+import type { PostOrPatchAdRequest } from '../models/ads';
 
 const queryClient = useQueryClient()
 const editAdMutation = useMutation({
@@ -26,7 +26,7 @@ const editAdMutation = useMutation({
     }
 })
 
-const handleSubmit = (payload: PostAdRequest) => {
+const handleSubmit = (payload: PostOrPatchAdRequest) => {
    console.log(payload);
    
     editAdMutation.mutate(payload)

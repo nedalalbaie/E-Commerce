@@ -29,12 +29,8 @@
       v-if="categories.data.value"
       class="mt-8"
     >
-      <p
-        v-if="categories.data.value.length < 1"
-        class="text-lg"
-      >
-        لا يوجد تصنيفات
-      </p>
+      <EmptyData v-if="categories.data.value.length === 0" />
+
       <div
         v-for="category in categories.data.value"
         :key="category.id"
@@ -50,17 +46,17 @@
             {{ category.name }} - {{ category.description }}
           </p>
         </div>
-        <div class="flex flex-col md:flex-row gap-4">
+        <!-- <div class="flex flex-col md:flex-row gap-4">
           <v-btn
             :append-icon="mdiPlus"
             color="primary"
             rounded="xl"
             variant="elevated"
-            :to="{ name: 'order-details', params: { id: category.id } }"
+            :to="{ name: 'edit-category', params: { id: category.id } }"
           >
             تعديل
           </v-btn>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -74,6 +70,7 @@ import {
 import { useQuery } from "@tanstack/vue-query";
 import { ref } from "vue";
 import { getCategories } from "../services/categories-service";
+import EmptyData from "@/core/components/EmptyData.vue";
 
 const storage = import.meta.env.VITE_API_Storage
 

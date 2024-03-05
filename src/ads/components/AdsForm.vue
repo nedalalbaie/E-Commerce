@@ -74,6 +74,7 @@ import { object, string, date, union, literal } from 'zod';
 import type { PostOrPatchAdRequest, Ad } from "../models/ads";
 import { computed, ref, watchEffect } from "vue";
 import AdImageUpload from "../components/AdImageUpload.vue"
+import { formatToDatePicker, fromatDatePickerToDate } from '@/core/helpers/format-date';
 
 const props = defineProps<{
   isLoading: boolean,
@@ -114,7 +115,9 @@ const { value: end_date } = useField<Date>('end_date');
 watchEffect(() => {
   if (props.ad) {
     setValues({
-      ...props.ad
+      ...props.ad,
+      start_date: formatToDatePicker(props.ad.start_date),
+      end_date: formatToDatePicker(props.ad.end_date),
     })
   }
 })
@@ -123,6 +126,8 @@ const submit = handleSubmit(values => {
   emit("submit", {
     ...values,
     url: imageFile.value as File,
+    start_date: fromatDatePickerToDate(values.start_date),
+    end_date: fromatDatePickerToDate(values.end_date),
   })
   console.log({
     ...values,

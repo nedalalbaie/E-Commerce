@@ -38,6 +38,7 @@ const apiClient = wretch(import.meta.env.VITE_API_URL)
       .fetchError((err) => {
         throw new Error(err.message)
       })
+      .timeout((err) => console.log(err.status))
   )
 
 export default apiClient

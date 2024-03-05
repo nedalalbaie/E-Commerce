@@ -40,7 +40,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { type InputHTMLAttributes, ref } from 'vue'
+import { type InputHTMLAttributes, ref, watchEffect } from 'vue'
 import UploadImageIcon from "@/core/components/icons/UploadImageIcon.vue"
 import DeleteIcon from "@/core/components/icons/DeleteIcon.vue"
 import SpinAnimation from '@/core/components/icons/SpinAnimation.vue'
@@ -85,7 +85,10 @@ const deleteImage = () => {
   emit('handleImage', selectedImage.value , props.index)
 }
 
-// watchEffect(() => {
-//     base64Image.value = props.imagePath
-// })
+watchEffect(() => {
+  if (props.imagePath) {
+    const storage = import.meta.env.VITE_API_Storage
+    base64Image.value = `${storage}/${props.imagePath}`
+  }
+})
 </script>
