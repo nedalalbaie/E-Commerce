@@ -51,7 +51,7 @@ const props = defineProps<{
   index?: number
 }>()
 const emit = defineEmits<{
-  handleImage: [selectedImage: File | null, index?: number]
+  handleImage: [selectedImage: File | null, state: "filled" | "empty", index?: number]
 }>()
 
 const fileUpload: InputHTMLAttributes = ref(null)
@@ -67,7 +67,7 @@ const handleFileUpload = (event: Event) => {
       isLoading.value = false
       base64Image.value = result
       selectedImage.value = file
-      emit('handleImage', selectedImage.value, props.index)
+      emit('handleImage', selectedImage.value, "filled", props.index)
     })
   }
 }
@@ -82,7 +82,7 @@ const deleteImage = () => {
     fileUpload.value.value = ''
   }
   selectedImage.value = null
-  emit('handleImage', selectedImage.value , props.index)
+  emit('handleImage', selectedImage.value, "empty" , props.index)
 }
 
 watchEffect(() => {

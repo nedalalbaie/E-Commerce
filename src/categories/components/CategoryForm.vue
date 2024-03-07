@@ -67,9 +67,10 @@ const emit = defineEmits<{
   submit: [value: CategoryForm]
 }>()
 
-let checkOnce = true
+// let checkOnce = true
 
 const selectedImage = ref<File | null>(null)
+const selectedImageState = ref<"filled" | "empty">("empty")
 const editMode = computed(() => !!props.category)
 const isDisabled = computed(() => {
 
@@ -77,17 +78,25 @@ const isDisabled = computed(() => {
     return true
   }
 
-  else if (editMode.value) {
-    if (checkOnce) {
-      checkOnce = false
-      return false
-    } else if (!selectedImage.value) {
-
-      return true
-    } else return false
-  } else if (!selectedImage.value) {
+  else if (selectedImageState.value == "empty") {
     return true
-  } else return false
+  }
+  else return false
+
+  // else if (editMode.value) {
+  //   if (checkOnce) {
+  //     checkOnce = false
+  //     return false
+  //   } else 
+  //   if (!selectedImage.value) { 
+
+  //     return true
+  //   } else 
+  //     return false
+  //  } else 
+  //  if (!selectedImage.value) {
+  //    return true
+  //  } else return false
 })
 
 const validationSchema = toTypedSchema(
@@ -110,6 +119,15 @@ watchEffect(() => {
       name: props.category.name,
       description: props.category.description
     })
+    selectedImageState.value = props.category.image_path ? "filled" : "empty"
+
+    pathToFile(props.category.image_path, props.category.image_path.substring(props.category.image_path.lastIndexOf("/") + 1))
+      .then((file: File) => {
+        selectedImage.value = file
+      })
+      .catch((error: Error) => {
+        console.error(error);
+      });
   }
 })
 
@@ -120,8 +138,15 @@ const submit = handleSubmit(values => {
   })
 })
 
-const handleImage = (image: File | null) => {
+const handleImage = (image: File | null, state: "filled" | "empty") => {
   selectedImage.value = image
+  selectedImageState.value = state
+}
+
+async function pathToFile(path: string, filename: string): Promise<File> {
+  const response = await fetch(path);
+  const blob = await response.blob();
+  return new File([blob], filename, { type: "image/png" });
 }
 
 </script>

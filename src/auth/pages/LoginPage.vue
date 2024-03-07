@@ -1,5 +1,5 @@
 <template>
-  <div class="px-6 max-w-[500px] mx-auto h-screen ">
+  <div class="px-6 py-4 max-w-[500px] mx-auto min-h-screen flex flex-col justify-center">
     <form @submit.prevent="submit">
       <img
         src="../../assets/images/panda.png"
@@ -12,7 +12,6 @@
         variant="outlined"
         color="primary"
         class="mt-2"
-        clearable
         placeholder="الإيميل الإلكتروني"
         :error-messages="errors.email"
       />
@@ -23,20 +22,19 @@
         variant="outlined"
         color="primary"
         class="mt-2"
-        clearable
         placeholder="كلمة السر"
         :error-messages="errors.password"
       />
 
-      <div class="flex justify-between w-full">
+      <!-- <div class="flex justify-between w-full">
         <v-checkbox
           v-model="enabled"
           label="تذكرني "
         />
-        <p class="mt-4">
+         <p class="mt-4">
           نسيت كلمة المرور؟
-        </p>
-      </div>
+        </p> 
+      </div> -->
 
       <div class="flex justify-center items-center">
         <v-btn
@@ -91,6 +89,7 @@ const loginMutation = useMutation({
 
 const submit = handleSubmit(values => {
    loginMutation.mutate(values)
+  
 })
 
 </script>

@@ -38,6 +38,6 @@ const patchCategoryMutation = useMutation({
 })
 
 const handleSubmit = (body: EditCategoryRequest) => {
-  patchCategoryMutation.mutate({ body, id })
+  patchCategoryMutation.mutate({ id, body })
 }
 </script>

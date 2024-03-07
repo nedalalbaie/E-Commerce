@@ -10,10 +10,6 @@ const getCategories = (params: PaginationParams): Promise<Category[]> => {
     .url('/categories')
     .query(params)
     .get()
-    .notFound(() => ({
-      data: [],
-      totalRecords: 0
-    }))
     .json()
 }
 

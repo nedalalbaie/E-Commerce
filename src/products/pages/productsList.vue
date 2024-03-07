@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="min-h-[calc(100vh-80px)] flex flex-col">
     <h1 class="text-3xl">
       المنتجات
-      <span v-if="products.data.value?.data.length! > 0">(20 )</span>
+      <span v-if="products.data.value?.data.length! > 0">( {{ products.data.value?.data.length }} )</span>
     </h1>
     <div
+      ref="upperElement"
       class="flex items-center mt-6"
       :class="products.data.value?.data.length === 0 ? 'justify-end' : 'justify-between'"
     >
@@ -30,14 +31,14 @@
         إضافة منتج
       </v-btn>
     </div>
+
     <div v-if="!products.data.value">
       <LoadingProducts />
     </div>
 
-    
     <div
       v-if="products.data.value"
-      class="mt-6"
+      class="mt-6 flex-grow flex flex-col justify-center"
     >
       <EmptyData v-if="products.data.value.data.length === 0" />
     
@@ -178,7 +179,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { getProducts, deleteProduct } from "../products-service"
 import type { PaginationParams } from '@/core/models/pagination-params'
 import SearchIcon from "@/core/components/icons/SearchIcon.vue";
@@ -204,6 +205,7 @@ const products = useQuery({
 })
 
 const storage = import.meta.env.VITE_API_Storage
+const upperElement = ref<HTMLElement | null>(null)
 
 const getBackgroundImage = (url: string) => {
   const image = new Image()
@@ -240,5 +242,10 @@ const onDeleteProduct = (id: number) => {
 const dialogQuestion = (productCode: string) => {
   return `حذف المنتج ${productCode}# ?`
 }
+
+watchEffect(() => {
+  console.log(upperElement.value?.style);
+  
+})
 
 </script>

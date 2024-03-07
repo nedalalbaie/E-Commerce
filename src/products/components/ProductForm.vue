@@ -203,8 +203,6 @@ watchEffect(() => {
     setValues({
       ...props.product
     })
-    console.log(sub_category_id.value);
-    
   }
 })
 

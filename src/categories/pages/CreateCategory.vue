@@ -29,4 +29,4 @@ const addCategoryMutation = useMutation({
 const handleSubmit = (payload: AddCategoryRequest) => {
     addCategoryMutation.mutate(payload)
 }
-</script>../services/categories-service
+</script>
