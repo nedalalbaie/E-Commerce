@@ -83,10 +83,11 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm, useField } from 'vee-validate';
-import { object, string, number, literal, date } from 'zod';
+import { object, string, literal, date } from 'zod';
 import type { Discount, DiscountFormRequest } from "../models/discount";
 import { discountTypeOptions } from "../models/discountType";
 import { computed, watchEffect } from "vue";
+import { formatToDatePicker, fromatDatePickerToDate } from '@/core/helpers/format-date';
 
 const props = defineProps<{
   isLoading: boolean,
@@ -102,7 +103,7 @@ const validationSchema = toTypedSchema(
   object({
     code: string().min(1, 'يجب إدخال كود الكوبون '),
     discount_type: literal('percentage').or(literal('fixed')),
-    amount: number().min(1, 'يجب إدخال نسبة التخفيض  '),
+    amount: string().min(1, 'يجب إدخال نسبة التخفيض  '),
     start_date: date(),
     end_date: date()
   })
@@ -113,25 +114,31 @@ const { handleSubmit, errors, meta, setValues } = useForm({
 });
 
 const { value: code } = useField<string>('code');
-const { value: discount_type } = useField<number>('discount_type');
-const { value: amount } = useField<number>('amount');
+const { value: discount_type } = useField<string>('discount_type');
+const { value: amount } = useField<string>('amount');
 const { value: start_date } = useField<Date>('start_date');
 const { value: end_date } = useField<Date>('end_date');
 
 watchEffect(() => {
   if (props.discount) {
     setValues({
-      ...props.discount
+      ...props.discount,
+      start_date: formatToDatePicker(props.discount.start_date),
+      end_date: formatToDatePicker(props.discount.end_date)
     })
   }
 })
 
 const submit = handleSubmit(values => {
-  emit("submit", values)
+  emit("submit", {
+    ...values,
+    start_date: fromatDatePickerToDate(values.start_date),
+    end_date: fromatDatePickerToDate(values.end_date)
+  })
 })
 
 const convertAmountToNumber = () => {
-  amount.value = Number(amount.value)
+  amount.value = amount.value.toString()
 }
 
 </script>

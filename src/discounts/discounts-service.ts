@@ -37,4 +37,8 @@ const editDiscount = (id: number, body: Partial<DiscountFormRequest>): Promise<D
     })
 }
 
-export { getDiscounts, getDiscount, postDiscount, editDiscount }
+const deleteDiscount = (id: number) => {
+  return apiClient.url(`/discounts/${id}`).delete().json()
+}
+
+export { getDiscounts, getDiscount, postDiscount, editDiscount, deleteDiscount }

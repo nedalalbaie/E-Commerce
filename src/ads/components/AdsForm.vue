@@ -75,6 +75,7 @@ import type { PostOrPatchAdRequest, Ad } from "../models/ads";
 import { computed, ref, watchEffect } from "vue";
 import AdImageUpload from "../components/AdImageUpload.vue"
 import { formatToDatePicker, fromatDatePickerToDate } from '@/core/helpers/format-date';
+import { pathToFile } from '@/core/helpers/pathToFile';
 
 const props = defineProps<{
   isLoading: boolean,
@@ -84,9 +85,10 @@ const emit = defineEmits<{
   submit: [value: PostOrPatchAdRequest]
 }>()
 
+const selectedImageState = ref<"filled" | "empty">("empty")
 const imageFile = ref<File>()
 const editMode = computed(() => !!props.ad)
-const isDisabled = computed(() => !meta.value.valid || !imageFile.value)
+const isDisabled = computed(() => !meta.value.valid || selectedImageState.value == "empty")
 
 const validationSchema = toTypedSchema(
   object({
@@ -117,8 +119,18 @@ watchEffect(() => {
     setValues({
       ...props.ad,
       start_date: formatToDatePicker(props.ad.start_date),
-      end_date: formatToDatePicker(props.ad.end_date),
+      end_date: formatToDatePicker(props.ad.end_date)
     })
+
+    selectedImageState.value = props.ad.url ? "filled" : "empty"
+
+    pathToFile(props.ad.url, props.ad.url.substring(props.ad.url.lastIndexOf("/") + 1))
+      .then((file: File) => {
+        imageFile.value = file
+      })
+      .catch((error: Error) => {
+        console.error(error);
+      });
   }
 })
 
@@ -127,16 +139,13 @@ const submit = handleSubmit(values => {
     ...values,
     url: imageFile.value as File,
     start_date: fromatDatePickerToDate(values.start_date),
-    end_date: fromatDatePickerToDate(values.end_date),
+    end_date: fromatDatePickerToDate(values.end_date)
   })
-  console.log({
-    ...values,
-    url: imageFile.value,
-  });
 })
 
-const handleImage = (imageFileParam: File | null) => {
+const handleImage = (imageFileParam: File | null, state: "filled" | "empty") => {
   imageFile.value = imageFileParam as File
+  selectedImageState.value = state
 }
 
 

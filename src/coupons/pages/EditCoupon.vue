@@ -21,7 +21,7 @@
   const id = Number(route.params.id);
   
   const coupon = useQuery({
-    queryKey: ['coupons'],
+    queryKey: ['coupon'],
     queryFn: () => getCoupon(id)
   })
   

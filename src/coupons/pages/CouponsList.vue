@@ -24,7 +24,7 @@
       إضافة كوبون
     </v-btn>
   </div>
-  
+
   <LoadingSkeleton v-if="coupones.isPending.value" />
 
   <div
@@ -41,33 +41,82 @@
       :loading="coupones.isPending.value"
       @update:options="onTableOptionsChange({ page: $event.page, limit: $event.itemsPerPage })"
     >
+      <template #[`item.expireDate`]="{ item }">
+        {{ formatToDate(item.expire_date) }}
+      </template>
       <template #[`item.actions`]="{ item }">
-        <v-btn
-          :append-icon="mdiTagEdit"
-          color="grey-darken-2"
-          size="small"
-          variant="elevated"
-          :to="{ name: 'edit-coupon', params: { id: item.id } }"
-        >
-          تعديل
-        </v-btn>
+        <div class="flex gap-2">
+          <v-btn
+            :append-icon="mdiTagEdit"
+            color="grey-darken-2"
+            size="small"
+            variant="elevated"
+            :to="{ name: 'edit-coupon', params: { id: item.id } }"
+          >
+            تعديل
+          </v-btn>
+
+          <v-dialog width="500">
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                size="small"
+                variant="elevated"
+                color="#004C6B"
+                type="submit"
+              >
+                حذف
+                <template #prepend>
+                  <DeleteIcon fill="fill-white" />
+                </template>
+              </v-btn>
+            </template>
+  
+            <template #default="{ isActive }">
+              <v-card
+                :title="dialogQuestion(item.coupon_code)"
+                rounded="lg"
+                color="#EFE9F5"
+                style="padding-block: 1.75rem !important ;"
+              >
+                <v-card-text>
+                  سيتم حذف هذه الكوبون بشكل نهائي .
+                </v-card-text>
+  
+                <v-card-actions>
+                  <v-spacer />
+  
+                  <v-btn
+                    text="لا"
+                    @click="isActive.value = false"
+                  />
+                  <v-btn
+                    text="نعم"
+                    @click="isActive.value = false; onDeleteCoupon(item.id)"
+                  />
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
+        </div>
       </template>
     </v-data-table-server>
   </div>
 </template>
 <script setup lang="ts">
-  import {
-    mdiPlus,
-    mdiTagEdit
-  } from '@mdi/js'
+import {
+  mdiPlus,
+  mdiTagEdit
+} from '@mdi/js'
 import { ref } from "vue";
-import { getCoupons } from "../coupons-service"
+import { getCoupons, deleteCoupon } from "../coupons-service"
 import type { PaginationParams } from '@/core/models/pagination-params'
-import { useQuery } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import debounce from 'lodash.debounce'
 import LoadingSkeleton from "@/core/components/LoadingSkeleton.vue"
+import { formatToDate } from "@/core/helpers/format-date"
 
-const searchValue = ref('');   
+const searchValue = ref('');
 const listParams = ref<PaginationParams>({
   page: 1,
   limit: 10,
@@ -78,26 +127,45 @@ const listParams = ref<PaginationParams>({
 const coupones = useQuery({
   queryKey: ['coupones', listParams],
   queryFn: () => getCoupons(listParams.value),
-  select: (response) => response.result
 })
 
 const headers = [
-  { title: 'الكود', value: 'name', width: '300px', sortable: false, },
-  { title: 'الحد الأعلي', value: 'customer.name', width: '300px', sortable: false },
-  { title: 'نسبة التخفيض', value: 'funder', width: '300px', sortable: false },
-  { title: 'تاريخ إنتهاء الصلاحية', value: 'price', width: '300px', sortable: false }
+  { title: 'الكود', value: 'coupon_code', width: '300px', sortable: false, },
+  { title: 'الحد الأعلي', value: 'limit', width: '300px', sortable: false },
+  { title: 'نسبة التخفيض', value: 'discount_percentage', width: '300px', sortable: false },
+  { title: 'تاريخ إنتهاء الصلاحية', key: 'expireDate', value: 'expire_date', width: '300px', sortable: false },
+  { title: 'الإجرائات', key: 'actions', width: '300px', sortable: false },
 ]
 
 const onTableOptionsChange = ({ page, limit }: PaginationParams) => {
   listParams.value = {
     ...listParams.value,
     page: page ?? 1,
-    limit: limit ?? 10 
+    limit: limit ?? 10
   }
 }
 
-const handleSearch  = debounce(() => {
-    listParams.value.productName = searchValue.value
+const handleSearch = debounce(() => {
+  listParams.value.productName = searchValue.value
 }, 300)
+
+const queryClient = useQueryClient()
+const deleteCouponMutation = useMutation({
+  mutationFn: deleteCoupon,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['coupones'] })
+  },
+  onError: (error) => {
+    console.log(error)
+  }
+})
+
+const onDeleteCoupon = (id: number) => {
+  deleteCouponMutation.mutate(id)
+}
+
+const dialogQuestion = (productCode: string) => {
+  return `حذف الكوبون ${productCode}# ?`
+}
 
 </script>

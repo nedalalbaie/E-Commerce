@@ -2,72 +2,45 @@
   <div>
     <h1 class="text-3xl mt-6">
       الزبائن
-      <span>
-        {{ customers.data.value?.length! > 0 ? `(${customers.data.value?.length!})` : '' }}
-      </span>
+      <span v-if="customers.data.value?.total">( {{ customers.data.value?.total }} )</span>
     </h1>
 
+    <div v-if="!customers.data.value?.data">
+      <LoadingSkeleton v-if="customers.isPending.value" />
+    </div>
+
     <div
-      v-for="customer in customers.data.value"
-      :key="customer.id"
-      class="bg-white rounded-lg shadow-md mt-10 p-8"
+      v-if="customers.data.value"
+      class="mt-8"
     >
-      <div class="flex gap-20 text-xl font-medium mt-4">
-        <p>
-          <span>الإسم : </span>
-          <span>{{ customer.name }}</span>
-        </p>
+      <EmptyData v-if="customers.data.value.data.length === 0" />
 
-        <p>
-          <span>
-            العنوان :
-          </span>
-          <span>
-            {{ customer.address }}
-          </span>
-        </p>
-      </div>
-
-      <div class="flex gap-5 mt-6">
-        <v-btn
-          size="large"
-          rounded="xl"
-          variant="elevated"
-          color="primary"
-          type="submit"
-          :to="{ name: 'view-customer', params: { id: customer.id } }"
+      <div
+        v-if="customers.data.value"
+        class="shadow-lg rounded-lg mt-4 border border-gray-200"
+      >
+        <v-data-table-server
+          sticky
+          :items-per-page="listParams.limit"
+          :page="listParams.page"
+          :headers="headers"
+          :items-length="customers.data.value.total"
+          :items="customers.data.value.data"
+          :loading="customers.isPending.value"
+          @update:options="onTableOptionsChange({ page: $event.page, limit: $event.itemsPerPage })"
         >
-          عرض
-          <template #prepend>
-            <ViewIconVue />
+          <template #[`item.actions`]="{ item }">
+            <v-btn
+              :append-icon="mdiTagEdit"
+              color="grey-darken-2"
+              size="small"
+              variant="elevated"
+              :to="{ name: 'edit-coupon', params: { id: item.id } }"
+            >
+              تعديل
+            </v-btn>
           </template>
-        </v-btn>
-
-        <v-btn
-          size="large"
-          rounded="xl"
-          variant="elevated"
-          color="primary"
-          :to="{ name: 'edit-customer', params: { id: customer.id } }"
-        >
-          تعديل
-          <template #prepend>
-            <EditIcon />
-          </template>
-        </v-btn>
-
-        <v-btn
-          size="large"
-          rounded="xl"
-          variant="elevated"
-          color="#004C6B"
-          type="submit"
-        >
-          حذف
-          <template #prepend>
-            <DeleteIcon fill="fill-white" />
-          </template>
-        </v-btn>
+        </v-data-table-server>
       </div>
     </div>
   </div>
@@ -77,9 +50,17 @@ import { ref } from "vue";
 import { getCustomers } from "../customers-service"
 import type { PaginationParams } from '@/core/models/pagination-params'
 import { useQuery } from "@tanstack/vue-query";
-import EditIcon from "@/core/components/icons/EditIcon.vue";
-import DeleteIcon from "@/core/components/icons/DeleteIcon.vue";
-import ViewIconVue from "@/core/components/icons/ViewIcon.vue";
+import LoadingSkeleton from "@/core/components/LoadingSkeleton.vue";
+import EmptyData from "@/core/components/EmptyData.vue";
+import {
+    mdiTagEdit
+  } from '@mdi/js'
+
+const headers = [
+  { title: 'إسم الزبون', value: 'name', width: '300px', sortable: false, },
+  { title: 'الإيميل الإلكتروني', value: 'email', width: '300px', sortable: false },
+  { title: 'رقم الهاتف', value: 'phone_number', width: '300px', sortable: false }
+]
 
 const listParams = ref<PaginationParams>({
   page: 1,
@@ -90,8 +71,15 @@ const listParams = ref<PaginationParams>({
 
 const customers = useQuery({
   queryKey: ['ads', listParams],
-  queryFn: () => getCustomers(listParams.value),
-  select: (response) => response.data
+  queryFn: () => getCustomers(listParams.value)
 })
+
+const onTableOptionsChange = ({ page, limit }: PaginationParams) => {
+  listParams.value = {
+    ...listParams.value,
+    page: page ?? 1,
+    limit: limit ?? 10 
+  }
+}
 
 </script>

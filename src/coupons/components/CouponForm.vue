@@ -62,6 +62,7 @@ import { useForm, useField } from 'vee-validate';
 import { object, string, number, date } from 'zod';
 import type { Coupon, CouponFormRequest } from "../models/coupon";
 import { computed, watchEffect } from "vue";
+import { formatToDatePicker, fromatDatePickerToDate } from '@/core/helpers/format-date';
 
 const props = defineProps<{
     isLoading: boolean,
@@ -94,13 +95,17 @@ const { value: expire_date } = useField<string>('expire_date');
 watchEffect(() => {
     if (props.coupon) {
         setValues({
-            ...props.coupon
+            ...props.coupon,
+           expire_date: formatToDatePicker(props.coupon.expire_date)
         })
     }
 })
 
 const submit = handleSubmit(values => {
-    emit("submit", values)
+    emit("submit", {
+      ...values,
+      expire_date: fromatDatePickerToDate(values.expire_date)
+    })
 })
 
 </script>

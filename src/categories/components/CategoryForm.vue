@@ -56,6 +56,7 @@ import { object, string, } from 'zod'
 import type { AddCategoryRequest, Category } from "../models/Category"
 import { computed, ref, watchEffect } from "vue"
 import ImageUpload from "@/core/components/ImageUpload.vue"
+import { pathToFile } from '@/core/helpers/pathToFile'
 
 type CategoryForm = AddCategoryRequest
 
@@ -67,37 +68,10 @@ const emit = defineEmits<{
   submit: [value: CategoryForm]
 }>()
 
-// let checkOnce = true
-
-const selectedImage = ref<File | null>(null)
+const imageFile = ref<File | null>(null)
 const selectedImageState = ref<"filled" | "empty">("empty")
 const editMode = computed(() => !!props.category)
-const isDisabled = computed(() => {
-
-  if (!meta.value.valid) {
-    return true
-  }
-
-  else if (selectedImageState.value == "empty") {
-    return true
-  }
-  else return false
-
-  // else if (editMode.value) {
-  //   if (checkOnce) {
-  //     checkOnce = false
-  //     return false
-  //   } else 
-  //   if (!selectedImage.value) { 
-
-  //     return true
-  //   } else 
-  //     return false
-  //  } else 
-  //  if (!selectedImage.value) {
-  //    return true
-  //  } else return false
-})
+const isDisabled = computed(() => !meta.value.valid || selectedImageState.value == "empty")
 
 const validationSchema = toTypedSchema(
   object({
@@ -123,7 +97,7 @@ watchEffect(() => {
 
     pathToFile(props.category.image_path, props.category.image_path.substring(props.category.image_path.lastIndexOf("/") + 1))
       .then((file: File) => {
-        selectedImage.value = file
+        imageFile.value = file
       })
       .catch((error: Error) => {
         console.error(error);
@@ -134,19 +108,13 @@ watchEffect(() => {
 const submit = handleSubmit(values => {
   emit("submit", {
     ...values,
-    image_path: selectedImage.value as File
+    image_path: imageFile.value as File
   })
 })
 
 const handleImage = (image: File | null, state: "filled" | "empty") => {
-  selectedImage.value = image
+  imageFile.value = image
   selectedImageState.value = state
-}
-
-async function pathToFile(path: string, filename: string): Promise<File> {
-  const response = await fetch(path);
-  const blob = await response.blob();
-  return new File([blob], filename, { type: "image/png" });
 }
 
 </script>

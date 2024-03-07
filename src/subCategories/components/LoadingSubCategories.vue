@@ -12,21 +12,21 @@
 
 <style>
 .skeleton {
-  background-color: #b33737;
-  position: relative;
-  animation: skeleton-pulse 1s linear alternate infinite;
+    background-color: #b33737;
+    position: relative;
+    animation: skeleton-pulse 1s linear alternate infinite;
 }
 
 @keyframes skeleton-pulse {
-  0% {
-    transform: scale(0.99);
-    background-color: hsl(197, 10%, 73%);
-  }
+    0% {
+        transform: scale(0.99);
+        background-color: hsl(197, 10%, 73%);
+    }
 
-  100% {
-    transform: scale(0.99);
-    background-color: hsl(200, 20%, 95%);
-    ;
-  }
+    100% {
+        transform: scale(0.99);
+        background-color: hsl(200, 20%, 95%);
+        ;
+    }
 }
 </style>

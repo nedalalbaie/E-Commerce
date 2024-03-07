@@ -38,4 +38,8 @@ const editCoupon = (id: number, body: Partial<CouponFormRequest>): Promise<Coupo
     })
 }
 
-export { getCoupons, getCoupon, postCoupon, editCoupon }
+const deleteCoupon = (id: number) => {
+  return apiClient.url(`/coupons/${id}`).delete().json()
+}
+
+export { getCoupons, getCoupon, postCoupon, editCoupon, deleteCoupon }

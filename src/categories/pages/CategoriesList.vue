@@ -34,7 +34,7 @@
       class="mt-8"
     >
       <EmptyData v-if="categories.data.value.length === 0" />
-      <div class="grid grid-cols-3 gap-4">
+      <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
         <div
           v-for="category in categories.data.value"
           :key="category.id"

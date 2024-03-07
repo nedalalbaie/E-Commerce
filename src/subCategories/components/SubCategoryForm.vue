@@ -78,6 +78,7 @@ import { computed, ref, watchEffect } from "vue"
 import ImageUpload from "@/core/components/ImageUpload.vue"
 import { useQuery } from '@tanstack/vue-query'
 import { getCategories } from '@/categories/services/categories-service'
+import { pathToFile } from '@/core/helpers/pathToFile'
 
 const props = defineProps<{
   isLoading: boolean,
@@ -88,9 +89,9 @@ const emit = defineEmits<{
 }>()
 
 const selectedImage = ref<File | null>(null)
-
+const selectedImageState = ref<"filled" | "empty">("empty")
 const editMode = computed(() => !!props.subCategory)
-const isDisabled = computed(() => !meta.value.valid || !selectedImage.value)
+const isDisabled = computed(() => !meta.value.valid || selectedImageState.value == "empty")
 
 const validationSchema = toTypedSchema(
   object({
@@ -122,6 +123,15 @@ watchEffect(() => {
     setValues({
       ...props.subCategory
     })
+    selectedImageState.value = props.subCategory.image_path ? "filled" : "empty"
+
+    pathToFile(props.subCategory.image_path, props.subCategory.image_path.substring(props.subCategory.image_path.lastIndexOf("/") + 1))
+      .then((file: File) => {
+        selectedImage.value = file
+      })
+      .catch((error: Error) => {
+        console.error(error);
+      });
   }
 })
 
@@ -130,15 +140,11 @@ const submit = handleSubmit(values => {
     ...values,
     image_path: selectedImage.value as File
   })
-  console.log({
-    ...values,
-    image_path: selectedImage.value as File
-  });
-  
 })
 
-const handleImage = (image: File | null) => {
+const handleImage = (image: File | null, state: "filled" | "empty") => {
   selectedImage.value = image
+  selectedImageState.value = state
 }
 
 </script>

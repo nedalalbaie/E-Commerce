@@ -2,7 +2,7 @@
   <div>
     <h1 class="text-3xl">
       التصنيفات الفرعية
-      <span>(20 )</span>
+      <span v-if="subCategories.data.value?.length! > 0">( {{ subCategories.data.value?.length }} )</span>
     </h1>
     <div class="md:flex items-center justify-between mt-6">
       <div class="flex justify-between items-center bg-[#FCF2EA] rounded-xl py-1 px-4 mb-4 md:mb-0">
@@ -25,49 +25,42 @@
       </v-btn>
     </div>
 
+    <div v-if="!subCategories.data.value">
+      <LoadingSubCategories />
+    </div>
+
     <div
       v-if="subCategories.data.value"
       class="mt-8"
     >
-      <p
-        v-if="subCategories.data.value.length < 1"
-        class="text-lg"
-      >
-        لا يوجد تصنيفات
-      </p>
-      <div
-        v-for="category in subCategories.data.value"
-        :key="category.id"
-        class="flex justify-between items-center bg-white rounded-lg p-6 mt-4 shadow-md"
-      >
-        <div class="flex items-center gap-4">
-          <img
-            class="w-40 rounded-lg my-2 border border-gray-200"
-            :src="`${storage}${category.image_path}`"
-            alt=""
-          >
-          <p class="text-xl">
-            {{ category.name }} - {{ category.description }} 
-          </p>
-        </div>
-        <div class="flex flex-col md:flex-row gap-4">
-          <v-btn
-            :append-icon="mdiPlus"
-            color="primary"
-            rounded="xl"
-            variant="elevated"
-            :to="{ name: 'edit-subCategories', params: { id: category.id } }"
-          >
-            تعديل
-          </v-btn>
-          <v-btn
-            :append-icon="mdiPlus"
-            color="#004C6B"
-            rounded="xl"
-            variant="elevated"
-          >
-            حذف
-          </v-btn>
+      <EmptyData v-if="subCategories.data.value.length === 0" />
+      <div class="grid grid-cols-3 gap-4">
+        <div
+          v-for="category in subCategories.data.value"
+          :key="category.id"
+          class="bg-white rounded-lg px-6 py-3 shadow-md flex flex-col justify-between"
+        >
+          <div class="flex items-center gap-4">
+            <img
+              class="w-40 rounded-lg my-2 border border-gray-200"
+              :src="`${storage}${category.image_path}`"
+              alt=""
+            >
+            <p class="text-xl">
+              {{ category.name }} - {{ category.description }} 
+            </p>
+          </div>
+          <div class="flex flex-col md:flex-row justify-end gap-4 mt-4">
+            <v-btn
+              :append-icon="mdiPlus"
+              color="primary"
+              rounded="xl"
+              variant="elevated"
+              :to="{ name: 'edit-subCategories', params: { id: category.id } }"
+            >
+              تعديل
+            </v-btn>
+          </div>
         </div>
       </div>
     </div>
@@ -82,6 +75,8 @@ import {
 import { useQuery } from "@tanstack/vue-query";
 import { ref } from "vue";
 import { getSubCategories } from "../subCategories-service";
+import LoadingSubCategories from "../components/LoadingSubCategories.vue"
+import EmptyData from "@/core/components/EmptyData.vue";
 
 const storage = import.meta.env.VITE_API_Storage
 

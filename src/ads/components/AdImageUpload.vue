@@ -49,7 +49,7 @@
     imagePath?: string,
   }>()
   const emit = defineEmits<{
-    handleImage: [selectedImage: File | null]
+    handleImage: [selectedImage: File | null, state: "filled" | "empty"]
   }>()
   
   const fileUpload: InputHTMLAttributes = ref(null)
@@ -65,7 +65,7 @@
         isLoading.value = false
         base64Image.value = result
         selectedImage.value = file
-        emit('handleImage', selectedImage.value)
+        emit('handleImage', selectedImage.value, "filled")
       })
     }
   }

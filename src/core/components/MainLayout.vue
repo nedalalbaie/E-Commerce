@@ -16,12 +16,22 @@
           :to="item.route"
           class="mt-4 rounded-md p-2 hover:bg-red-200 "
         >
-          <v-icon
-            class="cursor-pointer" 
-            size="38"
-            :icon="item.icon"
-            :value="item"
-          />  
+          <v-tooltip
+            location="left center"
+            offset="16px"
+            :text="item.title"
+            class="w-96"
+          >
+            <template #activator="{ props }">
+              <v-icon
+                v-bind="props"
+                class="cursor-pointer" 
+                size="38"
+                :icon="item.icon"
+                :value="item"
+              />  
+            </template>
+          </v-tooltip>
         </router-link>
         <div
           class="cursor-pointer rounded-md hover:bg-red-200 p-2 mt-20"
@@ -56,6 +66,7 @@ import AdsIcon from "./icons/AdsIcon.vue"
 import UserIcon from "./icons/UserIcon.vue"
 import Statistics from "./icons/StatisticsIcon.vue"
 import DiscountIcon from "./icons/DiscountIcon.vue"
+import SubCategoryIcon from "./icons/SubCategoryIcon.vue"
 
 import {
   mdiAccountMultiple,
@@ -72,7 +83,7 @@ const toggleTheme = () => {
 const navRoutes = [
     { title: 'المنتجات', icon: ProductIcon, alt: 'Products', route: '/products' },
     { title: 'التصنيفات', icon: CategoryIcon, alt: 'Categories',  route: '/categories' },
-    { title: 'التصنيفات الفرعية', icon: CategoryIcon, alt: 'Sub Categories',  route: '/subCategories' },
+    { title: 'التصنيفات الفرعية', icon: SubCategoryIcon, alt: 'Sub Categories',  route: '/subCategories' },
     { title: 'الطلبات', icon: ReceiptIcon, alt: 'Orders', route: '/orders' },
     { title: 'الإعلانات', icon: AdsIcon, alt: 'Ads', route: '/ads' },
     { title: 'الزبائن', icon: mdiAccountMultiple, alt: 'Users', route: '/customers' },

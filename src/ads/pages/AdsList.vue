@@ -29,89 +29,101 @@
       </div>
     </div>
 
+    <div v-if="!ads.data.value">
+      <LoadingAds />
+    </div>
+
     <div
-      v-for="ad in ads.data.value?.data"
-      :key="ad.id"
-      class="h-40 flex justify-between rounded-md shadow-md bg-white mt-10"
+      v-if="ads.data.value"
+      class="mt-8"
     >
-      <div class="px-4 flex flex-col gap-8">
-        <div>
-          <div class="flex gap-2 text-2xl font-medium mt-4">
-            <p>{{ ad.name }}</p>
-            <p class="text-green-700">
-              - {{ ad.show === 1 ? "مفعل" : "معطل" }}
-            </p>
-          </div>
-        </div>
+      <EmptyData v-if="ads.data.value.data.length === 0" />
 
-        <div class="flex gap-5 py-4">
-          <v-btn
-            size="large"
-            rounded="xl"
-            variant="elevated"
-            color="primary"
-            :to="{name: 'edit-ad', params: {id: ad.id}}"
-          >
-            تعديل
-            <template #prepend>
-              <EditIcon />
-            </template>
-          </v-btn>
+      <div class="grid grid-cols-2 gap-6">
+        <div
+          v-for="ad in ads.data.value?.data"
+          :key="ad.id"
+          class="h-40 flex justify-between rounded-md shadow-md bg-white"
+        >
+          <div class="px-4 flex flex-col gap-8">
+            <div>
+              <div class="flex gap-2 text-2xl font-medium mt-4">
+                <p>{{ ad.name }}</p>
+                <p class="text-green-700">
+                  - {{ ad.show === 1 ? "مفعل" : "معطل" }}
+                </p>
+              </div>
+            </div>
 
-          <v-dialog
-            width="500"
-          >
-            <template #activator="{ props }">
+            <div class="flex gap-5 py-4">
               <v-btn
-                v-bind="props"
-                size="large"
                 rounded="xl"
                 variant="elevated"
-                color="#004C6B"
-                type="submit"
+                color="primary"
+                :to="{name: 'edit-ad', params: {id: ad.id}}"
               >
-                حذف
+                تعديل
                 <template #prepend>
-                  <DeleteIcon fill="fill-white" />
+                  <EditIcon />
                 </template>
               </v-btn>
-            </template>
 
-            <template #default="{ isActive }">
-              <v-card
-                :title="dialogQuestion(ad.name)"
-                rounded="lg"
-                color="#EFE9F5"
-                style="padding-block: 1.75rem !important ;"
+              <v-dialog
+                width="500"
               >
-                <v-card-text>
-                  سيتم الغاء هذا الإعلان بشكل نهائي .
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer />
-
+                <template #activator="{ props }">
                   <v-btn
-                    text="لا"
-                    @click="isActive.value = false"
-                  />
-                  <v-btn
-                    text="نعم"
-                    @click="isActive.value = false; onCancelAd(ad.id)"
-                  />
-                </v-card-actions>
-              </v-card>
-            </template>
-          </v-dialog>
+                    v-bind="props"
+  
+                    rounded="xl"
+                    variant="elevated"
+                    color="#004C6B"
+                    type="submit"
+                  >
+                    حذف
+                    <template #prepend>
+                      <DeleteIcon fill="fill-white" />
+                    </template>
+                  </v-btn>
+                </template>
+
+                <template #default="{ isActive }">
+                  <v-card
+                    :title="dialogQuestion(ad.name)"
+                    rounded="lg"
+                    color="#EFE9F5"
+                    style="padding-block: 1.75rem !important ;"
+                  >
+                    <v-card-text>
+                      سيتم الغاء هذا الإعلان بشكل نهائي .
+                    </v-card-text>
+
+                    <v-card-actions>
+                      <v-spacer />
+
+                      <v-btn
+                        text="لا"
+                        @click="isActive.value = false"
+                      />
+                      <v-btn
+                        text="نعم"
+                        @click="isActive.value = false; onCancelAd(ad.id)"
+                      />
+                    </v-card-actions>
+                  </v-card>
+                </template>
+              </v-dialog>
+            </div>
+          </div>
+
+          <div>
+            <img
+              :src="`${storage}/${ad.url}`"
+              alt=""
+              class="w-60 h-full object-cover object-center rounded-l-md"
+            >
+          </div>
         </div>
-      </div>
-
-      <div>
-        <img
-          :src="`${storage}/${ad.url}`"
-          alt=""
-          class="w-72 h-full object-cover object-center rounded-l-md"
-        >
       </div>
     </div>
   </div>
@@ -125,6 +137,8 @@ import CheckIcon from "@/core/components/icons/CheckIcon.vue";
 import {
     mdiPlus
 } from '@mdi/js'
+import LoadingAds from "../components/LoadingAds.vue"
+import EmptyData from "@/core/components/EmptyData.vue";
 
 const storage = import.meta.env.VITE_API_Storage
   

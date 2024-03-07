@@ -29,7 +29,7 @@ const postAd = (body: PostOrPatchAdRequest): Promise<Ad> => {
     })
 }
 
-const patchAd = (id: string, body: Partial<PostOrPatchAdRequest>): Promise<Ad> => {
+const patchAd = (id: number, body: Partial<PostOrPatchAdRequest>): Promise<Ad> => {
   return apiClient
     .addon(formData)
     .url(`/ads/${id}`)

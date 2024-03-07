@@ -3,32 +3,41 @@
     تعديل إعلان 
   </h1>
   <AdsForm
-    :is-loading="editAdMutation.isPending.value"
+    :ad="ad.data.value"
+    :is-loading="patchAdMutation.isPending.value"
     @submit="handleSubmit"
   />
 </template>
 <script setup lang="ts">
-import { useMutation, useQueryClient } from '@tanstack/vue-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import router from "@/router";
-import { postAd } from "../ads-service"
+import { getAd, patchAd } from "../ads-service"
 import AdsForm from "../components/AdsForm.vue"
 import type { PostOrPatchAdRequest } from '../models/ads';
+import { useRoute } from 'vue-router';
 
-const queryClient = useQueryClient()
-const editAdMutation = useMutation({
-    mutationFn: postAd,
-    onSuccess: () => {
-        router.replace({ name: 'categories' })
-        queryClient.invalidateQueries({ queryKey: ['categories'] })
-    },
-    onError: (error) => {
-        console.log(error)
-    }
+const route = useRoute();
+const id = Number(route.params.id);
+
+const ad = useQuery({
+  queryKey: ['ad'],
+  queryFn: () => getAd(id)
 })
 
-const handleSubmit = (payload: PostOrPatchAdRequest) => {
-   console.log(payload);
-   
-    editAdMutation.mutate(payload)
+const queryClient = useQueryClient()
+const patchAdMutation = useMutation({
+  mutationFn: ({ id, body }: { id: number, body: PostOrPatchAdRequest, }) => patchAd(id, body),
+  onSuccess: () => {
+    router.replace({ name: 'ads' })
+    queryClient.invalidateQueries({ queryKey: ['ads'] })
+  },
+  onError: (error) => {
+    console.log(error)
+  }
+})
+
+const handleSubmit = (body: PostOrPatchAdRequest) => {
+  patchAdMutation.mutate({ id, body })
 }
+
 </script>
