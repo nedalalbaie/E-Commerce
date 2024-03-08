@@ -117,7 +117,7 @@
             </p>
           </div>
           <div class="flex justify-center gap-4 mt-6 text-white">
-            <!-- <v-btn
+            <v-btn
               rounded="xl"
               variant="elevated"
               color="primary"
@@ -127,7 +127,7 @@
               <template #prepend>
                 <EditIcon />
               </template>
-            </v-btn> -->
+            </v-btn>
   
             <v-dialog width="500">
               <template #activator="{ props }">

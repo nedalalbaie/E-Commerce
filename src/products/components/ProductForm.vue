@@ -103,7 +103,10 @@
     </div>
 
     <div>
-      <ColorPicker @pass-hexcodes="handleHexCodes" />
+      <ColorPicker
+        :hex-codes-prop="hexCodes"
+        @pass-hexcodes="handleHexCodes"
+      />
     </div>
 
     <div class="mt-10">
@@ -149,12 +152,13 @@ import { getSubCategories } from "@/subCategories/subCategories-service";
 import { useQuery } from "@tanstack/vue-query";
 import ImageUpload from "@/core/components/ImageUpload.vue"
 import ColorPicker from "../components/ColorPicker.vue"
-   
+import { pathToFile } from '@/core/helpers/pathToFile';
+
 type ProductForm = AddProductRequest
 
 const props = defineProps<{
   isLoading: boolean,
-  product?: Product
+  product?: Omit<Product, "sub_category_id"> & { category_id: number }
 }>()
 const emit = defineEmits<{
   submit: [value: ProductForm]
@@ -162,8 +166,10 @@ const emit = defineEmits<{
 
 const base64Images = reactive<File[] | null[]>([null, null, null, null,])
 const hexCodes = ref<string[]>([])
+const selectedImagesState = ref<"filled" | "empty">("empty")
 
 const editMode = computed(() => !!props.product)
+const isDisabled = computed(() => !meta.value.valid || selectedImagesState.value == "empty")
 const listParams = ref({
   page: 1,
   limit: 50,
@@ -201,8 +207,13 @@ const { value: gender } = useField<number>('gender');
 watchEffect(() => {
   if (props.product) {
     setValues({
-      ...props.product
+      ...props.product,
+      sub_category_id: props.product.category_id
     })
+
+    hexCodes.value = JSON.parse(props.product.hex_codes) as string[]
+
+    pathToFile(props.product.image1_path, props.product.image1_path.substring(props.product.image1_path.lastIndexOf("/") + 1)).then((file: File) => base64Images[1] = file)
   }
 })
 
@@ -225,11 +236,14 @@ const submit = handleSubmit(values => {
   })
 })
 
-const handleImage = (imageFile: File | null, index?: number) => {
+const handleImage = (imageFile: File | null, state: "filled" | "empty", index?: number) => {
   if (index) {
     base64Images[index - 1] = imageFile
   }
-}    
+
+  selectedImagesState.value = base64Images.every(item => item) ? "filled" : "empty"
+
+}
 
 const handleHexCodes = (passedHexCodes: string[]) => {
   hexCodes.value = passedHexCodes

@@ -18,7 +18,7 @@ const getProducts = (params: PaginationParams): Promise<List<Product[]>> => {
     .json()
 }
 
-const getProduct = (id: number): Promise<Product> => {
+const getProduct = (id: number): Promise<Omit<Product , "sub_category_id"> & {category_id: number}> => {
   return apiClient.url(`/products/${id}`).get().json()
 }
 

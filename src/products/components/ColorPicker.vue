@@ -7,22 +7,30 @@
 
     <ul
       class="dark:text-gray-300 bg-gray-50 absolute right-0 top-14 w-full rounded-[4px] p-3 dark:bg-[#3a3a3a] shadow-full-white dark:border
-                               border-gray-600 transition-all duration-200 grid grid-cols-7 z-50"
+                               border-gray-600 transition-all duration-200 z-50"
       :class="{
         'profileVisible': isColorListOpen,
-        'profileNotVisible': !isColorListOpen
+        'profileNotVisible': !isColorListOpen,
       }"
     >
+      <div class="grid grid-cols-7">
+        <li
+          v-for="(color, index) in colors"
+          :key="index"
+          class="hover:bg-gray-200  dark:hover:bg-dark p-2 rounded-md cursor-pointer"
+          @click="addColor(color)"
+        >
+          <div
+            class="w-14 h-14 mx-auto rounded-[50%] shadow-full-white border-2"
+            :style="{ 'background-color': color }"
+          />
+        </li>
+      </div>
       <li
-        v-for="(color, index) in colors"
-        :key="index"
-        class="hover:bg-nav-bg  dark:hover:bg-dark p-2 rounded-md cursor-pointer"
-        @click="addColor(color)"
+        v-if="colors.length === 0"
+        class="text-lg text-center"
       >
-        <div
-          class="w-14 h-14 rounded-[50%] shadow-full-white"
-          :style="{ 'background-color': color }"
-        />
+        لقد حددت كل الألوان
       </li>
     </ul>
     <div
@@ -51,10 +59,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import MinusIcon from "./icons/MinusIcon.vue"
 import ArrowIcon from "./icons/ArrowIcon.vue"
 
+const props = defineProps<{
+  hexCodesProp?: string [] 
+}>()
 const emit = defineEmits<{
   passHexcodes: [value: string []]
 }>()
@@ -80,6 +91,15 @@ const removeColor = (selectedColor: string, index: number) => {
     }
     colors.value.push(selectedColor);
 }
+
+watchEffect(() => {
+  if (props.hexCodesProp) {
+    hexCodes.value = props.hexCodesProp
+    colors.value = colors.value.filter((color: string) => {
+      return  props.hexCodesProp?.every(item => item !== color)
+    })
+  }
+})
 
 </script>
 
