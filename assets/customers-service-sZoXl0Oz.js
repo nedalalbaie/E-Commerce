@@ -1,0 +1,1 @@
+import{X as r}from"./index-c8EmFYNS.js";import{q as o}from"./queryString-AL1HqB06.js";const a=t=>r.addon(o).url("/customers").query(t).get().notFound(()=>({data:[]})).json(),m=t=>r.url(`/customers/${t}`).get().json(),c=(t,s)=>r.url(`/customers/${t}`).put(s).json(e=>e);export{m as a,c as e,a as g};

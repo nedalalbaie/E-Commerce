@@ -1,0 +1,1 @@
+import{_ as t,o as e,c as o,a as s}from"./index-c8EmFYNS.js";const c="/assets/NoDataFound-J6Xr_Lq3.png",a={},n={class:"mt-8 flex flex-col items-center gap-4"},_=s("img",{src:c,alt:"No data found",class:"w-2/5"},null,-1),r=s("p",{class:"text-2xl"}," لا توجد بيانات ",-1),l=[_,r];function d(i,m){return e(),o("div",n,l)}const f=t(a,[["render",d]]);export{f as E};
